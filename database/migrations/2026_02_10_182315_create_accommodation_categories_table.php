@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('accommodation_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
             $table->timestamps();
         });
     }

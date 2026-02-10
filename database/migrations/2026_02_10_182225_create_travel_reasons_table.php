@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('travel_reasons', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
             $table->timestamps();
         });
     }

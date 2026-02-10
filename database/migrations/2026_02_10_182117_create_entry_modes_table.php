@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('entry_modes', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->unique();
             $table->timestamps();
         });
     }

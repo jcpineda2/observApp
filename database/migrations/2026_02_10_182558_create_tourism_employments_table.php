@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('tourism_employments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('year_id')->constrained();
+            $table->foreignId('service_sector_id')->constrained();
+            $table->integer('direct_employment')->default(0);
+            $table->decimal('national_participation', 5, 2)->nullable();
+            $table->decimal('interannual_variation', 5, 2)->nullable();
             $table->timestamps();
         });
     }

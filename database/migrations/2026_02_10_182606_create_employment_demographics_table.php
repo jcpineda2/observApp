@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('employment_demographics', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('tourism_employment_id')->constrained()->onDelete('cascade');
+            $table->string('gender')->index();
+            $table->string('age_range');
+            $table->integer('people_count');
             $table->timestamps();
         });
     }

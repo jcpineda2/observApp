@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('tourism_providers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('service_sector_id')->constrained();
+            $table->foreignId('state_id')->constrained();
+
+            $table->date('registration_date')->nullable();
+            $table->string('status')->default('active');
+
             $table->timestamps();
         });
     }

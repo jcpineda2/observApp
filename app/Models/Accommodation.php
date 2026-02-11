@@ -11,7 +11,7 @@ class Accommodation extends Model
 
     protected $fillable = [
         'accommodation_category_id',
-        'department_id',
+        'state_id',
         'establishments_count',
         'rooms_count',
         'beds_count'

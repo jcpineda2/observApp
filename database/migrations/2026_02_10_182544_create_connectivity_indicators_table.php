@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('connectivity_indicators', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('year_id')->constrained();
+            $table->integer('operating_airports')->default(0);
+            $table->integer('connected_destinations')->default(0);
+            $table->integer('active_routes')->default(0);
             $table->timestamps();
         });
     }

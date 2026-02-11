@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('accommodation_performances', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('accommodation_id')->constrained();
+            $table->foreignId('year_id')->constrained();
+            $table->foreignId('month_id')->constrained();
+
+            $table->decimal('occupancy_rate', 5, 2); // Porcentaje
+            $table->string('season')->nullable(); // Temporada
             $table->timestamps();
         });
     }

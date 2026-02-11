@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('flight_routes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('airline_id')->constrained();
+            $table->foreignId('airline_id')->constrained('airl_lines');
             $table->foreignId('origin_airport_id')->constrained('airports');
             $table->foreignId('destination_airport_id')->constrained('airports');
-            $table->boolean('is_Active')->default('true');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

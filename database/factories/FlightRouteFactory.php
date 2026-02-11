@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\AirLine;
+use App\Models\Airport;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +19,9 @@ class FlightRouteFactory extends Factory
     public function definition(): array
     {
         return [
-            'airline_id' => \App\Models\AirlLine::factory(),
-            'origin_airport_id' => \App\Models\Airport::factory(),
-            'destination_airport_id' => \App\Models\Airport::factory(),
+            'airline_id' => AirLine::query()->inRandomOrder()->first()->id,
+            'origin_airport_id' => Airport::query()->inRandomOrder()->first()->id,
+            'destination_airport_id' => Airport::query()->inRandomOrder()->first()->id,
             'is_active' => $this->faker->boolean(80), // 80% chance of being active
         ];
     }

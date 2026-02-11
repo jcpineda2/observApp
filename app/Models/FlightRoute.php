@@ -17,7 +17,7 @@ class FlightRoute extends Model
         'is_active'
     ];
     public function airline(): BelongsTo {
-        return $this->belongsTo(AirlLine::class);
+        return $this->belongsTo(AirLine::class);
     }
 
     public function origin(): BelongsTo {

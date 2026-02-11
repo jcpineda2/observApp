@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\ServiceSector;
+use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +19,8 @@ class TourismProviderFactory extends Factory
     public function definition(): array
     {
         return [
-            'service_sector_id' => \App\Models\ServiceSector::factory(),
-            'state_id' => \App\Models\State::factory(),
+            'service_sector_id' => ServiceSector::query()->inRandomOrder()->first()->id,
+            'state_id' => State::query()->inRandomOrder()->first()->id ,
             'registration_date' => $this->faker->date(),
             'status' => $this->faker->randomElement(['active', 'inactive']),
         ];

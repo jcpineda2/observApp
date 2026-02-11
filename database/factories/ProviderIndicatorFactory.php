@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class ProviderIndicatorFactory extends Factory
     public function definition(): array
     {
         return [
-            'year_id' => \App\Models\Year::factory(),
+            'year_id' => Year::query()->inRandomOrder()->first()->id,
             'total_providers' => $this->faker->numberBetween(100, 1000),
             'new_registrations' => $this->faker->numberBetween(10, 100),
             'cancellations' => $this->faker->numberBetween(5, 50),

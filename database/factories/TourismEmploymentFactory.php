@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\ServiceSector;
+use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +19,8 @@ class TourismEmploymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'year_id' => \App\Models\Year::factory(),
-            'service_sector_id' => \App\Models\ServiceSector::factory(),
+            'year_id' => Year::query()->inRandomOrder()->first()->id,
+            'service_sector_id' => ServiceSector::query()->inRandomOrder()->first()->id,
             'direct_employment' => $this->faker->numberBetween(100, 10000),
             'national_participation' => $this->faker->randomFloat(2, 0, 100),
             'interannual_variation' => $this->faker->randomFloat(2, -10, 10),

@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Enums\Gender;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EmploymentDemographic extends Model
 {
-    //
+    use HasFactory;
+
     protected $fillable = [
         'tourism_employment_id',
         'gender',

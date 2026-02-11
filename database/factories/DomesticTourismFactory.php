@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Month;
+use App\Models\State;
+use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,11 +20,11 @@ class DomesticTourismFactory extends Factory
     public function definition(): array
     {
         return [
-            'year_id' => $this->faker->numberBetween(1, 5),
-            'month_id' => $this->faker->numberBetween(1, 12),
+            'year_id' => Year::query()->inRandomOrder()->first()->id,
+            'month_id' => Month::query()->inRandomOrder()->first()->id,
             'destination_department_id' => $this->faker->numberBetween(1, 10),
             'travel_reason_id' => $this->faker->numberBetween(1, 5),
-            'origin_region' => $this->faker->state(),
+            'origin_region' => State::query()->inRandomOrder()->first()->name,
             'tourist_quantity' => $this->faker->numberBetween(1, 1000),
             'total_spend' => $this->faker->randomFloat(2, 1000, 100000),
             'average_stay' => $this->faker->randomFloat(2, 1, 30),

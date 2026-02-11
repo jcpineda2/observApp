@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class ConnectivityIndicatorFactory extends Factory
     public function definition(): array
     {
         return [
-            'year_id' => \App\Models\Year::factory(),
+            'year_id' => Year::query()->inRandomOrder()->first()->id,
             'operating_airports' => $this->faker->numberBetween(1, 100),
             'connected_destinations' => $this->faker->numberBetween(1, 100),
             'active_routes' => $this->faker->numberBetween(1, 100),

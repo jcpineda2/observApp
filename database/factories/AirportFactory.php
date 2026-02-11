@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\City;
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,10 +19,9 @@ class AirportFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->city() . ' Airport',
-            'code' => strtoupper($this->faker->lexify('???')),
-            'city' => $this->faker->city(),
-            'country' => $this->faker->country(),
+            'name' => $this->faker->company() . ' International Airport',
+            'country_id' => Country::query()->inRandomOrder()->first()?->id ,
+            'city_id' => City::query()->inRandomOrder()->first()?->id,
         ];
     }
 }

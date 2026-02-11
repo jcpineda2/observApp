@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FlightRoute extends Model
 {
@@ -15,5 +16,15 @@ class FlightRoute extends Model
         'destination_airport_id',
         'is_active'
     ];
+    public function airline(): BelongsTo {
+        return $this->belongsTo(AirlLine::class);
+    }
 
+    public function origin(): BelongsTo {
+        return $this->belongsTo(Airport::class, 'origin_airport_id');
+    }
+
+    public function destination(): BelongsTo {
+        return $this->belongsTo(Airport::class, 'destination_airport_id');
+    }
 }

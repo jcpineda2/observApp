@@ -17,6 +17,6 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'dtic@senatur.gov.py',
-            'password' => Hash::make('admin123'),]);
+            'password' => Hash::make('p4ssWord'),]);
     }
 }

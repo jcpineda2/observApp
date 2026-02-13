@@ -22,7 +22,7 @@ class ServiceSectorResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'ServiceSector'; //rubro de PST (prestador del sector turistico)
+    protected static ?string $recordTitleAttribute = 'description'; //rubro de PST (prestador del sector turistico)
 
     public static function form(Schema $schema): Schema
     {

@@ -22,7 +22,7 @@ class EntryModeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'EntryMode'; //Via de ingreso
+    protected static ?string $recordTitleAttribute = 'type'; //Via de ingreso
 
     public static function form(Schema $schema): Schema
     {

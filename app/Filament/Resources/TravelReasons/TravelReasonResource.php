@@ -22,7 +22,7 @@ class TravelReasonResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'TravelReason'; //rasones de viaje
+    protected static ?string $recordTitleAttribute = 'description'; //rasones de viaje
 
     public static function form(Schema $schema): Schema
     {

@@ -22,7 +22,7 @@ class AccommodationCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'AccommodationCategory';//categoria_alojamiento
+    protected static ?string $recordTitleAttribute = 'description';//categoria_alojamiento
 
     public static function form(Schema $schema): Schema
     {

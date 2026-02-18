@@ -14,19 +14,23 @@ class AccommodationsTable
     {
         return $table
             ->columns([
-                TextColumn::make('accommodation_category_id')
-                    ->numeric()
+                TextColumn::make('category.category')
+                    ->label('Categoría')
                     ->sortable(),
-                TextColumn::make('state_id')
+                TextColumn::make('state.name')
+                    ->label('Estado')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('establishments_count')
+                    ->label('Cantidad de Establecimientos')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('rooms_count')
+                    ->label('Cantidad habitaciones')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('beds_count')
+                    ->label('Cantidad camas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

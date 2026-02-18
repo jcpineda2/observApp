@@ -11,6 +11,7 @@ use App\Filament\Resources\DomesticTourisms\Schemas\DomesticTourismInfolist;
 use App\Filament\Resources\DomesticTourisms\Tables\DomesticTourismsTable;
 use App\Models\DomesticTourism;
 use BackedEnum;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -48,6 +49,7 @@ class DomesticTourismResource extends Resource
             //
         ];
     }
+
 
     public static function getPages(): array
     {

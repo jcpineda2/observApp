@@ -29,6 +29,9 @@ class AccommodationCategoryResource extends Resource
 
     protected static ?string $navigationLabel = 'Categorias de Alojamiento';
 
+    protected static ?string $modelLabel = 'Categorias';
+
+
 
     public static function form(Schema $schema): Schema
     {

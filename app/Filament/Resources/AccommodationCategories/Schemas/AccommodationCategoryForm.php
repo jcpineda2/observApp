@@ -12,6 +12,7 @@ class AccommodationCategoryForm
         return $schema
             ->components([
                 TextInput::make('category')
+                    ->label('Categoria')
                     ->required(),
             ]);
     }

@@ -25,6 +25,8 @@ class AccommodationResource extends Resource
 
     protected static ?string $navigationLabel = 'Alojamientos';
 
+    protected static ?string $modelLabel = 'Alojamientos';
+
 
     public static function form(Schema $schema): Schema
     {

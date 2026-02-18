@@ -16,6 +16,7 @@ class AccommodationCategoriesTable
         return $table
             ->columns([
                 TextColumn::make('category')
+                    ->label('Categorías')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

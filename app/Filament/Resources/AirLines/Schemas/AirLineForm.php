@@ -12,6 +12,7 @@ class AirLineForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('Aerolinea')
                     ->required(),
             ]);
     }

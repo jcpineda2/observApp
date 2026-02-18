@@ -27,6 +27,8 @@ class AirportResource extends Resource
 
     protected static ?string $navigationLabel = 'Aeropuertos';
 
+    protected static ?string $modelLabel = 'Aeropuertos';
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema

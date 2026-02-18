@@ -16,6 +16,7 @@ class AirLinesTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Aerolineas')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

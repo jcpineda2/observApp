@@ -27,6 +27,9 @@ class EntryModeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'type'; //Via de ingreso
 
+    protected static ?string $modelLabel = 'Vía de Ingreso'; //Via de ingreso
+
+
     protected static ?string $navigationLabel = 'Via de Ingreso ';
 
 

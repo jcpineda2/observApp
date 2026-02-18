@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Airports\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -11,11 +12,14 @@ class AirportInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
-                TextEntry::make('country_id')
-                    ->numeric(),
-                TextEntry::make('city_id')
-                    ->numeric(),
+                TextEntry::make('name')
+                        ->label('Nombre'),
+                Select::make('country_id')
+                    ->relationship('country','name')
+                    ->label('País'),
+                Select::make('city_id')
+                    ->label('Ciudad')
+                    ->relationship('city','name'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

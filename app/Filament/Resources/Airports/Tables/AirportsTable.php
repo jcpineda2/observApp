@@ -16,11 +16,13 @@ class AirportsTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nombre')
                     ->searchable(),
-                TextColumn::make('country_id')
-                    ->numeric()
+                TextColumn::make('country.name')
+                    ->label('País')
                     ->sortable(),
-                TextColumn::make('city_id')
+                TextColumn::make('city.name')
+                    ->label('Ciudad')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

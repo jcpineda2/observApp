@@ -11,7 +11,8 @@ class AccommodationCategoryInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('category'),
+                TextEntry::make('category')
+                            ->label('Categoria'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

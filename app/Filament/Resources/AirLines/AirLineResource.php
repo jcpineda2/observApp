@@ -27,6 +27,8 @@ class AirLineResource extends Resource
 
     protected static ?string $navigationLabel = 'Aerolineas';
 
+    protected static ?string $modelLabel = 'Aerolineas';
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema

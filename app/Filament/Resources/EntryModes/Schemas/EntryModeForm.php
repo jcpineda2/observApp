@@ -12,6 +12,7 @@ class EntryModeForm
         return $schema
             ->components([
                 TextInput::make('description')
+                    ->label('Descripción')
                     ->required(),
             ]);
     }

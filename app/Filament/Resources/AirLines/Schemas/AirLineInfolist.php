@@ -11,7 +11,8 @@ class AirLineInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                        ->label('Aerolinea'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

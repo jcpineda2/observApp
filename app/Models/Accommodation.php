@@ -24,7 +24,7 @@ class Accommodation extends Model
         return $this->belongsTo(AccommodationCategory::class, 'accommodation_category_id');
     }
 
-    public function department(): BelongsTo {
+    public function state(): BelongsTo {
         return $this->belongsTo(State::class);
     }
 

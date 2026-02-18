@@ -16,6 +16,7 @@ class EntryModesTable
         return $table
             ->columns([
                 TextColumn::make('description')
+                    ->label('Descrición')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

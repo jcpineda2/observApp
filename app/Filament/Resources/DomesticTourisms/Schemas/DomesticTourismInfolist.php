@@ -11,23 +11,29 @@ class DomesticTourismInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('year.id')
-                    ->label('Year'),
-                TextEntry::make('month.id')
-                    ->label('Month'),
-                TextEntry::make('destination_department_id')
+                TextEntry::make('year.year')
+                    ->label('Año'),
+                TextEntry::make('month.month')
+                    ->label('Més'),
+                TextEntry::make('department.name')
+                    ->label('Dpartamento Destino')
                     ->numeric(),
-                TextEntry::make('travelReason.id')
-                    ->label('Travel reason'),
+                TextEntry::make('travelReason.description')
+                    ->label('Motivo'),
                 TextEntry::make('origin_region')
+                    ->label('Region de origen')
                     ->placeholder('-'),
                 TextEntry::make('tourist_quantity')
+                    ->label('Cantidad de Turistas')
                     ->numeric(),
                 TextEntry::make('total_spend')
+                    ->label('Gasto Total')
                     ->numeric(),
                 TextEntry::make('average_stay')
+                    ->label('Estadía promedio')
                     ->numeric(),
                 TextEntry::make('spend_composition')
+                    ->label('Composición gasto')
                     ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()

@@ -15,27 +15,34 @@ class DomesticTourismsTable
     {
         return $table
             ->columns([
-                TextColumn::make('year.id')
+                TextColumn::make('year.year')
+                    ->label('Año')
                     ->searchable(),
-                TextColumn::make('month.id')
+                TextColumn::make('month.month')
+                    ->label('Més')
                     ->searchable(),
-                TextColumn::make('destination_department_id')
-                    ->numeric()
+                TextColumn::make('department.name')
+                    ->label('Dpartamento Destino')
                     ->sortable(),
-                TextColumn::make('travelReason.id')
+                TextColumn::make('travelReason.description')
                     ->searchable(),
                 TextColumn::make('origin_region')
+                    ->label('Region de origen')
                     ->searchable(),
                 TextColumn::make('tourist_quantity')
+                    ->label('Cantidad de Turistas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('total_spend')
+                    ->label('Gasto Total')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('average_stay')
+                    ->label('Estadía promedio')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('spend_composition')
+                    ->label('Composición gasto')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

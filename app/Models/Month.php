@@ -8,12 +8,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Month extends Model
 {
+    /** @use HasFactory<\Database\Factories\MonthFactory> */
     use HasFactory;
 
+
     protected $fillable = [
-        'name',
+        'month',
         'month_number',
     ];
+
+    public function accommodationPerformances(): HasMany
+    {
+        return $this->hasMany(AccommodationPerformance::class);
+    }
 
     public function inboundTourisms(): HasMany {
         return $this->hasMany(InboundTourism::class);

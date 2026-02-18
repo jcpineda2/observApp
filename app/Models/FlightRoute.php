@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FlightRoute extends Model
 {
+    /** @use HasFactory<\Database\Factories\FlightRouteFactory> */
     use HasFactory;
 
     protected $fillable = [

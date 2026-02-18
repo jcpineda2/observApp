@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Enums\Gender;
-use App\Models\EmploymentDemographic;
 use App\Models\TourismEmployment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

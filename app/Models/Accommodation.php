@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Accommodation extends Model
 {
+    /** @use HasFactory<\Database\Factories\AccommodationFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -32,3 +33,4 @@ class Accommodation extends Model
         return $this->hasMany(AccommodationPerformance::class);
     }
 }
+

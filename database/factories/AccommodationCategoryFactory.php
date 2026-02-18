@@ -17,7 +17,7 @@ class AccommodationCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'description' => $this->faker->sentence(),
+            'category' => $this->faker->sentence(),
         ];
     }
 }

@@ -21,21 +21,20 @@ use App\Models\TourismProvider;
 use App\Models\TravelReason;
 use App\Models\User;
 use App\Models\Year;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        $this->call([
+
+       $this->call([
             UserSeeder::class,
-            CountriesTableSeeder::class,
+            CountrySeeder::class,
         ]);
 
         Year::factory()->count(10)->create();                // O: firstOrCreate por rango fijo
@@ -65,4 +64,3 @@ class DatabaseSeeder extends Seeder
         EmploymentDemographic::factory()->count(200)->create();    // necesita tourism_employments
     }
 }
-

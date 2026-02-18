@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ServiceSector extends Model
 {
+    /** @use HasFactory<\Database\Factories\ServiceSectorFactory> */
     use HasFactory;
 
     protected $fillable = [

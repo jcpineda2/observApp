@@ -15,14 +15,20 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class EntryModeResource extends Resource
 {
     protected static ?string $model = EntryMode::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::RocketLaunch;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
 
     protected static ?string $recordTitleAttribute = 'type'; //Via de ingreso
+
+    protected static ?string $navigationLabel = 'Via de Ingreso ';
+
 
     public static function form(Schema $schema): Schema
     {

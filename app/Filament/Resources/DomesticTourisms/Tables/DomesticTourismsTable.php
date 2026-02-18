@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\AccommodationCategories\Tables;
+namespace App\Filament\Resources\DomesticTourisms\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -9,13 +9,33 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class AccommodationCategoriesTable
+class DomesticTourismsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('category')
+                TextColumn::make('year.id')
+                    ->searchable(),
+                TextColumn::make('month.id')
+                    ->searchable(),
+                TextColumn::make('destination_department_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('travelReason.id')
+                    ->searchable(),
+                TextColumn::make('origin_region')
+                    ->searchable(),
+                TextColumn::make('tourist_quantity')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('total_spend')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('average_stay')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('spend_composition')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

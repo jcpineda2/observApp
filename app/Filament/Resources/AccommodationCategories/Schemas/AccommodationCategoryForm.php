@@ -11,7 +11,7 @@ class AccommodationCategoryForm
     {
         return $schema
             ->components([
-                TextInput::make('description')
+                TextInput::make('category')
                     ->required(),
             ]);
     }

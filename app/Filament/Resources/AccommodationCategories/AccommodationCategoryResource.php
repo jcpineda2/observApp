@@ -15,14 +15,20 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class AccommodationCategoryResource extends Resource
 {
     protected static ?string $model = AccommodationCategory::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
 
-    protected static ?string $recordTitleAttribute = 'description';//categoria_alojamiento
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
+
+    protected static ?string $recordTitleAttribute = 'description'; //categoria_alojamiento
+
+    protected static ?string $navigationLabel = 'Categorias de Alojamiento';
+
 
     public static function form(Schema $schema): Schema
     {

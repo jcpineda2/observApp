@@ -15,14 +15,20 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class ServiceSectorResource extends Resource
 {
     protected static ?string $model = ServiceSector::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMap;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
 
     protected static ?string $recordTitleAttribute = 'description'; //rubro de PST (prestador del sector turistico)
+
+    protected static ?string $navigationLabel = 'Rubros';
+
 
     public static function form(Schema $schema): Schema
     {

@@ -1,22 +1,34 @@
 <?php
 
-namespace App\Filament\Resources\AccommodationCategories\Tables;
+namespace App\Filament\Resources\Accommodations\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class AccommodationCategoriesTable
+class AccommodationsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('category')
-                    ->searchable(),
+                TextColumn::make('accommodation_category_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('state_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('establishments_count')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('rooms_count')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('beds_count')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -30,7 +42,6 @@ class AccommodationCategoriesTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

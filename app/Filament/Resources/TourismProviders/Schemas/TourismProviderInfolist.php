@@ -1,17 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\EntryModes\Schemas;
+namespace App\Filament\Resources\TourismProviders\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class EntryModeInfolist
+class TourismProviderInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextEntry::make('description'),
+                TextEntry::make('serviceSector.id')
+                    ->label('Service sector'),
+                TextEntry::make('state_id')
+                    ->numeric(),
+                TextEntry::make('registration_date')
+                    ->date()
+                    ->placeholder('-'),
+                TextEntry::make('status')
+                    ->badge(),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

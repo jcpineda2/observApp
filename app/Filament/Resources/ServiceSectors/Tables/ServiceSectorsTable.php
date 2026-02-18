@@ -16,6 +16,7 @@ class ServiceSectorsTable
         return $table
             ->columns([
                 TextColumn::make('description')
+                    ->label('Rubros')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

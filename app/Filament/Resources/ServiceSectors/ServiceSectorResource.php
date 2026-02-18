@@ -29,6 +29,7 @@ class ServiceSectorResource extends Resource
 
     protected static ?string $navigationLabel = 'Rubros';
 
+    protected static ?string $modelLabel = 'Rubros';
 
     public static function form(Schema $schema): Schema
     {

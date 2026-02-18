@@ -11,7 +11,9 @@ class ServiceSectorInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('description'),
+                TextEntry::make('description')
+                    ->label('Rubros')
+                ,
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

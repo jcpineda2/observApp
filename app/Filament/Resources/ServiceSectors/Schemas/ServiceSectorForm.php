@@ -12,6 +12,7 @@ class ServiceSectorForm
         return $schema
             ->components([
                 TextInput::make('description')
+                    ->label('Rubros')
                     ->required(),
             ]);
     }

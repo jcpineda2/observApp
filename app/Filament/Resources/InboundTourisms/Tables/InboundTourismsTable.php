@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use PhpParser\Node\Stmt\Label;
 
 class InboundTourismsTable
 {
@@ -15,30 +16,39 @@ class InboundTourismsTable
     {
         return $table
             ->columns([
-                TextColumn::make('year.id')
+                TextColumn::make('year.year')
+                    ->label('Año')
                     ->searchable(),
-                TextColumn::make('month.id')
+                TextColumn::make('month.month')
+                    ->label('Més')
                     ->searchable(),
-                TextColumn::make('residence_country_id')
-                    ->numeric()
+                TextColumn::make('country.name')
+                    ->label('País de Residencia')
                     ->sortable(),
-                TextColumn::make('entryMode.id')
+                TextColumn::make('entryMode.description')
+                    ->label('Vía de Ingreso')
                     ->searchable(),
-                TextColumn::make('travelReason.id')
+                TextColumn::make('travelReason.description')
+                    ->label('Motivo de viaje')
                     ->searchable(),
                 TextColumn::make('tourist_arrivals')
+                    ->label('Llegadas Turistas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('excursionist_arrivals')
+                    ->label('Llegadas Excursionistas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('foreign_exchange_revenue')
+                    ->label('Ingreso de divisas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('average_spend')
+                    ->label('Gasto promedio')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('average_stay')
+                    ->label('Estadía primedio')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

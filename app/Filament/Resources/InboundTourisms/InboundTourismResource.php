@@ -27,6 +27,7 @@ class InboundTourismResource extends Resource
 
     protected static ?string $navigationLabel = 'Turismo Receptivo ';
 
+    protected static ?string $modelLabel = 'Turismo Receptivo ';
 
     public static function form(Schema $schema): Schema
     {

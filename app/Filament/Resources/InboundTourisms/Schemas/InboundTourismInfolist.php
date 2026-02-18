@@ -11,25 +11,30 @@ class InboundTourismInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('year.id')
-                    ->label('Year'),
-                TextEntry::make('month.id')
-                    ->label('Month'),
-                TextEntry::make('residence_country_id')
-                    ->numeric(),
-                TextEntry::make('entryMode.id')
-                    ->label('Entry mode'),
-                TextEntry::make('travelReason.id')
-                    ->label('Travel reason'),
+                TextEntry::make('year.year')
+                    ->label('Año'),
+                TextEntry::make('month.month')
+                    ->label('Més'),
+                TextEntry::make('country.name')
+                    ->label('País de Residencia'),
+                TextEntry::make('entryMode.description')
+                    ->label('Vía de Ingreso'),
+                TextEntry::make('travelReason.description')
+                    ->label('Motivo de viaje'),
                 TextEntry::make('tourist_arrivals')
+                    ->label('Llegadas Turistas')
                     ->numeric(),
                 TextEntry::make('excursionist_arrivals')
+                    ->label('Llegadas Excursionistas')
                     ->numeric(),
                 TextEntry::make('foreign_exchange_revenue')
+                    ->label('Ingreso de divisas')
                     ->numeric(),
                 TextEntry::make('average_spend')
+                    ->label('Gasto promedio')
                     ->numeric(),
                 TextEntry::make('average_stay')
+                    ->label('Estadía primedio')
                     ->numeric(),
                 TextEntry::make('created_at')
                     ->dateTime()

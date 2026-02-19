@@ -18,6 +18,11 @@ return new class extends Migration
             $table->integer('direct_employment')->default(0);
             $table->decimal('national_participation', 5, 2)->nullable();
             $table->decimal('interannual_variation', 5, 2)->nullable();
+
+            $table->unique(
+                ['year_id', 'service_sector_id'],
+                'employment_unique'
+            );
             $table->timestamps();
         });
     }

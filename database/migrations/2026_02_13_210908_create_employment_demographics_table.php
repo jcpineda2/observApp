@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('gender')->index();
             $table->string('age_range');
             $table->integer('people_count');
+
+            $table->unique(
+                ['tourism_employment_id', 'gender', 'age_range'],
+                'employment_demo_unique'
+            );
+
             $table->timestamps();
         });
     }

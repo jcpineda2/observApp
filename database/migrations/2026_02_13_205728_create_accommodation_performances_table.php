@@ -19,6 +19,11 @@ return new class extends Migration
 
             $table->decimal('occupancy_rate', 5, 2); // Porcentaje
             $table->string('season')->nullable(); // Temporada
+
+            $table->unique(
+                ['accommodation_id', 'year_id', 'month_id'],
+                'acc_perf_unique'
+            );
             $table->timestamps();
         });
     }

@@ -24,6 +24,11 @@ return new class extends Migration
             $table->decimal('foreign_exchange_revenue', 15, 2)->default(0); // Divisas
             $table->decimal('average_spend', 10, 2)->default(0);
             $table->decimal('average_stay', 8, 2)->default(0); // Estadia
+
+            $table->unique(
+                ['year_id', 'month_id', 'residence_country_id', 'entry_mode_id', 'travel_reason_id'],
+                'inbound_unique'
+            );
             $table->timestamps();
         });
     }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('operating_airports')->default(0);
             $table->integer('connected_destinations')->default(0);
             $table->integer('active_routes')->default(0);
+
+            $table->unique(['year_id'], 'connectivity_year_unique');
             $table->timestamps();
         });
     }

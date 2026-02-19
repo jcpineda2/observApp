@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('new_registrations')->default(0); // Altas
             $table->integer('cancellations')->default(0); // Bajas
             $table->decimal('formalization_rate', 5, 2)->default(0);
+
+            $table->unique(['year_id'], 'provider_year_unique');
             $table->timestamps();
         });
     }

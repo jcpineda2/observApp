@@ -15,17 +15,22 @@ class TourismEmploymentsTable
     {
         return $table
             ->columns([
-                TextColumn::make('year.id')
+                TextColumn::make('year.year')
+                    ->label('Año')
                     ->searchable(),
-                TextColumn::make('serviceSector.id')
+                TextColumn::make('serviceSector.description')
+                    ->label('Rubro')
                     ->searchable(),
                 TextColumn::make('direct_employment')
+                    ->label('Empleo directo')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('national_participation')
+                    ->label('Participación nacional')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('interannual_variation')
+                    ->label('Variación interanual')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

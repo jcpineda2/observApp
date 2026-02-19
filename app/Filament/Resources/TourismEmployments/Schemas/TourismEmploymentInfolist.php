@@ -11,16 +11,19 @@ class TourismEmploymentInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('year.id')
-                    ->label('Year'),
-                TextEntry::make('serviceSector.id')
-                    ->label('Service sector'),
+                TextEntry::make('year.year')
+                    ->label('Año'),
+                TextEntry::make('serviceSector.description')
+                    ->label('Rubro'),
                 TextEntry::make('direct_employment')
+                    ->label('Empleo directo')
                     ->numeric(),
                 TextEntry::make('national_participation')
+                    ->label('Participación nacional')
                     ->numeric()
                     ->placeholder('-'),
                 TextEntry::make('interannual_variation')
+                    ->label('Variación interanual')
                     ->numeric()
                     ->placeholder('-'),
                 TextEntry::make('created_at')

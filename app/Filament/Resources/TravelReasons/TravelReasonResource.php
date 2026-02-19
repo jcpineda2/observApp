@@ -29,6 +29,9 @@ class TravelReasonResource extends Resource
 
     protected static ?string $navigationLabel = 'Motivos de viaje';
 
+    protected static ?string $modelLabel = 'Motivos de viaje';
+
+
     public static function form(Schema $schema): Schema
     {
         return TravelReasonForm::configure($schema);

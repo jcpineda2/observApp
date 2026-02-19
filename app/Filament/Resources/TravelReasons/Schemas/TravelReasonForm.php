@@ -12,6 +12,7 @@ class TravelReasonForm
         return $schema
             ->components([
                 TextInput::make('description')
+                    ->label('Motivos de viaje')
                     ->required(),
             ]);
     }

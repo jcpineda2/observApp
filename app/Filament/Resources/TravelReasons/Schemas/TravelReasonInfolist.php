@@ -11,7 +11,8 @@ class TravelReasonInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('description'),
+                TextEntry::make('description')
+                    ->label('Motivos de viaje'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

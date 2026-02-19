@@ -27,6 +27,8 @@ class TourismProviderResource extends Resource
 
     protected static ?string $navigationLabel = 'Prestadores (PST)';
 
+    protected static ?string $modelLabel = 'Prestadores (PST)';
+
 
     public static function form(Schema $schema): Schema
     {

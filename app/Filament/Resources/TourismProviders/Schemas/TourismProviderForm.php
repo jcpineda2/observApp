@@ -15,14 +15,18 @@ class TourismProviderForm
         return $schema
             ->components([
                 Select::make('service_sector_id')
-                    ->relationship('serviceSector', 'id')
+                    ->relationship('serviceSector', 'description')
+                    ->label('Prestador Turístico')
                     ->required(),
-                TextInput::make('state_id')
-                    ->required()
-                    ->numeric(),
-                DatePicker::make('registration_date'),
+                Select::make('state_id')
+                    ->relationship('department', 'name')
+                    ->label('Departamento')
+                    ->required(),
+                DatePicker::make('registration_date')
+                    ->label('Fecha de registro'),
                 Select::make('status')
                     ->options(Status::class)
+                    ->label('Estado')
                     ->default('active')
                     ->required(),
             ]);

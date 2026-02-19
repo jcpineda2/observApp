@@ -12,15 +12,18 @@ class TourismProviderInfolist
         return $schema
             ->components([
                 TextEntry::make('serviceSector.id')
-                    ->label('Service sector'),
+                    ->label('Prestador Turístico'),
                 TextEntry::make('state_id')
+                    ->label('Departamento')
                     ->numeric(),
                 TextEntry::make('registration_date')
+                    ->label('Fecha de registro')
                     ->date()
                     ->placeholder('-'),
                 TextEntry::make('status')
                     ->badge(),
                 TextEntry::make('created_at')
+                    ->label('Estado')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')

@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ProviderIndicatorsTable
@@ -19,7 +20,7 @@ class ProviderIndicatorsTable
                     ->label('Año')
                     ->searchable(),
                 TextColumn::make('total_providers')
-                    ->label('Total Prestadores')
+                    ->label('Total prestadores')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('new_registrations')
@@ -31,7 +32,7 @@ class ProviderIndicatorsTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('formalization_rate')
-                    ->label('Porcentaje de Formalización')
+                    ->label('Formalización (%)')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -44,10 +45,12 @@ class ProviderIndicatorsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('year_id')
+                    ->label('Año')
+                    ->relationship('year', 'year'),
             ])
             ->recordActions([
-                ViewAction::make(),
+                //ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

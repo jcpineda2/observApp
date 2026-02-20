@@ -15,19 +15,24 @@ class AccommodationPerformanceForm
                 Select::make('accommodation_id')
                     ->relationship('accommodation.category', 'category')
                     ->label('Categoría de Alojamiento')
+                    ->preload()
                     ->required(),
                 Select::make('year_id')
                     ->relationship('year', 'year')
+                    ->preload()
                     ->label('Año')
                     ->required(),
                 Select::make('month_id')
                     ->relationship('month', 'month')
+                    ->preload()
                     ->label('Més')
                     ->required(),
                 TextInput::make('occupancy_rate')
-                    ->label('Ocupación porcentaje')
-                    ->required()
-                    ->numeric(),
+                    ->label('Tasa de ocupación (%)')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->required(),
                 TextInput::make('season')
                     ->label('Temporada')
                     ->default(null),

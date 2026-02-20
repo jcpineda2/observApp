@@ -25,9 +25,9 @@ class AccommodationPerformanceResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Estadísticas';
 
-    protected static ?string $navigationLabel = 'Desempeño alojamientos';
+    protected static ?string $navigationLabel = 'Desempeño de alojamientos';
 
-    protected static ?string $modelLabel = 'Desempeño alojamientos';
+    protected static ?string $modelLabel = 'Desempeño de alojamientos';
 
     public static function form(Schema $schema): Schema
     {

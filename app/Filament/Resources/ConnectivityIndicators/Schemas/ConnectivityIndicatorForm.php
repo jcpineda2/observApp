@@ -15,20 +15,24 @@ class ConnectivityIndicatorForm
                 Select::make('year_id')
                     ->relationship('year', 'year')
                     ->label('Año')
-                    ->required(),
+                    ->required()
+                    ->preload(),
                 TextInput::make('operating_airports')
                     ->label('Aeropuertos operativos')
                     ->required()
+                    ->minValue(0)
                     ->numeric()
                     ->default(0),
                 TextInput::make('connected_destinations')
                     ->label('Destinos conectados')
                     ->required()
                     ->numeric()
+                    ->minValue(0)
                     ->default(0),
                 TextInput::make('active_routes')
                     ->label('Rutas activas')
                     ->required()
+                    ->minValue(0)
                     ->numeric()
                     ->default(0),
             ]);

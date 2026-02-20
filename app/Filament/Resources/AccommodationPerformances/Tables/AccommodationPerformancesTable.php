@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class AccommodationPerformancesTable
@@ -27,7 +28,7 @@ class AccommodationPerformancesTable
                     ->label('Més')
                     ->searchable(),
                 TextColumn::make('occupancy_rate')
-                    ->label('Ocupación porcentaje')
+                    ->label('Tasa de ocupación (%)')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('season')
@@ -43,7 +44,13 @@ class AccommodationPerformancesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('year_id')
+                    ->label('Año')
+                    ->relationship('year', 'year'),
+
+                SelectFilter::make('month_id')
+                    ->label('Mes')
+                    ->relationship('month', 'month'),
             ])
             ->recordActions([
                 ViewAction::make(),
@@ -51,7 +58,7 @@ class AccommodationPerformancesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    //DeleteBulkAction::make(),
                 ]),
             ]);
     }

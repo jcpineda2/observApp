@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TourismEmployments\RelationManagers;
 
+use App\Enums\Gender;
 use Filament\Actions\AssociateAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -10,6 +11,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\DissociateAction;
 use Filament\Actions\DissociateBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
@@ -24,18 +26,31 @@ class DemographicsRelationManager extends RelationManager
     {
         return $schema
             ->components([
-                TextInput::make('direct_employment')
+                Select::make('tourism_employment_id')
+                    ->relationship('employment.serviceSector', 'description')
+                    ->label('Rubro')
+                    ->required(),
+                Select::make('gender')
+                    ->options(Gender::class)
+                    ->label('Género')
+                    ->required(),
+                TextInput::make('age_range')
+                    ->label('Rango de edades')
+                    ->required(),
+                TextInput::make('people_count')
+                    ->label('Cantidad de personas')
                     ->required()
-                    ->maxLength(255),
+                    ->numeric(),
             ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('direct_employment')
+            ->recordTitleAttribute('Rubro')
             ->columns([
-                TextColumn::make('direct_employment')
+                TextColumn::make('employment.serviceSector.description')
+                    ->label('Rubro')
                     ->searchable(),
             ])
             ->filters([

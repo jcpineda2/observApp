@@ -18,7 +18,7 @@ class AccommodationPerformanceInfolist
                 TextEntry::make('month.month')
                     ->label('Més'),
                 TextEntry::make('occupancy_rate')
-                    ->label('Ocupación porcentaje')
+                    ->label('Tasa de ocupación (%)')
                     ->numeric(),
                 TextEntry::make('season')
                     ->label('Temporada')

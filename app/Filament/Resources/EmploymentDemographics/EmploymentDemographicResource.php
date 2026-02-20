@@ -25,6 +25,10 @@ class EmploymentDemographicResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Estadísticas';
 
+    protected static ?string $navigationLabel = 'Empleo Demográfico ';
+
+    protected static ?string $modelLabel = 'Empleo Demográfico';
+
     public static function form(Schema $schema): Schema
     {
         return EmploymentDemographicForm::configure($schema);

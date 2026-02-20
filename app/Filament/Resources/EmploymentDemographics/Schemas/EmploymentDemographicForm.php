@@ -13,15 +13,19 @@ class EmploymentDemographicForm
     {
         return $schema
             ->components([
-                TextInput::make('tourism_employment_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('tourism_employment_id')
+                    ->relationship('employment.serviceSector','description')
+                    ->label('Rubro')
+                    ->required(),
                 Select::make('gender')
                     ->options(Gender::class)
+                    ->label('Género')
                     ->required(),
                 TextInput::make('age_range')
+                    ->label('Rango de edades')
                     ->required(),
                 TextInput::make('people_count')
+                    ->label('Cantidad de personas')
                     ->required()
                     ->numeric(),
             ]);

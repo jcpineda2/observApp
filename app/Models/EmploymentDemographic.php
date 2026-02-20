@@ -25,6 +25,6 @@ class EmploymentDemographic extends Model
 
     public function employment(): BelongsTo
     {
-        return $this->belongsTo(TourismEmployment::class);
+        return $this->belongsTo(TourismEmployment::class, 'tourism_employment_id');
     }
 }

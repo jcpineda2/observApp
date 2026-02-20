@@ -15,15 +15,18 @@ class EmploymentDemographicsTable
     {
         return $table
             ->columns([
-                TextColumn::make('tourism_employment_id')
-                    ->numeric()
+                TextColumn::make('employment.serviceSector.description')
+                    ->label('Rubro')
                     ->sortable(),
                 TextColumn::make('gender')
+                    ->label('Género')
                     ->badge()
                     ->searchable(),
                 TextColumn::make('age_range')
+                    ->label('Rango de edades')
                     ->searchable(),
                 TextColumn::make('people_count')
+                    ->label('Cantidad de personas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

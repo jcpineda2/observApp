@@ -11,12 +11,14 @@ class EmploymentDemographicInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('tourism_employment_id')
-                    ->numeric(),
+                TextEntry::make('employment.serviceSector.description')
+                    ->label('Rubro'),
                 TextEntry::make('gender')
+                    ->label('Género')
                     ->badge(),
                 TextEntry::make('age_range'),
                 TextEntry::make('people_count')
+                    ->label('Rango de edades')
                     ->numeric(),
                 TextEntry::make('created_at')
                     ->dateTime()

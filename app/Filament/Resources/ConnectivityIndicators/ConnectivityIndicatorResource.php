@@ -25,6 +25,10 @@ class ConnectivityIndicatorResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
 
+    protected static ?string $navigationLabel = 'Conectividad';
+
+    protected static ?string $modelLabel = 'Conectividad';
+
 
     public static function form(Schema $schema): Schema
     {

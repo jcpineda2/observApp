@@ -15,15 +15,19 @@ class ConnectivityIndicatorsTable
     {
         return $table
             ->columns([
-                TextColumn::make('year.id')
+                TextColumn::make('year.year')
+                    ->label('Año')
                     ->searchable(),
                 TextColumn::make('operating_airports')
+                    ->label('Aeropuertos operativos')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('connected_destinations')
+                    ->label('Destinos conectados')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('active_routes')
+                    ->label('Rutas activas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\TourismProviders\Tables;
 
-use App\Models\ServiceSector;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -16,17 +15,20 @@ class TourismProvidersTable
     {
         return $table
             ->columns([
-                TextColumn::make('service_sector_id')
-                    // ->relationship('serviceSectors.description')
-                    ->sortable(),
-                TextColumn::make('state_id')
+                TextColumn::make('serviceSector.description')
+                    ->label('Prestador Turístico')
+                    ->searchable(),
+                TextColumn::make('department.name')
+                    ->label('Deparatamento')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('registration_date')
+                    ->label('Fecha de registro')
                     ->date()
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Estado')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

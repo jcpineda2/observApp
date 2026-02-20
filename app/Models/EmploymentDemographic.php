@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EmploymentDemographic extends Model
 {
+    /** @use HasFactory<\Database\Factories\EmploymentDemographicFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -24,6 +25,6 @@ class EmploymentDemographic extends Model
 
     public function employment(): BelongsTo
     {
-        return $this->belongsTo(TourismEmployment::class);
+        return $this->belongsTo(TourismEmployment::class, 'tourism_employment_id');
     }
 }

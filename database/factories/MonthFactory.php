@@ -17,7 +17,7 @@ class MonthFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->monthName(),
+            'month' => $this->faker->monthName(),
             'month_number' => $this->faker->numberBetween(1, 12),
         ];
     }

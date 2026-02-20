@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TourismEmployment extends Model
 {
+    /** @use HasFactory<\Database\Factories\TourismEmploymentFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -19,7 +20,7 @@ class TourismEmployment extends Model
         'interannual_variation'
     ];
 
-    public function year(): BelongsTo {
+    public function year(): BelongsTo{
         return $this->belongsTo(Year::class);
     }
 
@@ -29,5 +30,5 @@ class TourismEmployment extends Model
 
     public function demographics(): HasMany {
     return $this->hasMany(EmploymentDemographic::class);
-}
+    }
 }

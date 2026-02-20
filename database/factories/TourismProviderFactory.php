@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Status;
 use App\Models\ServiceSector;
 use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,7 +23,7 @@ class TourismProviderFactory extends Factory
             'service_sector_id' => ServiceSector::query()->inRandomOrder()->first()->id,
             'state_id' => State::query()->inRandomOrder()->first()->id ,
             'registration_date' => $this->faker->date(),
-            'status' => $this->faker->randomElement(['active', 'inactive']),
+            'status' => $this->faker->randomElement(Status::cases()),
         ];
     }
 }

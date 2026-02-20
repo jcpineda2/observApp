@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Year extends Model
 {
+    /** @use HasFactory<\Database\Factories\YearFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'year',
     ];
 
-    // Relación con todos los indicadores que usan el año
     public function inboundTourisms(): HasMany {
         return $this->hasMany(InboundTourism::class);
     }
@@ -25,5 +25,19 @@ class Year extends Model
 
     public function tourismEmployments(): HasMany {
         return $this->hasMany(TourismEmployment::class);
+    }
+    public function accommodationPerformances(): HasMany
+    {
+        return $this->hasMany(AccommodationPerformance::class);
+    }
+
+    public function connectivityIndicators(): HasMany
+    {
+        return $this->hasMany(ConnectivityIndicator::class);
+    }
+
+    public function providerIndicators(): HasMany
+    {
+        return $this->hasMany(ProviderIndicator::class);
     }
 }

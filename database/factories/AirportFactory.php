@@ -20,8 +20,8 @@ class AirportFactory extends Factory
     {
         return [
             'name' => $this->faker->company() . ' International Airport',
-            'country_id' => Country::query()->inRandomOrder()->first()?->id ,
-            'city_id' => City::query()->inRandomOrder()->first()?->id,
+            'country_id' => Country::query()->inRandomOrder()->first()->id ,
+            'city_id' => City::query()->inRandomOrder()->first()->id,
         ];
     }
 }

@@ -17,7 +17,7 @@ class EntryModeFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => $this->faker->unique()->word(),
+            'description' => $this->faker->unique()->word(),
         ];
     }
 }

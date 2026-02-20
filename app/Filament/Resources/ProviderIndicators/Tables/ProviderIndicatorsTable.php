@@ -15,18 +15,23 @@ class ProviderIndicatorsTable
     {
         return $table
             ->columns([
-                TextColumn::make('year.id')
+                TextColumn::make('year.year')
+                    ->label('Año')
                     ->searchable(),
                 TextColumn::make('total_providers')
+                    ->label('Total Prestadores')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('new_registrations')
+                    ->label('Altas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('cancellations')
+                    ->label('Bajas')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('formalization_rate')
+                    ->label('Porcentaje de Formalización')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

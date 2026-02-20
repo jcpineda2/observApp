@@ -25,6 +25,9 @@ class ProviderIndicatorResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
 
+    protected static ?string $navigationLabel = 'Indicadores Prestadores';
+
+    protected static ?string $modelLabel = 'Indicadores Prestadores';
 
     public static function form(Schema $schema): Schema
     {

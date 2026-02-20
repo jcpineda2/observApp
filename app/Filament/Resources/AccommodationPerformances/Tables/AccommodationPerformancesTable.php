@@ -15,16 +15,23 @@ class AccommodationPerformancesTable
     {
         return $table
             ->columns([
-                TextColumn::make('accommodation.id')
-                    ->searchable(),
-                TextColumn::make('year.id')
-                    ->searchable(),
-                TextColumn::make('month.id')
+                TextColumn::make('accommodation.category.category')
+                    ->label('Categoría de Alojamiento')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('year.year')
+                    ->label('Año')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('month.month')
+                    ->label('Més')
                     ->searchable(),
                 TextColumn::make('occupancy_rate')
+                    ->label('Ocupación porcentaje')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('season')
+                    ->label('Temporada')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

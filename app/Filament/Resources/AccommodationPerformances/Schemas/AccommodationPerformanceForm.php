@@ -13,18 +13,23 @@ class AccommodationPerformanceForm
         return $schema
             ->components([
                 Select::make('accommodation_id')
-                    ->relationship('accommodation', 'id')
+                    ->relationship('accommodation.category', 'category')
+                    ->label('Categoría de Alojamiento')
                     ->required(),
                 Select::make('year_id')
-                    ->relationship('year', 'id')
+                    ->relationship('year', 'year')
+                    ->label('Año')
                     ->required(),
                 Select::make('month_id')
-                    ->relationship('month', 'id')
+                    ->relationship('month', 'month')
+                    ->label('Més')
                     ->required(),
                 TextInput::make('occupancy_rate')
+                    ->label('Ocupación porcentaje')
                     ->required()
                     ->numeric(),
                 TextInput::make('season')
+                    ->label('Temporada')
                     ->default(null),
             ]);
     }

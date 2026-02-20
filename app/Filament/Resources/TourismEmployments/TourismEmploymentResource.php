@@ -6,6 +6,7 @@ use App\Filament\Resources\TourismEmployments\Pages\CreateTourismEmployment;
 use App\Filament\Resources\TourismEmployments\Pages\EditTourismEmployment;
 use App\Filament\Resources\TourismEmployments\Pages\ListTourismEmployments;
 use App\Filament\Resources\TourismEmployments\Pages\ViewTourismEmployment;
+use App\Filament\Resources\TourismEmployments\RelationManagers\DemographicsRelationManager;
 use App\Filament\Resources\TourismEmployments\Schemas\TourismEmploymentForm;
 use App\Filament\Resources\TourismEmployments\Schemas\TourismEmploymentInfolist;
 use App\Filament\Resources\TourismEmployments\Tables\TourismEmploymentsTable;
@@ -47,7 +48,7 @@ class TourismEmploymentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            DemographicsRelationManager::class,
         ];
     }
 

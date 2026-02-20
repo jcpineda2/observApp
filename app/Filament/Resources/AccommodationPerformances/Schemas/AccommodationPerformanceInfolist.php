@@ -11,15 +11,17 @@ class AccommodationPerformanceInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('accommodation.id')
-                    ->label('Accommodation'),
-                TextEntry::make('year.id')
-                    ->label('Year'),
-                TextEntry::make('month.id')
-                    ->label('Month'),
+                TextEntry::make('accommodation.category.category')
+                    ->label('Categoría de Alojamiento'),
+                TextEntry::make('year.year')
+                    ->label('Año'),
+                TextEntry::make('month.month')
+                    ->label('Més'),
                 TextEntry::make('occupancy_rate')
+                    ->label('Ocupación porcentaje')
                     ->numeric(),
                 TextEntry::make('season')
+                    ->label('Temporada')
                     ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()

@@ -14,12 +14,10 @@ class AirportInfolist
             ->components([
                 TextEntry::make('name')
                         ->label('Nombre'),
-                Select::make('country_id')
-                    ->relationship('country','name')
+                TextEntry::make('country.name')
                     ->label('País'),
-                Select::make('city_id')
-                    ->label('Ciudad')
-                    ->relationship('city','name'),
+                TextEntry::make('city.name')
+                    ->label('Ciudad'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

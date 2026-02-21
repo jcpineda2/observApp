@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Accommodations\Schemas;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 class AccommodationForm
 {
@@ -14,12 +15,17 @@ class AccommodationForm
             ->components([
                 Select::make('accommodation_category_id')
                     ->label('Categoría')
-                    ->relationship('category','category')
+                    ->relationship('category', 'category')
                     ->required()
                     ->preload(),
                 Select::make('state_id')
-                    ->label('Estado')
-                    ->relationship('state','name')
+                    ->label('Departamento')
+                    ->relationship(
+                        name: 'state',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn(Builder $query) => $query
+                            ->whereHas('country', fn($q) => $q->where('name', 'Paraguay'))
+                    )
                     ->required()
                     ->preload(),
                 TextInput::make('establishments_count')

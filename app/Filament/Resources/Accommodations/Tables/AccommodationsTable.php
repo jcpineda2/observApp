@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class AccommodationsTable
 {
@@ -18,7 +19,7 @@ class AccommodationsTable
                     ->label('Categoría')
                     ->sortable(),
                 TextColumn::make('state.name')
-                    ->label('Estado')
+                    ->label('Departamento')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('establishments_count')

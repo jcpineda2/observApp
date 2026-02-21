@@ -14,9 +14,11 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rule;
 
 class DemographicsRelationManager extends RelationManager
 {
@@ -36,7 +38,27 @@ class DemographicsRelationManager extends RelationManager
                     ->required(),
                 TextInput::make('age_range')
                     ->label('Rango de edades')
-                    ->required(),
+                    ->required()
+                    ->rules(function (Get $get, $record) {
+                        $parentId = $this->getOwnerRecord()->getKey(); // TourismEmployment id
+
+                        $rule = Rule::unique('employment_demographics')
+                            ->where(
+                                fn($q) => $q
+                                    ->where('tourism_employment_id', $parentId)
+                                    ->where('gender', $get('gender'))
+                                    ->where('age_range', $get('age_range'))
+                            );
+
+                        if ($record) {
+                            $rule->ignore($record->getKey());
+                        }
+
+                        return [$rule];
+                    })
+                    ->validationMessages([
+                        'unique' => 'Ya existe una fila demográfica con ese Género y Rango para este Empleo.',
+                    ]),
                 TextInput::make('people_count')
                     ->label('Cantidad de personas')
                     ->required()

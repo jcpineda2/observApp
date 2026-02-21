@@ -4,7 +4,9 @@ namespace App\Filament\Resources\TourismEmployments\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\Rule;
 
 class TourismEmploymentForm
 {
@@ -19,7 +21,24 @@ class TourismEmploymentForm
                 Select::make('service_sector_id')
                     ->relationship('serviceSector', 'description')
                     ->label('Rubro')
-                    ->required(),
+                    ->required()
+                    ->rules(function (Get $get, $record) {
+                        $rule = Rule::unique('tourism_employments')
+                            ->where(
+                                fn($q) => $q
+                                    ->where('year_id', $get('year_id'))
+                                    ->where('service_sector_id', $get('service_sector_id'))
+                            );
+
+                        if ($record) {
+                            $rule->ignore($record->getKey());
+                        }
+
+                        return [$rule];
+                    })
+                    ->validationMessages([
+                        'unique' => 'Ya existe un registro de empleo para ese Año y Sector.',
+                    ]),
                 TextInput::make('direct_employment')
                     ->label('Empleo directo')
                     ->required()

@@ -4,7 +4,9 @@ namespace App\Filament\Resources\DomesticTourisms\Schemas;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\Rule;
 
 class DomesticTourismForm
 {
@@ -26,8 +28,27 @@ class DomesticTourismForm
                     ->required(),
                 Select::make('travel_reason_id')
                     ->relationship('travelReason', 'description')
-                    ->label('Motivos')
-                    ->required(),
+                    ->label('Motivo')
+                    ->required()
+                    ->rules(function (Get $get, $record) {
+                        $rule = Rule::unique('domestic_tourisms')
+                            ->where(
+                                fn($q) => $q
+                                    ->where('year_id', $get('year_id'))
+                                    ->where('month_id', $get('month_id'))
+                                    ->where('destination_department_id', $get('destination_department_id'))
+                                    ->where('travel_reason_id', $get('travel_reason_id'))
+                            );
+
+                        if ($record) {
+                            $rule->ignore($record->getKey());
+                        }
+
+                        return [$rule];
+                    })
+                    ->validationMessages([
+                        'unique' => 'Ya existe un registro para ese Año/Mes/Departamento/Motivo.',
+                    ]),
                 TextInput::make('origin_region')
                     ->label('Region origen')
                     ->default(null),

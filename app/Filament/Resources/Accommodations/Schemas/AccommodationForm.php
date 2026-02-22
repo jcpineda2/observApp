@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Accommodations\Schemas;
 
+use App\Models\State;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -20,14 +21,21 @@ class AccommodationForm
                     ->preload(),
                 Select::make('state_id')
                     ->label('Departamento')
-                    ->relationship(
-                        name: 'state',
-                        titleAttribute: 'name',
-                        modifyQueryUsing: fn(Builder $query) => $query
-                            ->whereHas('country', fn($q) => $q->where('name', 'Paraguay'))
-                    )
+                    ->options(function ($record) {
+                        $q = State::query()->orderBy('name');
+
+                        // Solo Paraguay
+                        $q->whereHas('country', fn($qq) => $qq->where('name', 'Paraguay'));
+
+                        // pero incluir el actual si existe
+                        if ($record?->state_id) {
+                            $q->orWhere('id', $record->state_id);
+                        }
+
+                        return $q->pluck('name', 'id')->toArray();
+                    })
                     ->required()
-                    ->preload(),
+                    ->searchable(),
                 TextInput::make('establishments_count')
                     ->label('Cantidad de Establecimientos')
                     ->required()

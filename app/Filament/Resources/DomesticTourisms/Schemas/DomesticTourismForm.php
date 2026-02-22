@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\DomesticTourisms\Schemas;
 
+use App\Models\State;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 class DomesticTourismForm
@@ -23,21 +25,33 @@ class DomesticTourismForm
                     ->relationship('month', 'month')
                     ->required(),
                 Select::make('destination_department_id')
-                    ->relationship('department', 'name')
-                    ->label('Dpartamento Destino')
-                    ->required(),
+                    ->label('Departamento')
+                    ->options(function ($record) {
+                        $q = State::query()->orderBy('name');
+
+                        // Solo Paraguay
+                        $q->whereHas('country', fn($qq) => $qq->where('name', 'Paraguay'));
+
+                        // pero incluir el actual si existe
+                        if ($record?->destination_department_id) {
+                            $q->orWhere('id', $record->destination_department_id);
+                        }
+
+                        return $q->pluck('name', 'id')->toArray();
+                    })
+                    ->required()
+                    ->searchable(),
                 Select::make('travel_reason_id')
                     ->relationship('travelReason', 'description')
                     ->label('Motivo')
                     ->required()
                     ->rules(function (Get $get, $record) {
-                        $rule = Rule::unique('domestic_tourisms')
+                        $rule = Rule::unique('domestic_tourisms','travel_reason_id')
                             ->where(
                                 fn($q) => $q
                                     ->where('year_id', $get('year_id'))
                                     ->where('month_id', $get('month_id'))
-                                    ->where('destination_department_id', $get('destination_department_id'))
-                                    ->where('travel_reason_id', $get('travel_reason_id'))
+                                    ->where('destination_department_id', $get('department '))
                             );
 
                         if ($record) {

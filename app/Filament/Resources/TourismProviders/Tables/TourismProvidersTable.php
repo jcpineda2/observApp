@@ -16,7 +16,7 @@ class TourismProvidersTable
         return $table
             ->columns([
                 TextColumn::make('serviceSector.description')
-                    ->label('Prestador Turístico')
+                    ->label('Rubro')
                     ->searchable(),
                 TextColumn::make('department.name')
                     ->label('Deparatamento')

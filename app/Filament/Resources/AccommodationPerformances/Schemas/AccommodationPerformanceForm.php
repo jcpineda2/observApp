@@ -28,13 +28,18 @@ class AccommodationPerformanceForm
                     ->relationship('month', 'month')
                     ->preload()
                     ->label('Més')
-                    ->required()->rules(function (Get $get, $record) {
-                        $rule = Rule::unique('accommodation_performances')
+                    ->required()
+                    ->rules(function (Get $get, $record) {
+                        // Evita validar mientras el usuario aún no seleccionó todo
+                        if (! $get('accommodation_id') || ! $get('year_id') || ! $get('month_id')) {
+                            return [];
+                        }
+
+                        $rule = Rule::unique('accommodation_performances','month_id')
                             ->where(
                                 fn($q) => $q
                                     ->where('accommodation_id', $get('accommodation_id'))
                                     ->where('year_id', $get('year_id'))
-                                    ->where('month_id', $get('month_id'))
                             );
 
                         if ($record) {

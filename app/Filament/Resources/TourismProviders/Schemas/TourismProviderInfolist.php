@@ -12,7 +12,7 @@ class TourismProviderInfolist
         return $schema
             ->components([
                 TextEntry::make('serviceSector.id')
-                    ->label('Prestador Turístico'),
+                    ->label('Rubro'),
                 TextEntry::make('state_id')
                     ->label('Departamento')
                     ->numeric(),

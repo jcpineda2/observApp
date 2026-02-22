@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
@@ -29,80 +30,80 @@ class RolesAndPermissionsSeeder extends Seeder
             'Editar roles',
             'Borrar roles',
 
-            'listar Cagegorías',
-            'Crear Cagegorías',
-            'Editar Cagegorías',
-            'Borrar Cagegorías',
+            'listar cagegorías',
+            'Crear cagegorías',
+            'Editar cagegorías',
+            'Borrar cagegorías',
 
-            'listar Aerolineas',
-            'Crear Aerolineas',
-            'Editar Aerolineas',
-            'Borrar Aerolineas',
+            'listar aerolineas',
+            'Crear aerolineas',
+            'Editar aerolineas',
+            'Borrar aerolineas',
 
-            'listar Aeropuertos',
-            'Crear Aeropuertos',
-            'Editar Aeropuertos',
-            'Borrar Aeropuertos',
+            'listar aeropuertos',
+            'Crear aeropuertos',
+            'Editar aeropuertos',
+            'Borrar aeropuertos',
 
-            'listar Paises',
-            'Crear Paises',
-            'Editar Paises',
-            'Borrar Paises',
+            'listar paises',
+            'Crear paises',
+            'Editar paises',
+            'Borrar paises',
 
-            'listar Vía de ingresos',
-            'Crear Vía de ingresos',
-            'Editar Vía de ingresos',
-            'Borrar Vía de ingresos',
+            'listar vía de ingresos',
+            'Crear vía de ingresos',
+            'Editar vía de ingresos',
+            'Borrar vía de ingresos',
 
-            'listar Rubros',
-            'Crear Rubros',
-            'Editar Rubros',
-            'Borrar Rubros',
+            'listar rubros',
+            'Crear rubros',
+            'Editar rubros',
+            'Borrar rubros',
 
-            'listar Motivos de viaje',
-            'Crear Motivos de viaje',
-            'Editar Motivos de viaje',
-            'Borrar Motivos de viaje',
+            'listar motivos de viaje',
+            'Crear motivos de viaje',
+            'Editar motivos de viaje',
+            'Borrar motivos de viaje',
 
-            'listar Desempeño de alojamiento',
-            'Crear Desempeño de alojamiento',
-            'Editar Desempeño de alojamiento',
-            'Borrar Desempeño de alojamiento',
+            'listar desempeño de alojamiento',
+            'Crear desempeño de alojamiento',
+            'Editar desempeño de alojamiento',
+            'Borrar desempeño de alojamiento',
 
-            'listar Empleo turístico',
-            'Crear Empleo turístico',
-            'Editar Empleo turístico',
-            'Borrar Empleo turístico',
+            'listar empleo turístico',
+            'Crear empleo turístico',
+            'Editar empleo turístico',
+            'Borrar empleo turístico',
 
-            'listar Alojamientos',
-            'Crear Alojamientos',
-            'Editar Alojamientos',
-            'Borrar Alojamientos',
+            'listar alojamientos',
+            'Crear alojamientos',
+            'Editar alojamientos',
+            'Borrar alojamientos',
 
-            'listar Prestadores',
-            'Crear Prestadores',
-            'Editar Prestadores',
+            'listar prestadores',
+            'Crear prestadores',
+            'Editar prestadores',
             'Borrar Prestadores',
 
-            'listar Conectividad',
-            'Crear Conectividad',
-            'Editar Conectividad',
-            'Borrar Conectividad',
+            'listar conectividad',
+            'Crear conectividad',
+            'Editar conectividad',
+            'Borrar conectividad',
 
-            'listar Turismo interno',
-            'Crear Turismo interno',
-            'Editar Turismo interno',
-            'Borrar Turismo interno',
+            'listar turismo interno',
+            'Crear turismo interno',
+            'Editar turismo interno',
+            'Borrar turismo interno',
 
-            'listar Turismo receptivo',
-            'Crear Turismo receptivo',
-            'Editar Turismo receptivo',
-            'Borrar Turismo receptivo',
+            'listar turismo receptivo',
+            'Crear turismo receptivo',
+            'Editar turismo receptivo',
+            'Borrar turismo receptivo',
 
-            'listar Indicadores prestadores',
-            'Crear  Indicadores prestadores',
-            'Editar Indicadores prestadores',
-            'Borrar Indicadores prestadores',
+            'listar indicadores prestadores',
+            'Crear indicadores prestadores',
+            'Editar indicadores prestadores',
+            'Borrar indicadores prestadores',
 
         ];
 
@@ -118,9 +119,9 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->syncPermissions(Permission::all());
 
         // Editor: todo menos delete (recomendado para datos estadísticos)
-        $editor->syncPermissions(array_filter($permissions, fn($p) => ! str_ends_with($p, 'Borrar.')));
+        $editor->syncPermissions(array_filter($permissions, fn($p) => !Str::contains(strtolower($p), 'borrar')));
 
         // Viewer: solo view
-        $viewer->syncPermissions(array_filter($permissions, fn($p) => str_ends_with($p, 'Listar.')));
+        $viewer->syncPermissions(array_filter($permissions, fn($p) => Str::contains(strtolower($p), 'listar')));
     }
 }

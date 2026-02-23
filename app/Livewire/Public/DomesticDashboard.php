@@ -31,10 +31,10 @@ class DomesticDashboard extends Component
         $reasons = TravelReason::query()->orderBy('description')->get(['id', 'description']);
 
         $base = DomesticTourism::query()
-            ->when($this->yearId, fn ($q) => $q->where('year_id', $this->yearId))
-            ->when($this->monthId, fn ($q) => $q->where('month_id', $this->monthId))
-            ->when($this->departmentId, fn ($q) => $q->where('destination_department_id', $this->departmentId))
-            ->when($this->reasonId, fn ($q) => $q->where('travel_reason_id', $this->reasonId));
+            ->when($this->yearId, fn($q) => $q->where('year_id', $this->yearId))
+            ->when($this->monthId, fn($q) => $q->where('month_id', $this->monthId))
+            ->when($this->departmentId, fn($q) => $q->where('destination_department_id', $this->departmentId))
+            ->when($this->reasonId, fn($q) => $q->where('travel_reason_id', $this->reasonId));
 
         $totals = (clone $base)
             ->selectRaw('
@@ -52,8 +52,30 @@ class DomesticDashboard extends Component
             ->limit(10)
             ->get();
 
+        $byReason = (clone $base)
+            ->with('travelReason:id,description')
+            ->selectRaw('travel_reason_id, SUM(tourist_quantity) as total')
+            ->groupBy('travel_reason_id')
+            ->orderByDesc('total')
+            ->limit(10)
+            ->get();
+
+        $byMonth = (clone $base)
+            ->with('month:id,month,month_number')
+            ->selectRaw('month_id, SUM(tourist_quantity) as total')
+            ->groupBy('month_id')
+            ->orderBy('month_id')
+            ->get();
+
         return view('livewire.public.domestic-dashboard', compact(
-            'years','months','departments','reasons','totals','topDepartments'
+            'years',
+            'months',
+            'departments',
+            'reasons',
+            'totals',
+            'topDepartments',
+            'byReason',
+            'byMonth'
         ))->layout('layouts.public', ['title' => 'Turismo Interno - Observatorio']);
     }
 }

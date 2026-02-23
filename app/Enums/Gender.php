@@ -2,13 +2,14 @@
 
 namespace App\Enums;
 
-enum Gender: string
+use Filament\Support\Contracts\HasLabel;
+
+enum Gender: string implements HasLabel
 {
     case MALE = 'male';
     case FEMALE = 'female';
 
-
-    public function label(): string
+    public function getLabel(): ?string
     {
         return match ($this) {
             self::MALE => 'Masculino',

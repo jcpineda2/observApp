@@ -2,17 +2,21 @@
 
 namespace App\Enums;
 
-enum Status: string
+use Filament\Support\Contracts\HasLabel;
+
+
+enum Status: string implements HasLabel
+
 {
     case ACTIVE = 'active';
     case INACTIVE = 'inactive';
 
 
-    public function label(): string
+    public function getLabel(): ?string
     {
         return match ($this) {
             self::ACTIVE => 'Activo',
-            self::INACTIVE => 'Inacitvo',
+            self::INACTIVE => 'Inactivo',
         };
     }
 }

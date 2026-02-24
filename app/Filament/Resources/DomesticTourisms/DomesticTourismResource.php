@@ -26,7 +26,7 @@ class DomesticTourismResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
 
-    protected static ?string $navigationLabel = 'Turismo Interno ';
+    protected static ?string $navigationLabel = 'Turismo Interno';
 
     protected static ?string $modelLabel = 'Turismo Interno';
 

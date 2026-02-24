@@ -23,7 +23,7 @@ class EmploymentDemographicResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Estadísticas';
+    protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
 
     protected static ?string $navigationLabel = 'Empleo Demográfico ';
 

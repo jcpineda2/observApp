@@ -21,7 +21,7 @@ class AccommodationResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::HomeModern;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Infraestructura';
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
 
     protected static ?string $navigationLabel = 'Alojamientos';
 

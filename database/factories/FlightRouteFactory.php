@@ -19,7 +19,7 @@ class FlightRouteFactory extends Factory
     public function definition(): array
     {
         return [
-            'airline_id' => AirLine::query()->inRandomOrder()->first()->id,
+            'air_line_id' => AirLine::query()->inRandomOrder()->first()->id,
             'origin_airport_id' => Airport::query()->inRandomOrder()->first()->id,
             'destination_airport_id' => Airport::query()->inRandomOrder()->first()->id,
             'is_active' => $this->faker->boolean(80),

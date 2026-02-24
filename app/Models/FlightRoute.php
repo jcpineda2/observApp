@@ -12,12 +12,12 @@ class FlightRoute extends Model
     use HasFactory;
 
     protected $fillable = [
-        'airline_id',
+        'air_line_id',
         'origin_airport_id',
         'destination_airport_id',
         'is_active'
     ];
-    public function airline(): BelongsTo {
+    public function airLine(): BelongsTo {
         return $this->belongsTo(AirLine::class);
     }
 

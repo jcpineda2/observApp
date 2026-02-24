@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('country_id')->constrained()->cascadeOnDelete();
             $table->foreignId('city_id')->constrained()->cascadeOnDelete();
+            $table->string('type', 50)->nullable();
+            $table->index('type');
             $table->timestamps();
         });
     }

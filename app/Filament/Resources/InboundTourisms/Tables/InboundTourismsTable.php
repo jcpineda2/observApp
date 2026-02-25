@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use PhpParser\Node\Stmt\Label;
 
@@ -61,7 +62,22 @@ class InboundTourismsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+
+                SelectFilter::make('year_id')
+                    ->relationship('year', 'name'),
+
+                SelectFilter::make('month_id')
+                    ->relationship('month', 'name'),
+
+                SelectFilter::make('residence_country_id')
+                    ->relationship('residenceCountry', 'name'),
+
+                SelectFilter::make('entry_mode_id')
+                    ->relationship('entryMode', 'name'),
+
+                SelectFilter::make('travel_reason_id')
+                    ->relationship('travelReason', 'name'),
+
             ])
             ->recordActions([
                 ViewAction::make(),

@@ -16,19 +16,19 @@ class TourismEmploymentForm
             ->components([
                 Select::make('year_id')
                     ->relationship('year', 'year')
+                    ->searchable()
+                    ->preload()
                     ->label('Año')
                     ->required(),
                 Select::make('service_sector_id')
                     ->relationship('serviceSector', 'description')
+                    ->searchable()
+                    ->preload()
                     ->label('Rubro')
                     ->required()
                     ->rules(function (Get $get, $record) {
-                        $rule = Rule::unique('tourism_employments')
-                            ->where(
-                                fn($q) => $q
-                                    ->where('year_id', $get('year_id'))
-                                    ->where('service_sector_id', $get('service_sector_id'))
-                            );
+                        $rule = Rule::unique('tourism_employments', 'service_sector_id')
+                            ->where(fn($q) => $q->where('year_id', $get('year_id')));
 
                         if ($record) {
                             $rule->ignore($record->getKey());
@@ -45,13 +45,17 @@ class TourismEmploymentForm
                     ->numeric()
                     ->default(0),
                 TextInput::make('national_participation')
-                    ->label('Participación nacional')
+                    ->label('Participación nacional (%)')
                     ->numeric()
-                    ->default(null),
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->nullable(),
                 TextInput::make('interannual_variation')
-                    ->label('Variación interanual')
+                    ->label('Variación interanual (%)')
                     ->numeric()
-                    ->default(null),
+                    ->minValue(-100)
+                    ->maxValue(1000)
+                    ->nullable()
             ]);
     }
 }

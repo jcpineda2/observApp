@@ -21,6 +21,7 @@ class EmploymentDemographic extends Model
 
     protected $casts = [
         'gender' => Gender::class,
+        'people_count' => 'integer',
     ];
 
     public function employment(): BelongsTo

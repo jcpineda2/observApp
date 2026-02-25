@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class TourismEmploymentsTable
@@ -27,10 +28,12 @@ class TourismEmploymentsTable
                     ->sortable(),
                 TextColumn::make('national_participation')
                     ->label('Participación nacional')
+                    ->suffix('%')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('interannual_variation')
                     ->label('Variación interanual')
+                    ->suffix('%')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -43,7 +46,13 @@ class TourismEmploymentsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('year_id')
+                    ->label('Año')
+                    ->relationship('year', 'year'),
+
+                SelectFilter::make('service_sector_id')
+                    ->label('Rubro')
+                    ->relationship('serviceSector', 'description'),
             ])
             ->recordActions([
                 ViewAction::make(),

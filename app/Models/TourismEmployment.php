@@ -20,15 +20,24 @@ class TourismEmployment extends Model
         'interannual_variation'
     ];
 
-    public function year(): BelongsTo{
+    protected $casts = [
+        'direct_employment' => 'integer',
+        'national_participation' => 'decimal:2',
+        'interannual_variation' => 'decimal:2',
+    ];
+
+    public function year(): BelongsTo
+    {
         return $this->belongsTo(Year::class);
     }
 
-    public function serviceSector(): BelongsTo {
+    public function serviceSector(): BelongsTo
+    {
         return $this->belongsTo(ServiceSector::class);
     }
 
-    public function demographics(): HasMany {
-    return $this->hasMany(EmploymentDemographic::class);
+    public function demographics(): HasMany
+    {
+        return $this->hasMany(EmploymentDemographic::class);
     }
 }

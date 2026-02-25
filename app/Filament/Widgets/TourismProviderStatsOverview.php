@@ -13,6 +13,7 @@ class TourismProviderStatsOverview extends BaseWidget
         // Tomamos "último período cargado" (año/mes máximo)
         $latest = TourismProviderStat::query()
             ->select('year_id', 'month_id')
+            ->distinct()
             ->orderByDesc('year_id')
             ->orderByDesc('month_id')
             ->first();

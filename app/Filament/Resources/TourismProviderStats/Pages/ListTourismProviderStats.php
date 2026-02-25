@@ -4,6 +4,7 @@ namespace App\Filament\Resources\TourismProviderStats\Pages;
 
 use App\Filament\Resources\TourismProviderStats\TourismProviderStatResource;
 use App\Filament\Widgets\TourismProviderStatsOverview;
+use App\Filament\Widgets\TourismProviderStatsTrendChart;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
@@ -22,6 +23,7 @@ class ListTourismProviderStats extends ListRecords
     {
         return [
             TourismProviderStatsOverview::class,
+            TourismProviderStatsTrendChart::class,
         ];
     }
 }

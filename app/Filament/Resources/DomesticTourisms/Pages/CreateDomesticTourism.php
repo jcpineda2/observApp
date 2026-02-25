@@ -8,4 +8,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateDomesticTourism extends CreateRecord
 {
     protected static string $resource = DomesticTourismResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        // Redirige al listado después de crear
+        return $this->getResource()::getUrl('index');
+    }
 }

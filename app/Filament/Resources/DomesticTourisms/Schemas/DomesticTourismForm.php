@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\DomesticTourisms\Schemas;
 
 use App\Models\State;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
@@ -54,7 +55,7 @@ class DomesticTourismForm
                     ->rules([
                         fn(Get $get, $record) => Rule::unique('domestic_tourisms', 'travel_reason_id')
                             ->where(
-                                fn(Builder $q) => $q
+                                fn($q) => $q
                                     ->where('year_id', $get('year_id'))
                                     ->where('month_id', $get('month_id'))
                                     ->where('destination_department_id', $get('destination_department_id'))
@@ -88,5 +89,6 @@ class DomesticTourismForm
                     ->label('Gasto total')
                     ->default(null),
             ]);
+
     }
 }

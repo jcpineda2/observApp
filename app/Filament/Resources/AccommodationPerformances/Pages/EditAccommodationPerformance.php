@@ -11,6 +11,12 @@ class EditAccommodationPerformance extends EditRecord
 {
     protected static string $resource = AccommodationPerformanceResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        // Redirige al listado después de crear
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

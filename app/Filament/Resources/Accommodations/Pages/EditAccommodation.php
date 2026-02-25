@@ -16,4 +16,10 @@ class EditAccommodation extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        // Redirige al listado después de crear
+        return $this->getResource()::getUrl('index');
+    }
 }

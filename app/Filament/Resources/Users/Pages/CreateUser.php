@@ -8,4 +8,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        // Redirige al listado después de crear
+        return $this->getResource()::getUrl('index');
+    }
 }

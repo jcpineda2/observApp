@@ -8,4 +8,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTourismEmployment extends CreateRecord
 {
     protected static string $resource = TourismEmploymentResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        // Redirige al listado después de crear
+        return $this->getResource()::getUrl('index');
+    }
 }

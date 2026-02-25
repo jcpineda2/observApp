@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\AirConnectivityRoutes\Pages;
 
 use App\Filament\Resources\AirConnectivityRoutes\AirConnectivityRouteResource;
+use App\Filament\Widgets\AirConnectivityActiveTrendChart;
 use App\Filament\Widgets\AirConnectivityOverview;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
@@ -22,6 +23,7 @@ class ListAirConnectivityRoutes extends ListRecords
     {
         return [
             AirConnectivityOverview::class,
+            AirConnectivityActiveTrendChart::class,
         ];
     }
 }

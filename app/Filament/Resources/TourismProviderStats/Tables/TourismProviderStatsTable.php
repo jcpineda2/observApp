@@ -85,7 +85,6 @@ class TourismProviderStatsTable
                     ->label('Rubro')
                     ->relationship('serviceSector', 'description'),
 
-                // Para departamento, usamos opciones y filtramos Paraguay, igual que en el form
                 SelectFilter::make('state_id')
                     ->label('Departamento')
                     ->options(fn () => State::query()

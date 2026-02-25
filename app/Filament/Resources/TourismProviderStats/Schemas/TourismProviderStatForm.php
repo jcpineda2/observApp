@@ -26,7 +26,6 @@ class TourismProviderStatForm
 
                     Select::make('month_id')
                         ->label('Mes')
-                        // Tu Month tiene campo 'month' (según tu modelo)
                         ->relationship('month', 'month')
                         ->preload()
                         ->searchable()
@@ -34,7 +33,6 @@ class TourismProviderStatForm
 
                     Select::make('service_sector_id')
                         ->label('Rubro (actividad)')
-                        // Tu ServiceSector usa 'description' como título (según tu Resource actual)
                         ->relationship('serviceSector', 'description')
                         ->preload()
                         ->searchable()
@@ -42,20 +40,23 @@ class TourismProviderStatForm
 
                     Select::make('state_id')
                         ->label('Departamento')
-                        // Misma lógica que ya usás en AccommodationForm (solo Paraguay)
+                        ->searchable()
                         ->options(function ($record) {
-                            $q = State::query()->orderBy('name')
-                                ->whereHas('country', fn($qq) => $qq->where('name', 'Paraguay'));
+                            $q = State::query()
+                                ->where(function ($qq) use ($record) {
+                                    $qq->whereHas('country', fn($c) => $c->where('name', 'Paraguay'));
 
-                            if ($record?->state_id) {
-                                $q->orWhere('id', $record->state_id);
-                            }
+                                    if ($record?->state_id) {
+                                        $qq->orWhere('id', $record->state_id);
+                                    }
+                                })
+                                ->orderBy('name');
 
                             return $q->pluck('name', 'id')->toArray();
                         })
+                        ->preload()
                         ->searchable()
                         ->required()
-                        // Regla clave: evita duplicados antes del SQL
                         ->rules([
                             fn($get, $record) => Rule::unique('tourism_provider_stats', 'state_id')
                                 ->where(
@@ -74,6 +75,7 @@ class TourismProviderStatForm
                     TextInput::make('total_registered')
                         ->label('Total registrados')
                         ->numeric()
+                        ->live()
                         ->minValue(0)
                         ->default(0)
                         ->required(),
@@ -83,11 +85,13 @@ class TourismProviderStatForm
                         ->numeric()
                         ->minValue(0)
                         ->default(0)
+                        ->live()
                         ->required(),
 
                     TextInput::make('cancellations')
                         ->label('Bajas (mes)')
                         ->numeric()
+                        ->live()
                         ->minValue(0)
                         ->default(0)
                         ->required(),
@@ -96,8 +100,16 @@ class TourismProviderStatForm
                         ->label('Formalizados (total)')
                         ->numeric()
                         ->minValue(0)
-                        ->default(0)
-                        ->required(),
+                        ->disabled()
+                        ->dehydrated()
+                        ->live()
+                        ->afterStateHydrated(function ($component, $state, $get) {
+                            $component->state(
+                                ($get('total_registered') ?? 0)
+                                    + ($get('registrations') ?? 0)
+                                    - ($get('cancellations') ?? 0)
+                            );
+                        }),
                 ]),
         ]);
     }

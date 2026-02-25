@@ -28,6 +28,8 @@ class DomesticTourismResource extends Resource
 
     protected static ?string $navigationLabel = 'Turismo Interno';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $modelLabel = 'Turismo Interno';
 
     public static function form(Schema $schema): Schema

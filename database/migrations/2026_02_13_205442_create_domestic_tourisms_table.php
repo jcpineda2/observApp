@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('month_id')->constrained();
             $table->foreignId('destination_department_id')->constrained('states');
             $table->foreignId('travel_reason_id')->constrained();
-            $table->string('origin_region')->nullable()->default('N/A');//Para que el unique no tenga problemas al tener not null
+            $table->string('origin_region')->nullable()->default('N/A'); //Para que el unique no tenga problemas al tener not null
             $table->integer('tourist_quantity')->default(0);
             $table->decimal('total_spend', 15, 2)->default(0);
             $table->decimal('average_stay', 8, 2)->default(0);
@@ -27,7 +27,10 @@ return new class extends Migration
                 ['year_id', 'month_id', 'destination_department_id', 'travel_reason_id', 'origin_region'],
                 'domestic_unique'
             );
-
+            $table->index(['year_id', 'month_id'], 'domestic_year_month_idx');
+            $table->index('destination_department_id', 'domestic_destination_department_idx');
+            $table->index('travel_reason_id', 'domestic_travel_reason_idx');
+            $table->index('origin_region', 'domestic_origin_region_idx');
             $table->timestamps();
         });
     }

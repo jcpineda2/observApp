@@ -13,7 +13,10 @@ class AirLineForm
             ->components([
                 TextInput::make('name')
                     ->label('Aerolinea')
-                    ->required(),
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'Ya existe una aerolinea con este nombre.']),
             ]);
     }
 }

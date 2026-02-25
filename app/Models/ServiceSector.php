@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class ServiceSector extends Model
 {
@@ -15,11 +17,20 @@ class ServiceSector extends Model
         'description',
     ];
 
-    public function providers(): HasMany {
-        return $this->hasMany(TourismProvider::class);
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::ucfirst(Str::lower($value)),
+        );
     }
 
-    public function employments(): HasMany {
+    public function providers(): HasMany
+    {
+        return $this->hasMany(TourismProviderStat::class);
+    }
+
+    public function employments(): HasMany
+    {
         return $this->hasMany(TourismEmployment::class);
     }
 }

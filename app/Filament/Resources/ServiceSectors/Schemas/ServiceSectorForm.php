@@ -13,6 +13,10 @@ class ServiceSectorForm
             ->components([
                 TextInput::make('description')
                     ->label('Rubros')
+                    ->unique()
+                    ->validationMessages([
+                        'unique' => 'Ya existe un rubro con este nombre.',
+                    ])
                     ->required(),
             ]);
     }

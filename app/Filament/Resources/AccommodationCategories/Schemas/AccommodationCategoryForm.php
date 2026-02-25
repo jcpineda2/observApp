@@ -13,7 +13,11 @@ class AccommodationCategoryForm
             ->components([
                 TextInput::make('category')
                     ->label('Categoria')
-                    ->required(),
+                    ->required()
+                    ->unique()
+                    ->validationMessages([
+                        'unique' => 'Ya existe una categoría con ese nombre.',
+                    ]),
             ]);
     }
 }

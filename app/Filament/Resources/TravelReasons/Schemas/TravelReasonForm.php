@@ -13,6 +13,11 @@ class TravelReasonForm
             ->components([
                 TextInput::make('description')
                     ->label('Motivos de viaje')
+                    ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'Ya existe un motivo de entrada con este nombre.'
+                    ])
+                    ->required()
                     ->required(),
             ]);
     }

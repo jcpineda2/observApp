@@ -64,19 +64,19 @@ class InboundTourismsTable
             ->filters([
 
                 SelectFilter::make('year_id')
-                    ->relationship('year', 'name'),
+                    ->relationship('year', 'year'),
 
                 SelectFilter::make('month_id')
-                    ->relationship('month', 'name'),
+                    ->relationship('month', 'month'),
 
                 SelectFilter::make('residence_country_id')
-                    ->relationship('residenceCountry', 'name'),
+                    ->relationship('country', 'name'),
 
                 SelectFilter::make('entry_mode_id')
-                    ->relationship('entryMode', 'name'),
+                    ->relationship('entryMode', 'description'),
 
                 SelectFilter::make('travel_reason_id')
-                    ->relationship('travelReason', 'name'),
+                    ->relationship('travelReason', 'description'),
 
             ])
             ->recordActions([

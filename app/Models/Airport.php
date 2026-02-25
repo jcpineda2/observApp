@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Airport extends Model
 {
@@ -19,13 +21,22 @@ class Airport extends Model
         'city_id'
     ];
 
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::ucfirst(Str::lower($value)),
+        );
+    }
+
     // Vuelos que SALEN de este aeropuerto
-    public function departures(): HasMany{
+    public function departures(): HasMany
+    {
         return $this->hasMany(FlightRoute::class, 'origin_airport_id');
     }
 
     // Vuelos que LLEGAN a este aeropuerto
-    public function arrivals(): HasMany {
+    public function arrivals(): HasMany
+    {
         return $this->hasMany(FlightRoute::class, 'destination_airport_id');
     }
 
@@ -38,5 +49,4 @@ class Airport extends Model
     {
         return $this->belongsTo(City::class);
     }
-
 }

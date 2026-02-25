@@ -19,6 +19,14 @@ return new class extends Migration
             $table->integer('rooms_count')->default(0);
             $table->integer('beds_count')->default(0);
             $table->timestamps();
+
+            $table->unique(
+                ['accommodation_category_id', 'state_id'],
+                'accommodations_unique_category_state'
+            );
+
+            $table->index(['state_id'], 'accommodations_state_idx');
+            $table->index(['accommodation_category_id'], 'accommodations_category_idx');
         });
     }
 

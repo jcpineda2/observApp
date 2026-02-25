@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationPerformances\Schemas;
 
+use Filament\Actions\SelectAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
@@ -15,8 +16,10 @@ class AccommodationPerformanceForm
         return $schema
             ->components([
                 Select::make('accommodation_id')
-                    ->relationship('accommodation.category', 'category')
-                    ->label('Categoría de Alojamiento')
+                    ->relationship('accommodation', 'id')
+                    ->getOptionLabelFromRecordUsing(fn($record) => "{$record->state?->name} - {$record->category?->category}")
+                    ->label('Alojamiento (Depto - Categoría)')
+                    ->searchable()
                     ->preload()
                     ->required(),
                 Select::make('year_id')
@@ -27,7 +30,7 @@ class AccommodationPerformanceForm
                 Select::make('month_id')
                     ->relationship('month', 'month')
                     ->preload()
-                    ->label('Més')
+                    ->label('Mes')
                     ->required()
                     ->rules(function (Get $get, $record) {
                         // Evita validar mientras el usuario aún no seleccionó todo
@@ -35,7 +38,7 @@ class AccommodationPerformanceForm
                             return [];
                         }
 
-                        $rule = Rule::unique('accommodation_performances','month_id')
+                        $rule = Rule::unique('accommodation_performances', 'month_id')
                             ->where(
                                 fn($q) => $q
                                     ->where('accommodation_id', $get('accommodation_id'))
@@ -57,9 +60,14 @@ class AccommodationPerformanceForm
                     ->minValue(0)
                     ->maxValue(100)
                     ->required(),
-                TextInput::make('season')
+                Select::make('season')
                     ->label('Temporada')
-                    ->default(null),
+                    ->options([
+                        'alta' => 'Alta',
+                        'baja' => 'Baja',
+                    ])
+                    ->nullable()
+                    ->searchable()
             ]);
     }
 }

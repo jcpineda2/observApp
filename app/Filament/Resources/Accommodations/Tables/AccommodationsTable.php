@@ -6,6 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -20,7 +21,7 @@ class AccommodationsTable
                     ->sortable(),
                 TextColumn::make('state.name')
                     ->label('Departamento')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('establishments_count')
                     ->label('Cantidad de Establecimientos')
@@ -44,7 +45,13 @@ class AccommodationsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('accommodation_category_id')
+                    ->label('Categoría')
+                    ->relationship('category', 'category'),
+
+                SelectFilter::make('state_id')
+                    ->label('Departamento')
+                    ->relationship('state', 'name'),
             ])
             ->recordActions([
                 EditAction::make(),

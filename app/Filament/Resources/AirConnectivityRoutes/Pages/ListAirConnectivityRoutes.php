@@ -19,11 +19,11 @@ class ListAirConnectivityRoutes extends ListRecords
         ];
     }
 
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            AirConnectivityOverview::class,
-            AirConnectivityActiveTrendChart::class,
-        ];
-    }
+    // protected function getHeaderWidgets(): array
+    // {
+    //     return [
+    //         AirConnectivityOverview::class,
+    //         AirConnectivityActiveTrendChart::class,
+    //     ];
+    // }
 }

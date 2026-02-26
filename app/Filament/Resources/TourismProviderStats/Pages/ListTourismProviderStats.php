@@ -19,11 +19,11 @@ class ListTourismProviderStats extends ListRecords
         ];
     }
 
-    protected function getHeaderWidgets(): array
-    {
-        return [
-            TourismProviderStatsOverview::class,
-            TourismProviderStatsTrendChart::class,
-        ];
-    }
+    // protected function getHeaderWidgets(): array
+    // {
+    //     return [
+    //         TourismProviderStatsOverview::class,
+    //         TourismProviderStatsTrendChart::class,
+    //     ];
+    // }
 }

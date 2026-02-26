@@ -87,7 +87,7 @@
                                 <span>Turismo Receptivo</span>
                             </a>
 
-                            <a href="#"
+                            <a href="{{ route('public.providers') }}"
                                class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-50">
                                 <span class="material-symbols-outlined text-teal-600 text-[20px]">flight</span>
                                 <span>Conectividad</span>

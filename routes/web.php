@@ -1,14 +1,22 @@
 <?php
 
+use App\Livewire\Public\DomesticDashboard;
 use App\Livewire\Public\Home;
-use App\Livewire\Public\Indicators\Index;
-use App\Livewire\Public\Indicators\Domestic;
-
+use App\Livewire\Public\InboundDashboard;
+use App\Livewire\Public\ProvidersDashboard;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', \App\Livewire\Public\Home::class)->name('public.home');
 
-Route::prefix('indicadores')->group(function () {
-    Route::get('/turismo-receptivo', \App\Livewire\Public\InboundDashboard::class)->name('public.inbound');
-    Route::get('/turismo-interno', \App\Livewire\Public\DomesticDashboard::class)->name('public.domestic');
+
+Route::get('/', Home::class)->name('public.home');
+
+Route::prefix('indicadores')->name('public.')->group(function () {
+    Route::get('/prestadores', ProvidersDashboard::class)->name('providers');
+    Route::get('/turismo-receptivo', InboundDashboard::class)->name('inbound');
+    Route::get('/turismo-interno', DomesticDashboard::class)->name('domestic');
+
+    // cuando lleguemos:
+    // Route::get('/alojamientos', \App\Livewire\Public\AccommodationsDashboard::class)->name('accommodations');
+    // Route::get('/empleo', \App\Livewire\Public\EmploymentDashboard::class)->name('employment');
+    // Route::get('/conectividad', \App\Livewire\Public\ConnectivityDashboard::class)->name('connectivity');
 });

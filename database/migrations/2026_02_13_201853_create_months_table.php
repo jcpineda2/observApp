@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('month');
             $table->integer('month_number');
+
+            $table->unique('month', 'months_month_unique');
+            $table->unique('month_number', 'months_month_number_unique');
             $table->timestamps();
         });
     }

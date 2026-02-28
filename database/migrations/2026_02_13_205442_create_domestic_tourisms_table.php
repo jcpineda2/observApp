@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('month_id')->constrained();
             $table->foreignId('destination_department_id')->constrained('states');
             $table->foreignId('travel_reason_id')->constrained();
-            $table->string('origin_region')->nullable()->default('N/A'); //Para que el unique no tenga problemas al tener not null
+            $table->string('origin_region')->nullable()->default(null); //Para que el unique no tenga problemas al tener not null
             $table->integer('tourist_quantity')->default(0);
             $table->decimal('total_spend', 15, 2)->default(0);
             $table->decimal('average_stay', 8, 2)->default(0);

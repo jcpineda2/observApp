@@ -10,13 +10,13 @@ return new class extends Migration {
         Schema::create('air_connectivity_routes', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('year_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('month_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('year_id')->constrained()->restrictOnDelete();
+            $table->foreignId('month_id')->constrained()->restrictOnDelete();
 
-            $table->foreignId('air_line_id')->constrained('air_lines')->cascadeOnDelete();
+            $table->foreignId('air_line_id')->constrained('air_lines')->restrictOnDelete();
 
-            $table->foreignId('origin_airport_id')->constrained('airports')->cascadeOnDelete();
-            $table->foreignId('destination_airport_id')->constrained('airports')->cascadeOnDelete();
+            $table->foreignId('origin_airport_id')->constrained('airports')->restrictOnDelete();
+            $table->foreignId('destination_airport_id')->constrained('airports')->restrictOnDelete();
 
             $table->boolean('is_active')->default(true);
 

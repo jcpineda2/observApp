@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Month;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,7 +29,10 @@ class MonthSeeder extends Seeder
         ];
 
         foreach ($months as $data) {
-            \App\Models\Month::firstOrCreate($data);
+            Month::updateOrCreate(
+                ['month_number' => $data['month_number']],
+                ['month' => $data['month']]
+            );
         }
     }
 }

@@ -19,10 +19,9 @@ class EmploymentDemographicFactory extends Factory
     public function definition(): array
     {
         return [
-            'tourism_employment_id' => TourismEmployment::query()->inRandomOrder()->first()->id,
-            'gender' => $this->faker->randomElement(Gender::cases()),
-            'age_range' => $this->faker->randomElement(['18-24', '25-34', '35-44', '45-54', '55-64', '65+']),
-            'people_count' => $this->faker->numberBetween(1, 100),
+            'gender' => $this->faker->randomElement(['male', 'female']),
+            'age_range' => $this->faker->randomElement(['15-24', '25-34', '35-44', '45-54', '55+']),
+            'people_count' => $this->faker->numberBetween(0, 300000),
         ];
     }
 }

@@ -20,15 +20,13 @@ class DomesticTourismFactory extends Factory
     public function definition(): array
     {
         return [
-            'year_id' => Year::query()->inRandomOrder()->first()->id,
-            'month_id' => Month::query()->inRandomOrder()->first()->id,
-            'destination_department_id' => $this->faker->numberBetween(1, 10),
-            'travel_reason_id' => $this->faker->numberBetween(1, 5),
-            'origin_region' => State::query()->inRandomOrder()->first()->name,
-            'tourist_quantity' => $this->faker->numberBetween(1, 1000),
-            'total_spend' => $this->faker->randomFloat(2, 1000, 100000),
-            'average_stay' => $this->faker->randomFloat(2, 1, 30),
-            'spend_composition' => $this->faker->sentence(),
+            'origin_region' => $this->faker->boolean(70)
+                ? $this->faker->randomElement(['Central', 'Norte', 'Sur', 'Este', 'Oeste'])
+                : null,
+            'tourist_quantity' => $this->faker->numberBetween(0, 300000),
+            'total_spend' => $this->faker->randomFloat(2, 0, 80000000),
+            'average_stay' => $this->faker->randomFloat(2, 0, 20),
+            'spend_composition' => $this->faker->boolean(30) ? $this->faker->sentence(8) : null,
         ];
     }
 }

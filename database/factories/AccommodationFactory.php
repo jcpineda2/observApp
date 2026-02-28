@@ -19,11 +19,9 @@ class AccommodationFactory extends Factory
     public function definition(): array
     {
         return [
-            'accommodation_category_id' => AccommodationCategory::query()->inRandomOrder()->first()->id,
-            'state_id' => State::Query()->inRandomOrder()->first()->id,
-            'establishments_count' => $this->faker->numberBetween(1, 10),
-            'rooms_count' => $this->faker->numberBetween(1, 100),
-            'beds_count' => $this->faker->numberBetween(1, 200),
+            'establishments_count' => $this->faker->numberBetween(0, 500),
+            'rooms_count' => $this->faker->numberBetween(0, 10000),
+            'beds_count' => $this->faker->numberBetween(0, 20000),
         ];
     }
 }

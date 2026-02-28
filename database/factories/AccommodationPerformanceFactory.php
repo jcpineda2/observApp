@@ -20,11 +20,8 @@ class AccommodationPerformanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'accommodation_id' => Accommodation::query()->inRandomOrder()->first()->id,
-            'year_id' => Year::query()->inRandomOrder()->first()->id,
-            'month_id' => Month::query()->inRandomOrder()->first()->id,
             'occupancy_rate' => $this->faker->randomFloat(2, 0, 100),
-            'season' => $this->faker->randomElement(['High', 'Low', 'Shoulder']),
+            'season' => $this->faker->randomElement(['Alta', 'Baja', null]),
         ];
     }
 }

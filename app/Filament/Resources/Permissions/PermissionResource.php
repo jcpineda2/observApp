@@ -21,7 +21,6 @@ class PermissionResource extends Resource
 
     use HasResourcePermissions;
 
-    protected static string $permissionSubject = 'permission';
 
     protected static ?string $model = Permission::class;
 

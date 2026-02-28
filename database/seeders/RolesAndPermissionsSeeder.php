@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
@@ -14,114 +14,75 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        $permissions = [
-            'Listar usuarios',
-            'Crear usuarios',
-            'Editar usuarios',
-            'Borrar usuarios',
+        // HABILIDADES alineadas al trait/Filament
+        $abilities = ['viewAny', 'view', 'create', 'update', 'delete'];
 
-            'Listar permisos',
-            'Crear permisos',
-            'Editar permisos',
-            'Borrar permisos',
+        // SUBJECTS (deben coincidir con getPermissionSubject()).
+        // Recomiendo definirlos explícitos para control total.
+        $subjects = [
+            'users',
+            'roles',
+            'permissions',
 
-            'Listar roles',
-            'Crear roles',
-            'Editar roles',
-            'Borrar roles',
+            'countries',
+            'months',
+            'years',
 
-            'Listar categorías',
-            'Crear categorías',
-            'Editar categorías',
-            'Borrar categorías',
+            'entry-modes',
+            'travel-reasons',
 
-            'Listar aerolineas',
-            'Crear aerolineas',
-            'Editar aerolineas',
-            'Borrar aerolineas',
+            'service-sectors',
+            'tourism-provider-stats',
 
-            'Listar aeropuertos',
-            'Crear aeropuertos',
-            'Editar aeropuertos',
-            'Borrar aeropuertos',
+            'accommodation-categories',
+            'accommodations',
+            'accommodation-performances',
 
-            'Listar paises',
-            'Crear paises',
-            'Editar paises',
-            'Borrar paises',
+            'air-lines',
+            'airports',
+            'air-connectivity-routes',
 
-            'Listar vía de ingresos',
-            'Crear vía de ingresos',
-            'Editar vía de ingresos',
-            'Borrar vía de ingresos',
+            'domestic-tourisms',
+            'inbound-tourisms',
 
-            'Listar rubros',
-            'Crear rubros',
-            'Editar rubros',
-            'Borrar rubros',
-
-            'Listar motivos de viaje',
-            'Crear motivos de viaje',
-            'Editar motivos de viaje',
-            'Borrar motivos de viaje',
-
-            'Listar desempeño de alojamiento',
-            'Crear desempeño de alojamiento',
-            'Editar desempeño de alojamiento',
-            'Borrar desempeño de alojamiento',
-
-            'Listar empleo turístico',
-            'Crear empleo turístico',
-            'Editar empleo turístico',
-            'Borrar empleo turístico',
-
-            'Listar alojamientos',
-            'Crear alojamientos',
-            'Editar alojamientos',
-            'Borrar alojamientos',
-
-            'Listar prestadores',
-            'Crear prestadores',
-            'Editar prestadores',
-            'Borrar prestadores',
-
-            'Listar conectividad',
-            'Crear conectividad',
-            'Editar conectividad',
-            'Borrar conectividad',
-
-            'Listar turismo interno',
-            'Crear turismo interno',
-            'Editar turismo interno',
-            'Borrar turismo interno',
-
-            'Listar turismo receptivo',
-            'Crear turismo receptivo',
-            'Editar turismo receptivo',
-            'Borrar turismo receptivo',
-
-            'Listar indicadores prestadores',
-            'Crear indicadores prestadores',
-            'Editar indicadores prestadores',
-            'Borrar indicadores prestadores',
-
+            'tourism-employments',
+            'employment-demographics',
         ];
 
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
+        $allPermissions = [];
+
+        foreach ($subjects as $subject) {
+            foreach ($abilities as $ability) {
+                $allPermissions[] = "{$subject}.{$ability}";
+            }
         }
 
-        $admin  = Role::firstOrCreate(['name' => 'Admin']);
-        $editor = Role::firstOrCreate(['name' => 'Editor']);
-        $viewer = Role::firstOrCreate(['name' => 'Visor']);
+        // Crear/actualizar permisos (idempotente)
+        foreach ($allPermissions as $name) {
+            Permission::updateOrCreate(
+                ['name' => $name, 'guard_name' => 'web'],
+                []
+            );
+        }
+
+        // Roles
+        $admin  = Role::updateOrCreate(['name' => 'Admin', 'guard_name' => 'web'], []);
+        $editor = Role::updateOrCreate(['name' => 'Editor', 'guard_name' => 'web'], []);
+        $viewer = Role::updateOrCreate(['name' => 'Visor', 'guard_name' => 'web'], []);
 
         // Admin: todo
         $admin->syncPermissions(Permission::all());
 
-        // Editor: todo menos delete (recomendado para datos estadísticos)
-        $editor->syncPermissions(array_filter($permissions, fn($p) => !Str::contains(strtolower($p), 'borrar')));
+        // Editor: todo menos delete
+        $editorPerms = array_filter($allPermissions, fn ($p) => ! str_ends_with($p, '.delete'));
+        $editor->syncPermissions($editorPerms);
 
-        // Viewer: solo view
-        $viewer->syncPermissions(array_filter($permissions, fn($p) => Str::contains(strtolower($p), 'listar')));
+        // Visor: solo ver
+        $viewerPerms = array_filter($allPermissions, fn ($p) =>
+            str_ends_with($p, '.viewAny') || str_ends_with($p, '.view')
+        );
+        $viewer->syncPermissions($viewerPerms);
+
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
     }
 }

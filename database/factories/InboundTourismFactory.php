@@ -22,16 +22,11 @@ class InboundTourismFactory extends Factory
     public function definition(): array
     {
         return [
-            'year_id' => Year::query()->inRandomOrder()->first()->id,
-            'month_id' => Month::query()->inRandomOrder()->first()->id,
-            'residence_country_id' => Country::query()->inRandomOrder()->first()->id,
-            'entry_mode_id' => EntryMode::inRandomOrder()->first()?->id,
-            'travel_reason_id' => TravelReason::query()->inRandomOrder()->first()->id,
-            'tourist_arrivals' => $this->faker->numberBetween(1000, 100000),
-            'excursionist_arrivals' => $this->faker->numberBetween(500, 50000),
-            'foreign_exchange_revenue' => $this->faker->randomFloat(2, 10000, 1000000),
-            'average_spend' => $this->faker->randomFloat(2, 50, 500),
-            'average_stay' => $this->faker->randomFloat(2, 1, 14),
+            'tourist_arrivals' => $this->faker->numberBetween(0, 200000),
+            'excursionist_arrivals' => $this->faker->numberBetween(0, 80000),
+            'foreign_exchange_revenue' => $this->faker->randomFloat(2, 0, 50000000),
+            'average_spend' => $this->faker->randomFloat(2, 0, 800),
+            'average_stay' => $this->faker->randomFloat(2, 0, 20),
         ];
     }
 }

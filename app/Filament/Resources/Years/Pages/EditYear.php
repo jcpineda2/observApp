@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\AirConnectivityRoutes\Pages;
+namespace App\Filament\Resources\Years\Pages;
 
-use App\Filament\Resources\AirConnectivityRoutes\AirConnectivityRouteResource;
+use App\Filament\Resources\Years\YearResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditAirConnectivityRoute extends EditRecord
+class EditYear extends EditRecord
 {
-    protected static string $resource = AirConnectivityRouteResource::class;
+    protected static string $resource = YearResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -17,7 +17,7 @@ class EditAirConnectivityRoute extends EditRecord
         ];
     }
 
-        protected function getRedirectUrl(): string
+    protected function getRedirectUrl(): string
     {
         // Redirige al listado después de crear
         return $this->getResource()::getUrl('index');

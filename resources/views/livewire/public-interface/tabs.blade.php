@@ -97,84 +97,93 @@
                         Segmentación: depto destino, región origen, mes, motivo :contentReference[oaicite:1]{index=1}
                     </span>
                 </div> --}}
-            <livewire:public-interface.kpis.domestic-tourism-kpis />
-                <div class="grid gap-4 lg:grid-cols-3">
-                    <div class="lg:col-span-2">
-                        <livewire:public-interface.charts.domestic-tourism-by-month />
-                    </div>
-
-                    <div class="rounded-xl bg-gray-50 p-4 ring-1 ring-gray-200">
-                        <div class="text-sm font-medium text-gray-800">Filtros (placeholder)</div>
-                        <div class="mt-3 space-y-2">
-                            <div class="h-10 rounded-lg bg-white ring-1 ring-gray-200"></div>
-                            <div class="h-10 rounded-lg bg-white ring-1 ring-gray-200"></div>
-                            <div class="h-10 rounded-lg bg-white ring-1 ring-gray-200"></div>
-                        </div>
-                    </div>
+                <livewire:public-interface.kpis.domestic-tourism-kpis />
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.domestic-tourism-by-month />
+                    <livewire:public-interface.charts.domestic-spend-by-month />
                 </div>
 
-            </div>
-        </section>
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.domestic-average-stay-by-month />
+                    <livewire:public-interface.charts.domestic-by-destination-department />
+                </div>
 
-        {{-- TURISMO RECEPTIVO --}}
-        <section id="turismo-receptivo" @class([$activeTab !== 'turismo-receptivo' ? 'hidden' : ''])>
-            <div class="space-y-4">
-                <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
-                <p class="text-sm text-gray-600">
-                    Aperturas: país de residencia, vía de ingreso (aérea/terrestre/fluvial), motivo, mes.
-                    :contentReference[oaicite:2]{index=2}
-                </p>
-                <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.domestic-by-origin-region />
+                    <livewire:public-interface.charts.domestic-by-travel-reason />
+                </div>
             </div>
-        </section>
-
-        {{-- PRESTADORES --}}
-        <section id="prestadores" @class([$activeTab !== 'prestadores' ? 'hidden' : ''])>
-            <div class="space-y-4">
-                <h2 class="text-base font-semibold text-gray-900">Prestadores de servicios turísticos</h2>
-                <p class="text-sm text-gray-600">
-                    Total, altas/bajas por período, variación interanual y % formalización, por rubro y por dpto.
-                    :contentReference[oaicite:3]{index=3}
-                </p>
-                <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
-            </div>
-        </section>
-
-        {{-- ALOJAMIENTOS --}}
-        <section id="alojamientos" @class([$activeTab !== 'alojamientos' ? 'hidden' : ''])>
-            <div class="space-y-4">
-                <h2 class="text-base font-semibold text-gray-900">Alojamientos turísticos</h2>
-                <p class="text-sm text-gray-600">
-                    Capacidad: establecimientos, habitaciones, camas, categoría. Desempeño: ocupación y temporada.
-                    :contentReference[oaicite:4]{index=4}
-                </p>
-                <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
-            </div>
-        </section>
-
-        {{-- EMPLEO --}}
-        <section id="empleo" @class([$activeTab !== 'empleo' ? 'hidden' : ''])>
-            <div class="space-y-4">
-                <h2 class="text-base font-semibold text-gray-900">Empleo turístico</h2>
-                <p class="text-sm text-gray-600">
-                    Segmentación por actividad, variables laborales: género y edad.
-                    :contentReference[oaicite:5]{index=5}
-                </p>
-                <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
-            </div>
-        </section>
-
-        {{-- CONECTIVIDAD --}}
-        <section id="conectividad" @class([$activeTab !== 'conectividad' ? 'hidden' : ''])>
-            <div class="space-y-4">
-                <h2 class="text-base font-semibold text-gray-900">Conectividad aérea y destinos</h2>
-                <p class="text-sm text-gray-600">
-                    Aeropuertos operativos, destinos conectados, rutas activas. Segmentación por destino (país/ciudad) y
-                    aerolínea. :contentReference[oaicite:6]{index=6}
-                </p>
-                <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
-            </div>
-        </section>
 
     </div>
+    </section>
+
+    {{-- TURISMO RECEPTIVO --}}
+    <section id="turismo-receptivo" @class([$activeTab !== 'turismo-receptivo' ? 'hidden' : ''])>
+        <div class="space-y-4">
+            <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
+            <livewire:public-interface.kpis.inbound-tourism-kpis />
+
+            <div class="grid gap-4 lg:grid-cols-2">
+            </div>
+            <div class="mt-4">
+                <livewire:public-interface.charts.inbound-tourism-by-month />
+                <livewire:public-interface.charts.inbound-top-countries />
+                <livewire:public-interface.charts.inbound-by-travel-reason />
+            </div>
+        </div>
+    </section>
+
+    {{-- PRESTADORES --}}
+    <section id="prestadores" @class([$activeTab !== 'prestadores' ? 'hidden' : ''])>
+        <div class="space-y-4">
+            <h2 class="text-base font-semibold text-gray-900">Prestadores de servicios turísticos</h2>
+            <livewire:public-interface.kpis.tourism-providers-kpis />
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.providers-registrations-cancellations-by-month />
+                <livewire:public-interface.charts.providers-yo-y-stock-by-month />
+            </div>
+            <div class="mt-4">
+                <livewire:public-interface.charts.providers-formalization-by-month />
+                <livewire:public-interface.charts.providers-by-service-sector />
+            </div>
+        </div>
+    </section>
+
+    {{-- ALOJAMIENTOS --}}
+    <section id="alojamientos" @class([$activeTab !== 'alojamientos' ? 'hidden' : ''])>
+        <div class="space-y-4">
+            <h2 class="text-base font-semibold text-gray-900">Alojamientos turísticos</h2>
+            <p class="text-sm text-gray-600">
+                Capacidad: establecimientos, habitaciones, camas, categoría. Desempeño: ocupación y temporada.
+                :contentReference[oaicite:4]{index=4}
+            </p>
+            <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
+        </div>
+    </section>
+
+    {{-- EMPLEO --}}
+    <section id="empleo" @class([$activeTab !== 'empleo' ? 'hidden' : ''])>
+        <div class="space-y-4">
+            <h2 class="text-base font-semibold text-gray-900">Empleo turístico</h2>
+            <p class="text-sm text-gray-600">
+                Segmentación por actividad, variables laborales: género y edad.
+                :contentReference[oaicite:5]{index=5}
+            </p>
+            <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
+        </div>
+    </section>
+
+    {{-- CONECTIVIDAD --}}
+    <section id="conectividad" @class([$activeTab !== 'conectividad' ? 'hidden' : ''])>
+        <div class="space-y-4">
+            <h2 class="text-base font-semibold text-gray-900">Conectividad aérea y destinos</h2>
+            <p class="text-sm text-gray-600">
+                Aeropuertos operativos, destinos conectados, rutas activas. Segmentación por destino (país/ciudad) y
+                aerolínea. :contentReference[oaicite:6]{index=6}
+            </p>
+            <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
+        </div>
+    </section>
+
+</div>
 </div>

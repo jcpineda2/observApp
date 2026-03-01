@@ -1,5 +1,4 @@
 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-
     {{-- Barra de Tabs (Desktop) --}}
     <div class="hidden md:block">
         <div class="flex items-center justify-between gap-4">
@@ -42,6 +41,9 @@
         </div>
     </div>
 
+    <div class="pt-9">
+        <livewire:public-interface.global-filters />
+    </div>
     {{-- Contenedor de contenido --}}
     <div class="mt-6 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
 
@@ -89,18 +91,18 @@
         {{-- TURISMO INTERNO --}}
         <section id="turismo-interno" @class([$activeTab !== 'turismo-interno' ? 'hidden' : ''])>
             <div class="space-y-4">
-                <div class="flex flex-wrap items-center justify-between gap-3">
+                {{-- <div class="flex flex-wrap items-center justify-between gap-3">
                     <h2 class="text-base font-semibold text-gray-900">Turismo interno</h2>
                     <span class="text-xs text-gray-500">
                         Segmentación: depto destino, región origen, mes, motivo :contentReference[oaicite:1]{index=1}
                     </span>
-                </div>
-
+                </div> --}}
+            <livewire:public-interface.kpis.domestic-tourism-kpis />
                 <div class="grid gap-4 lg:grid-cols-3">
-                    <div class="rounded-xl bg-gray-50 p-4 ring-1 ring-gray-200 lg:col-span-2">
-                        <div class="text-sm font-medium text-gray-800">Gráfico principal (placeholder)</div>
-                        <div class="mt-3 h-56 rounded-lg bg-white ring-1 ring-gray-200"></div>
+                    <div class="lg:col-span-2">
+                        <livewire:public-interface.charts.domestic-tourism-by-month />
                     </div>
+
                     <div class="rounded-xl bg-gray-50 p-4 ring-1 ring-gray-200">
                         <div class="text-sm font-medium text-gray-800">Filtros (placeholder)</div>
                         <div class="mt-3 space-y-2">
@@ -110,6 +112,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
 

@@ -57,34 +57,6 @@
                     </p>
                 </div>
 
-                <livewire:public-interface.kpi-grid :items="[
-                    [
-                        'title' => 'Turistas Internos',
-                        'value' => '1.245.320',
-                        'subtitle' => 'Año 2025',
-                        'trend' => '+4.2%',
-                        'trendDirection' => 'up',
-                    ],
-                    [
-                        'title' => 'Turistas Internacionales',
-                        'value' => '845.210',
-                        'subtitle' => 'Año 2025',
-                        'trend' => '+2.8%',
-                        'trendDirection' => 'up',
-                    ],
-                    [
-                        'title' => 'Prestadores Registrados',
-                        'value' => '12.430',
-                        'trend' => '+1.1%',
-                        'trendDirection' => 'up',
-                    ],
-                    [
-                        'title' => 'Empleo Directo',
-                        'value' => '58.900',
-                        'trend' => '-0.6%',
-                        'trendDirection' => 'down',
-                    ],
-                ]" />
             </div>
         </section>
 
@@ -190,6 +162,11 @@
             </div>
             <div class="mt-4 grid gap-4 lg:grid-cols-2">
                 <livewire:public-interface.charts.employment-yo-y-trend />
+                <livewire:public-interface.charts.employment-by-gender />
+            </div>
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.employment-by-age />
+                <livewire:public-interface.charts.employment-gender-by-service-sector />
             </div>
 
         </div>
@@ -198,11 +175,15 @@
     {{-- CONECTIVIDAD --}}
     <section id="conectividad" @class([$activeTab !== 'conectividad' ? 'hidden' : ''])>
         <div class="space-y-4">
-            <h2 class="text-base font-semibold text-gray-900">Conectividad aérea y destinos</h2>
-            <p class="text-sm text-gray-600">
-                Aeropuertos operativos, destinos conectados, rutas activas. Segmentación por destino (país/ciudad) y
-                aerolínea. :contentReference[oaicite:6]{index=6}
-            </p>
+            <livewire:public-interface.kpis.air-connectivity-kpis />
+
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.air-connectivity-flights-seats-by-month />
+                <livewire:public-interface.charts.top-airlines-by-seats />
+            </div>
+            <div class="mt-4">
+                <livewire:public-interface.tables.top-air-routes />
+            </div>
             <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
         </div>
     </section>

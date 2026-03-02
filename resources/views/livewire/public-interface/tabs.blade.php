@@ -146,6 +146,10 @@
                 <livewire:public-interface.charts.providers-formalization-by-month />
                 <livewire:public-interface.charts.providers-by-service-sector />
             </div>
+
+            <div class="mt-4">
+                <livewire:public-interface.maps.providers-by-department-map />
+            </div>
         </div>
     </section>
 
@@ -153,10 +157,18 @@
     <section id="alojamientos" @class([$activeTab !== 'alojamientos' ? 'hidden' : ''])>
         <div class="space-y-4">
             <h2 class="text-base font-semibold text-gray-900">Alojamientos turísticos</h2>
-            <p class="text-sm text-gray-600">
-                Capacidad: establecimientos, habitaciones, camas, categoría. Desempeño: ocupación y temporada.
-                :contentReference[oaicite:4]{index=4}
-            </p>
+            <livewire:public-interface.kpis.accommodation-kpis />
+            <livewire:public-interface.kpis.accommodation-capacity-kpis />
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.accommodation-installed-capacity-by-month />
+                <livewire:public-interface.charts.accommodation-occupancy-by-month />
+                <livewire:public-interface.charts.accommodation-by-category />
+            </div>
+
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.accommodation-occupancy-yo-y-by-month />
+                <livewire:public-interface.charts.accommodation-season-vs-occupancy />
+            </div>
             <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
         </div>
     </section>

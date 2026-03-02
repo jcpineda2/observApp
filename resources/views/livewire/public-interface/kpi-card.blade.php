@@ -1,3 +1,12 @@
+{{-- @props([
+    'title' => '',
+    'value' => '',
+    'subtitle' => null,
+    'trend' => null,
+    'trendDirection' => null, // up | down | null
+]) --}}
+
+
 <div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:shadow-md">
 
     {{-- Accent decorativo --}}

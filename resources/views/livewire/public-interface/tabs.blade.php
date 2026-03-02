@@ -169,6 +169,11 @@
                 <livewire:public-interface.charts.accommodation-occupancy-yo-y-by-month />
                 <livewire:public-interface.charts.accommodation-season-vs-occupancy />
             </div>
+
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.accommodation-installed-capacity-by-month />
+                <livewire:public-interface.charts.accommodation-available-rooms-by-month />
+            </div>
             <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
         </div>
     </section>
@@ -177,11 +182,16 @@
     <section id="empleo" @class([$activeTab !== 'empleo' ? 'hidden' : ''])>
         <div class="space-y-4">
             <h2 class="text-base font-semibold text-gray-900">Empleo turístico</h2>
-            <p class="text-sm text-gray-600">
-                Segmentación por actividad, variables laborales: género y edad.
-                :contentReference[oaicite:5]{index=5}
-            </p>
-            <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
+            <livewire:public-interface.kpis.tourism-employment-kpis />
+
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.employment-by-service-sector />
+                <livewire:public-interface.charts.employment-trend />
+            </div>
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.employment-yo-y-trend />
+            </div>
+
         </div>
     </section>
 

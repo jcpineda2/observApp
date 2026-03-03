@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 class AccommodationPerformanceForm
@@ -15,20 +16,21 @@ class AccommodationPerformanceForm
     {
         return $schema
             ->components([
-                Select::make('accommodation_id')
-                    ->relationship('accommodation', 'id')
-                    ->getOptionLabelFromRecordUsing(fn($record) => "{$record->state?->name} - {$record->category?->category}")
-                    ->label('Alojamiento (Depto - Categoría)')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
                 Select::make('year_id')
-                    ->relationship('year', 'year')
+                    ->relationship(
+                        name: 'year',
+                        titleAttribute: 'year',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('year', 'desc')
+                    )
                     ->preload()
                     ->label('Año')
                     ->required(),
                 Select::make('month_id')
-                    ->relationship('month', 'month')
+                    ->relationship(
+                        name: 'month',
+                        titleAttribute: 'month',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('month_number', 'asc')
+                    )
                     ->preload()
                     ->label('Mes')
                     ->required()
@@ -54,6 +56,14 @@ class AccommodationPerformanceForm
                     ->validationMessages([
                         'unique' => 'Ya existe un desempeño para ese Alojamiento/Año/Mes.',
                     ]),
+
+                Select::make('accommodation_id')
+                    ->relationship('accommodation', 'id')
+                    ->getOptionLabelFromRecordUsing(fn($record) => "{$record->state?->name} - {$record->category?->category}")
+                    ->label('Alojamiento (Depto - Categoría)')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
                 TextInput::make('occupancy_rate')
                     ->label('Tasa de ocupación (%)')
                     ->numeric()

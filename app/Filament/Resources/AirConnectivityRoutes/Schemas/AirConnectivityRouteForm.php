@@ -7,6 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 class AirConnectivityRouteForm
@@ -19,14 +20,20 @@ class AirConnectivityRouteForm
                 ->components([
                     Select::make('year_id')
                         ->label('Año')
-                        ->relationship('year', 'year')
+                        ->relationship(
+                            name:'year',
+                            titleAttribute: 'year',
+                            modifyQueryUsing: fn(Builder $query)=> $query->orderBy('year', 'desc'))
                         ->preload()
                         ->searchable()
                         ->required(),
 
                     Select::make('month_id')
                         ->label('Mes')
-                        ->relationship('month', 'month')
+                        ->relationship(
+                            name:'month',
+                            titleAttribute:'month',
+                            modifyQueryUsing: fn(Builder $query)=> $query->orderBy('month_number','asc'))
                         ->preload()
                         ->searchable()
                         ->required(),

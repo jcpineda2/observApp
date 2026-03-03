@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 class InboundTourismForm
@@ -16,13 +17,19 @@ class InboundTourismForm
             ->components([
                 Select::make('year_id')
                     ->label('Año')
-                    ->relationship('year', 'year')
+                    ->relationship(
+                        name:'year',
+                        titleAttribute: 'year',
+                        modifyQueryUsing: fn(Builder $query)=> $query->orderBy('year','desc'),)
                     ->searchable()
                     ->preload()
                     ->required(),
                 Select::make('month_id')
                     ->label('Més')
-                    ->relationship('month', 'month')
+                    ->relationship(
+                        name: 'month',
+                        titleAttribute:'month',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderby('month_number', 'asc'),)
                     ->searchable()
                     ->preload()
                     ->required(),

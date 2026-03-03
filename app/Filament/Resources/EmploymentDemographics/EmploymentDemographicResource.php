@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EmploymentDemographics;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\EmploymentDemographics\Pages\CreateEmploymentDemographic;
 use App\Filament\Resources\EmploymentDemographics\Pages\EditEmploymentDemographic;
 use App\Filament\Resources\EmploymentDemographics\Pages\ListEmploymentDemographics;
@@ -19,6 +20,8 @@ use UnitEnum;
 
 class EmploymentDemographicResource extends Resource
 {
+    use HasResourcePermissions;
+
     protected static ?string $model = EmploymentDemographic::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

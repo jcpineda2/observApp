@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 
 class TourismEmploymentForm
@@ -15,7 +16,10 @@ class TourismEmploymentForm
         return $schema
             ->components([
                 Select::make('year_id')
-                    ->relationship('year', 'year')
+                    ->relationship(
+                        name:'year',
+                        titleAttribute:'year',
+                        modifyQueryUsing: fn (Builder $query)=> $query->orderBy('year','desc'))
                     ->searchable()
                     ->preload()
                     ->label('Año')

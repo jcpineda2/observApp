@@ -18,14 +18,20 @@ class DomesticTourismForm
         return $schema
             ->components([
                 Select::make('year_id')
-                    ->relationship('year', 'year')
+                    ->relationship(
+                        name:'year',
+                        titleAttribute: 'year',
+                        modifyQueryUsing: fn(Builder $query)=> $query->orderBy('year','desc'),)
                     ->label('Año')
                     ->searchable()
                     ->preload()
                     ->required(),
                 Select::make('month_id')
                     ->label('Mes')
-                    ->relationship('month', 'month')
+                    ->relationship(
+                        name: 'month',
+                        titleAttribute:'month',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderby('month_number', 'asc'),)
                     ->searchable()
                     ->preload()
                     ->required(),

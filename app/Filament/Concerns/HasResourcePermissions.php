@@ -2,55 +2,87 @@
 
 namespace App\Filament\Concerns;
 
-use App\Models\User;
+use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 trait HasResourcePermissions
 {
     /**
-     * Cada Resource debe definir este valor exactamente como el "módulo" usado en tus permisos.
-     * Ej: 'roles', 'usuarios', 'turismo receptivo', 'desempeño de alojamiento'
+     * Devuelve el subject base del permiso.
+     * Puede sobreescribirse en el Resource.
      */
-
-    protected static function currentUser(): ?User
+    public static function permissionSubject(): string
     {
-        /** @var User|null $user */
+        /**
+         * Por defecto:
+         * - Deriva del nombre del modelo
+         * - Convierte a snake_case
+         * - Lo pluraliza
+         *
+         * Ej:
+         * AccommodationCategory => accommodation_categories
+         * EntryMode => entry_modes
+         */
+        $model = static::getModel();
+
+        return Str::plural(Str::snake(class_basename($model)));
+    }
+
+    /**
+     * Construye el nombre completo del permiso.
+     * Ej: accommodation_categories.viewAny
+     */
+    public static function permissionName(string $ability): string
+    {
+        return static::permissionSubject() . '.' . $ability;
+    }
+
+    /**
+     * Verifica si el usuario autenticado tiene permiso.
+     */
+    protected static function canPerform(string $ability): bool
+    {
         $user = Auth::user();
-        return $user;
+
+        if (! $user) {
+            return false;
+        }
+
+        return $user->can(static::permissionName($ability));
     }
 
-    protected static function permissionFor(string $action): string
-    {
-        // Mapeo acción -> verbo EXACTO que existe en tus permisos
-        $verbs = [
-            'view'   => 'Listar',
-            'create' => 'Crear',
-            'update' => 'Editar',
-            'delete' => 'Borrar',
-        ];
-
-        $verb = $verbs[$action] ?? $action;
-
-        return $verb . ' ' . mb_strtolower(static::$permissionSubject);
-    }
+    /* =========================
+       Métodos que Filament usa
+       ========================= */
 
     public static function canViewAny(): bool
     {
-        return static::currentUser()?->can(static::permissionFor('view')) ?? false;
+        return static::canPerform('viewAny');
+    }
+
+    public static function canView($record): bool
+    {
+        return static::canPerform('view');
     }
 
     public static function canCreate(): bool
     {
-        return static::currentUser()?->can(static::permissionFor('create')) ?? false;
+        return static::canPerform('create');
     }
 
     public static function canEdit($record): bool
     {
-        return static::currentUser()?->can(static::permissionFor('update')) ?? false;
+        return static::canPerform('update');
     }
 
     public static function canDelete($record): bool
     {
-        return static::currentUser()?->can(static::permissionFor('delete')) ?? false;
+        return static::canPerform('delete');
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return static::canPerform('deleteAny');
     }
 }

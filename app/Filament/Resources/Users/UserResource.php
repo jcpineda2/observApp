@@ -16,13 +16,22 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Gate;
 use UnitEnum;
 
 class UserResource extends Resource
 {
     use HasResourcePermissions;
 
-    protected static string $permissionSubject = 'user';
+    public static function permissionSubject(): string
+    {
+        return 'users';
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Gate::allows('access-security-navigation');
+    }
 
     protected static ?string $model = User::class;
 

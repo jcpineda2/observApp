@@ -13,27 +13,26 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use UnitEnum;
 
 class RoleResource extends Resource
 {
-    use HasResourcePermissions; //llama al trait
 
     protected static ?string $model = Role::class;
 
-    protected static string $permissionSubject = 'role';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Gate::allows('access-security-navigation');
+    }
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static string | UnitEnum | null $navigationGroup = 'Configuraciones';
     protected static ?string $modelLabel = 'Rol';
     protected static ?string $pluralModelLabel = 'Roles';
 
-    public static function form(Schema $schema): Schema
-    {
-        return RoleForm::configure($schema);
-    }
 
     public static function table(Table $table): Table
     {

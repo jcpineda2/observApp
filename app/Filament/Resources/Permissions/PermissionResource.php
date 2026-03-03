@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Permission;
 use UnitEnum;
 
@@ -21,7 +22,10 @@ class PermissionResource extends Resource
 
     use HasResourcePermissions;
 
-    protected static string $permissionSubject = 'permission';
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Gate::allows('access-security-navigation');
+    }
 
     protected static ?string $model = Permission::class;
 

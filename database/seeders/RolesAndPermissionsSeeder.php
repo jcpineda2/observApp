@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
@@ -14,114 +13,72 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        $permissions = [
-            'Listar usuarios',
-            'Crear usuarios',
-            'Editar usuarios',
-            'Borrar usuarios',
+        $map = [
+            'roles' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'permissions' => ['viewAny', 'view'],
 
-            'Listar permisos',
-            'Crear permisos',
-            'Editar permisos',
-            'Borrar permisos',
+            'users' => ['viewAny', 'view', 'create', 'update', 'delete'],
 
-            'Listar roles',
-            'Crear roles',
-            'Editar roles',
-            'Borrar roles',
+            'countries' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'entry_modes' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'travel_reasons' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'service_sectors' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'accommodation_categories' => ['viewAny', 'view', 'create', 'update', 'delete'],
 
-            'Listar categorías',
-            'Crear categorías',
-            'Editar categorías',
-            'Borrar categorías',
+            'accommodations' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'accommodation_performances' => ['viewAny', 'view', 'create', 'update', 'delete'],
 
-            'Listar aerolineas',
-            'Crear aerolineas',
-            'Editar aerolineas',
-            'Borrar aerolineas',
+            'inbound_tourisms' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'domestic_tourisms' => ['viewAny', 'view', 'create', 'update', 'delete'],
 
-            'Listar aeropuertos',
-            'Crear aeropuertos',
-            'Editar aeropuertos',
-            'Borrar aeropuertos',
+            'tourism_employments' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'employment_demographics' => ['viewAny', 'view', 'create', 'update', 'delete'],
 
-            'Listar paises',
-            'Crear paises',
-            'Editar paises',
-            'Borrar paises',
+            'air_connectivity_routes' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'air_lines' => ['viewAny', 'view', 'create', 'update', 'delete'],
 
-            'Listar vía de ingresos',
-            'Crear vía de ingresos',
-            'Editar vía de ingresos',
-            'Borrar vía de ingresos',
-
-            'Listar rubros',
-            'Crear rubros',
-            'Editar rubros',
-            'Borrar rubros',
-
-            'Listar motivos de viaje',
-            'Crear motivos de viaje',
-            'Editar motivos de viaje',
-            'Borrar motivos de viaje',
-
-            'Listar desempeño de alojamiento',
-            'Crear desempeño de alojamiento',
-            'Editar desempeño de alojamiento',
-            'Borrar desempeño de alojamiento',
-
-            'Listar empleo turístico',
-            'Crear empleo turístico',
-            'Editar empleo turístico',
-            'Borrar empleo turístico',
-
-            'Listar alojamientos',
-            'Crear alojamientos',
-            'Editar alojamientos',
-            'Borrar alojamientos',
-
-            'Listar prestadores',
-            'Crear prestadores',
-            'Editar prestadores',
-            'Borrar prestadores',
-
-            'Listar conectividad',
-            'Crear conectividad',
-            'Editar conectividad',
-            'Borrar conectividad',
-
-            'Listar turismo interno',
-            'Crear turismo interno',
-            'Editar turismo interno',
-            'Borrar turismo interno',
-
-            'Listar turismo receptivo',
-            'Crear turismo receptivo',
-            'Editar turismo receptivo',
-            'Borrar turismo receptivo',
-
-            'Listar indicadores prestadores',
-            'Crear indicadores prestadores',
-            'Editar indicadores prestadores',
-            'Borrar indicadores prestadores',
-
+            'tourism_provider_stats' => ['viewAny', 'view', 'create', 'update', 'delete'],
         ];
 
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
+        $allPermissions = [];
+
+        foreach ($map as $subject => $abilities) {
+            foreach ($abilities as $ability) {
+                $allPermissions[] = Permission::firstOrCreate([
+                    'name' => "{$subject}.{$ability}",
+                    'guard_name' => 'web',
+                ]);
+            }
         }
 
-        $admin  = Role::firstOrCreate(['name' => 'Admin']);
-        $editor = Role::firstOrCreate(['name' => 'Editor']);
-        $viewer = Role::firstOrCreate(['name' => 'Visor']);
+        // 2) Roles
+        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $editor = Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
+        $viewer = Role::firstOrCreate(['name' => 'viewer', 'guard_name' => 'web']);
 
-        // Admin: todo
+
+        // admin: casi todo menos seguridad avanzada si querés
         $admin->syncPermissions(Permission::all());
 
-        // Editor: todo menos delete (recomendado para datos estadísticos)
-        $editor->syncPermissions(array_filter($permissions, fn($p) => !Str::contains(strtolower($p), 'borrar')));
+        $securitySubjects = ['users', 'roles', 'permissions'];
 
-        // Viewer: solo view
-        $viewer->syncPermissions(array_filter($permissions, fn($p) => Str::contains(strtolower($p), 'listar')));
+        // editor: puede crear/editar/ver, pero no borrar
+        $editor = Permission::whereNotIn('name', collect($securitySubjects)->flatMap(fn($s) => [
+            "$s.viewAny",
+            "$s.view",
+            "$s.create",
+            "$s.update",
+            "$s.delete"
+        ]))
+            ->where(function ($query) {
+                // Aquí mantienes tu lógica de que el editor no borra
+                $query->where('name', 'not like', '%.delete');
+            })
+            ->get();
+
+        // viewer: solo lectura
+        $viewer->syncPermissions(Permission::where('name', 'like', '%.viewAny')
+            ->orWhere('name', 'like', '%.view')
+            ->get());
     }
 }

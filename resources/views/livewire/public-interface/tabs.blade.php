@@ -183,6 +183,13 @@
             </div>
             <div class="mt-4">
                 <livewire:public-interface.tables.top-air-routes />
+
+            {{-- Toggle arriba para controlar todos los TOP --}}
+            <livewire:public-interface.controls.air-metric-toggle />
+
+            <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                <livewire:public-interface.charts.top-airports-by-metric role="origin" />
+                <livewire:public-interface.charts.top-airports-by-metric role="destination" />
             </div>
             <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
         </div>

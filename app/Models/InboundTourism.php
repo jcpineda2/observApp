@@ -24,23 +24,36 @@ class InboundTourism extends Model
         'average_stay'
     ];
 
-    public function country(): BelongsTo{
+    protected $casts = [
+        'tourist_arrivals' => 'integer',
+        'excursionist_arrivals' => 'integer',
+        'foreign_exchange_revenue' => 'decimal:2',
+        'average_spend' => 'decimal:2',
+        'average_stay' => 'decimal:2',
+    ];
+
+    public function country(): BelongsTo
+    {
         return $this->belongsTo(Country::class, 'residence_country_id');
     }
 
-    public function year(): BelongsTo {
+    public function year(): BelongsTo
+    {
         return $this->belongsTo(Year::class);
     }
 
-    public function month(): BelongsTo {
+    public function month(): BelongsTo
+    {
         return $this->belongsTo(Month::class);
     }
 
-    public function entryMode(): BelongsTo {
+    public function entryMode(): BelongsTo
+    {
         return $this->belongsTo(EntryMode::class);
     }
 
-    public function travelReason(): BelongsTo {
+    public function travelReason(): BelongsTo
+    {
         return $this->belongsTo(TravelReason::class);
     }
 }

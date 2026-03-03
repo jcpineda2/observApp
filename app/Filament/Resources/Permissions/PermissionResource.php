@@ -22,10 +22,13 @@ class PermissionResource extends Resource
 
     use HasResourcePermissions;
 
+<<<<<<< HEAD
     public static function shouldRegisterNavigation(): bool
     {
         return Gate::allows('access-security-navigation');
     }
+=======
+>>>>>>> 35daae756bbc6bc4c07359cc03a8aef9240a4ca0
 
     protected static ?string $model = Permission::class;
 

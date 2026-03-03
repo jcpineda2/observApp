@@ -22,11 +22,14 @@ class RoleResource extends Resource
 
     protected static ?string $model = Role::class;
 
+<<<<<<< HEAD
 
     public static function shouldRegisterNavigation(): bool
     {
         return Gate::allows('access-security-navigation');
     }
+=======
+>>>>>>> 35daae756bbc6bc4c07359cc03a8aef9240a4ca0
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static string | UnitEnum | null $navigationGroup = 'Configuraciones';

@@ -24,7 +24,7 @@ class State extends Model
     }
 
     public function providers(): HasMany {
-        return $this->hasMany(TourismProvider::class);
+        return $this->hasMany(TourismProviderStat::class);
     }
 
     public function domesticTourisms(): HasMany {

@@ -24,8 +24,4 @@ class AirLine extends Model
         );
     }
 
-    public function flightRoutes(): HasMany
-    {
-        return $this->hasMany(FlightRoute::class, 'air_line_id');
-    }
 }

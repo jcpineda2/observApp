@@ -10,11 +10,11 @@ return new class extends Migration {
         Schema::create('tourism_provider_stats', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('year_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('month_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('year_id')->constrained()->restrictOnDelete();
+            $table->foreignId('month_id')->constrained()->restrictOnDelete();
 
-            $table->foreignId('service_sector_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('state_id')->constrained()->cascadeOnDelete(); // departamento
+            $table->foreignId('service_sector_id')->constrained()->restrictOnDelete();
+            $table->foreignId('state_id')->constrained()->restrictOnDelete(); // departamento
 
             $table->unsignedInteger('total_registered')->default(0);
             $table->unsignedInteger('registrations')->default(0);

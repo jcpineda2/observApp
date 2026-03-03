@@ -17,7 +17,7 @@ class YearFactory extends Factory
     public function definition(): array
     {
         return [
-            'year' => fake()->unique()->year(),
+            'year' => $this->faker->unique()->numberBetween(2018, 2026),
         ];
     }
 }

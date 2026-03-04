@@ -22,11 +22,11 @@
         <div
             class="relative w-full"
             style="height: 280px;"
-            x-data="observatorioChart(@j    s($cfg), '{{ $chartId }}')"
-            x-init="init()"
+            x-data="observatorioChart(@js($cfg), '{{ $chartId }}')"
+            x-init="init($refs.canvas)"
             wire:ignore
         >
-            <canvas id="{{ $chartId }}"></canvas>
+            <canvas x-ref="canvas" id="{{ $chartId }}"></canvas>
         </div>
     </div>
 </div>

@@ -55,7 +55,7 @@ class DomesticTourismByMonth extends Component
             $this->labels = [];
             $this->datasets = [];
             $this->subtitle = 'Seleccioná un año para ver la evolución mensual.';
-            $this->dispatchChartUpdate();
+            $this->dispatchUpdate();
             return;
         }
 
@@ -103,7 +103,7 @@ class DomesticTourismByMonth extends Component
             $this->subtitle = 'Filtro aplicado: Año';
         }
 
-        $this->dispatchChartUpdate();
+        $this->dispatchUpdate();
     }
 
     private function chartConfig(): array
@@ -132,7 +132,7 @@ class DomesticTourismByMonth extends Component
         ];
     }
 
-private function dispatchChartUpdate(): void
+private function dispatchUpdate(): void
 {
     $this->dispatch(
         'observatorio:chart:update',

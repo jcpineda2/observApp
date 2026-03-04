@@ -78,10 +78,16 @@
             <div class="space-y-4">
                 <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
                 <livewire:public-interface.kpis.inbound-tourism-kpis />
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.inbound-by-travel-reason />
+                    <livewire:public-interface.charts.inbound-by-entry-mode />
+                </div>
                 <div class="mt-4">
                     <livewire:public-interface.charts.inbound-tourism-by-month />
                     <livewire:public-interface.charts.inbound-top-countries />
-                    <livewire:public-interface.charts.inbound-by-travel-reason />
+                </div>
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.inbound-yo-y-arrivals-by-month />
                 </div>
             </div>
         </section>

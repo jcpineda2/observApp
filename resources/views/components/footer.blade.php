@@ -43,8 +43,7 @@
                     <h4 class="widget-title mb-3 text-white">Contactos</h4>
                     <ul class="list-unstyled mb-0">
                         <li><a href="https://www.google.com/maps/place/SENATUR/@-25.2813018,-57.6359808,15z/data=!4m6!3m5!1s0x945da7f3a879e107:0xf20820215a4c105a!8m2!3d-25.2813018!4d-57.6359808!16s%252Fg%252F12qg85kz4" target="blank" rel="noopener noreferrer"><b>Dirección:</b> Palma 468 e/ Alberdi y 14 de Mayo</a></li>
-                        <li><a href="tel:+59521494110"><b>Teléfono:</b> +595 21 494 110</a></li>
-                        <li><a href="mailto:registur@senatur.gov.py" rel="noopener noreferrer"><b>E-mail:</b> </a></li>
+                        <li><a href="mailto: rel="noopener noreferrer"><b>E-mail:</b> </a></li>
                     </ul>
                 </div>
             </div>

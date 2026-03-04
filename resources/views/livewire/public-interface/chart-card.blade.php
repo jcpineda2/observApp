@@ -44,7 +44,7 @@
         <div
             class="relative w-full"
             style="height: {{ $height }}px;"
-            x-data="registurChart(@js($chartConfig))"
+            x-data="observatorioChart(@js($chartConfig))"
             x-init="init($refs.canvas)"
             wire:ignore
         >

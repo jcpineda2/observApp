@@ -7,8 +7,7 @@
     <title>{{ $title ?? config('app.name') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Tipografía opcional (después la ajustamos a Registur si querés) --}}
-    {{-- <link rel="preconnect" href="https://fonts.googleapis.com"> --}}
+
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

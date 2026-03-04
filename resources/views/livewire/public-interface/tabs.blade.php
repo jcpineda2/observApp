@@ -53,16 +53,9 @@
                 <livewire:public-interface.sections.principal-all-kpis />
             </div>
         </section>
-
         {{-- TURISMO INTERNO --}}
         <section id="turismo-interno" @class([$activeTab !== 'turismo-interno' ? 'hidden' : ''])>
             <div class="space-y-4">
-                {{-- <div class="flex flex-wrap items-center justify-between gap-3">
-                    <h2 class="text-base font-semibold text-gray-900">Turismo interno</h2>
-                    <span class="text-xs text-gray-500">
-                        Segmentación: depto destino, región origen, mes, motivo :contentReference[oaicite:1]{index=1}
-                    </span>
-                </div> --}}
                 <livewire:public-interface.kpis.domestic-tourism-kpis />
                 <div class="mt-4 grid gap-4 lg:grid-cols-2">
                     <livewire:public-interface.charts.domestic-tourism-by-month />
@@ -79,26 +72,22 @@
                     <livewire:public-interface.charts.domestic-by-travel-reason />
                 </div>
             </div>
+        </section>
+        {{-- TURISMO RECEPTIVO --}}
+        <section id="turismo-receptivo" @class([$activeTab !== 'turismo-receptivo' ? 'hidden' : ''])>
+            <div class="space-y-4">
+                <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
+                <livewire:public-interface.kpis.inbound-tourism-kpis />
 
-    </div>
-    </section>
-
-    {{-- TURISMO RECEPTIVO --}}
-    <section id="turismo-receptivo" @class([$activeTab !== 'turismo-receptivo' ? 'hidden' : ''])>
-        <div class="space-y-4">
-            <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
-            <livewire:public-interface.kpis.inbound-tourism-kpis />
-
-            <div class="grid gap-4 lg:grid-cols-2">
+                <div class="grid gap-4 lg:grid-cols-2">
+                </div>
+                <div class="mt-4">
+                    <livewire:public-interface.charts.inbound-tourism-by-month />
+                    <livewire:public-interface.charts.inbound-top-countries />
+                    <livewire:public-interface.charts.inbound-by-travel-reason />
+                </div>
             </div>
-            <div class="mt-4">
-                <livewire:public-interface.charts.inbound-tourism-by-month />
-                <livewire:public-interface.charts.inbound-top-countries />
-                <livewire:public-interface.charts.inbound-by-travel-reason />
-            </div>
-        </div>
-    </section>
-
+        </section>
     {{-- PRESTADORES --}}
     <section id="prestadores" @class([$activeTab !== 'prestadores' ? 'hidden' : ''])>
         <div class="space-y-4">
@@ -189,5 +178,4 @@
             </div>
     </section>
 
-</div>
 </div>

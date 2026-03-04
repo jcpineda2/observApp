@@ -34,11 +34,7 @@ class ChartCard extends Component
 
     public function onFiltersUpdated($year, $month): void
     {
-        // Por ahora no recalculamos nada real, pero dejamos listo el patrón.
-        // Luego acá vas a consultar datos y actualizar $labels/$datasets.
 
-        // Opcional: podríamos emitir un update JS si cambias config:
-        // $this->dispatch('registur-chart-update', config: [...]);
     }
     public function render()
     {

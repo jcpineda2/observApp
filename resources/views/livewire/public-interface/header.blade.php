@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="leading-tight">
-                    <div class="text-sm font-semibold uppercase tracking-wide">REGISTUR</div>
+                    <div class="text-sm font-semibold uppercase tracking-wide">SENATUR</div>
                     <div class="text-[11px] text-white/80">Observatorio</div>
                 </div>
             </a>

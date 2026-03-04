@@ -4,7 +4,7 @@
         <div class="lg:col-span-7">
             <div class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-800">
                 <span class="h-2 w-2 rounded-full bg-blue-800"></span>
-                Observatorio Turístico - Registur
+                Observatorio Turístico - SENATUR
             </div>
 
             <h1 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">

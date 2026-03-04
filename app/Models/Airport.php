@@ -31,13 +31,13 @@ class Airport extends Model
     // Vuelos que SALEN de este aeropuerto
     public function departures(): HasMany
     {
-        return $this->hasMany(FlightRoute::class, 'origin_airport_id');
+        return $this->hasMany(AirConnectivityRoute::class, 'origin_airport_id');
     }
 
     // Vuelos que LLEGAN a este aeropuerto
     public function arrivals(): HasMany
     {
-        return $this->hasMany(FlightRoute::class, 'destination_airport_id');
+        return $this->hasMany(AirConnectivityRoute::class, 'destination_airport_id');
     }
 
     public function country(): BelongsTo

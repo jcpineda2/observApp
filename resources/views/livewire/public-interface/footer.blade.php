@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="leading-tight">
-                        <div class="text-sm font-semibold uppercase tracking-wide">REGISTUR</div>
+                        <div class="text-sm font-semibold uppercase tracking-wide">SENATUR</div>
                         <div class="text-xs text-slate-400">Observatorio</div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                 </p>
 
                 <p class="text-xs text-slate-500">
-                    © {{ now()->year }} Registur. Todos los derechos reservados.
+                    © {{ now()->year }} SENATUR. Todos los derechos reservados.
                 </p>
 
                 {{-- Redes (placeholders) --}}
@@ -83,7 +83,6 @@
                     </li>
                     <li>
                         <span class="text-slate-400">E-mail:</span>
-                        registur@senatur.gov.py
                     </li>
                 </ul>
             </div>

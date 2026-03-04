@@ -75,7 +75,7 @@ class PrincipalAllKpis extends Component
         $groups = [];
 
         // =========================
-        // PRINCIPALES (tipo Registur)
+        // PRINCIPALES (tipo Observatorio)
         // =========================
         $establishments = (int) Accommodation::query()->sum('establishments_count');
 

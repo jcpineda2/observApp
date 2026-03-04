@@ -10,8 +10,8 @@ use Livewire\Component;
 
 class DomesticTourismByMonth extends Component
 {
-    public ?int $year = null;   // year_id
-    public ?int $month = null;  // month_id
+    public ?int $year = null;
+    public ?int $month = null;
 
     public string $chartId;
 
@@ -32,7 +32,6 @@ class DomesticTourismByMonth extends Component
     {
         $this->chartId = 'chart_' . Str::random(10);
 
-        // Si no llega filtro, usamos el último año cargado
         if (! $this->year) {
             $this->year = Year::query()->orderByDesc('year')->value('id');
         }
@@ -45,7 +44,6 @@ class DomesticTourismByMonth extends Component
         $this->year = $year ?: null;
         $this->month = $month ?: null;
 
-        // Si el año queda null, no hay gráfico “por mes”
         $this->buildChart();
     }
 
@@ -59,27 +57,26 @@ class DomesticTourismByMonth extends Component
             return;
         }
 
-        // Meses ordenados 1..12
         $months = Month::query()
             ->orderBy('month_number')
             ->get(['id', 'month', 'month_number']);
 
-        // Totales por mes (suma de tourist_quantity)
         $totalsByMonth = DomesticTourism::query()
             ->where('year_id', $this->year)
-            ->when($this->month, fn($q) => $q->where('month_id', $this->month))
+            // ⚠️ Importante: si filtras por month_id, ya no es "por mes", es un solo punto.
+            // Lo dejamos porque vos lo querés así.
+            ->when($this->month, fn ($q) => $q->where('month_id', $this->month))
             ->selectRaw('month_id, SUM(tourist_quantity) as total')
             ->groupBy('month_id')
             ->pluck('total', 'month_id')
             ->toArray();
 
-        // Labels y data
         if ($this->month) {
             $selected = $months->firstWhere('id', $this->month);
             $this->labels = [$selected?->month ?? 'Mes'];
             $this->datasets = [[
                 'label' => 'Turistas internos',
-                'data' => [(int)($totalsByMonth[$this->month] ?? 0)],
+                'data' => [(int) ($totalsByMonth[$this->month] ?? 0)],
                 'borderWidth' => 2,
                 'tension' => 0.3,
             ]];
@@ -90,7 +87,7 @@ class DomesticTourismByMonth extends Component
             $data = [];
 
             foreach ($months as $m) {
-                $data[] = (int)($totalsByMonth[$m->id] ?? 0);
+                $data[] = (int) ($totalsByMonth[$m->id] ?? 0);
             }
 
             $this->datasets = [[
@@ -119,10 +116,7 @@ class DomesticTourismByMonth extends Component
                 'maintainAspectRatio' => false,
                 'animation' => false,
                 'plugins' => [
-                    'legend' => [
-                        'display' => true,
-                        'position' => 'bottom',
-                    ],
+                    'legend' => ['display' => true, 'position' => 'bottom'],
                 ],
                 'scales' => [
                     'x' => ['grid' => ['display' => false]],
@@ -132,15 +126,10 @@ class DomesticTourismByMonth extends Component
         ];
     }
 
-private function dispatchUpdate(): void
-{
-    $this->dispatch(
-        'observatorio:chart:update',
-        chartId: $this->chartId,
-        config: $this->chartConfig()
-
-    );
-}
+    private function dispatchUpdate(): void
+    {
+        $this->dispatch('observatorio:chart:update', chartId: $this->chartId, config: $this->chartConfig());
+    }
 
     public function render()
     {

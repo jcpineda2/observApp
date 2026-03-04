@@ -50,13 +50,7 @@
         {{-- PRINCIPAL --}}
         <section id="principal" @class([$activeTab !== 'principal' ? 'hidden' : ''])>
             <div class="space-y-4">
-                <div class="rounded-xl bg-gray-50 p-4 ring-1 ring-gray-200">
-                    <h2 class="text-base font-semibold text-gray-900">Bienvenida</h2>
-                    <p class="mt-1 text-sm text-gray-600">
-                        Presentación institucional, explicación general y accesos a tableros (placeholder).
-                    </p>
-                </div>
-
+                <livewire:public-interface.sections.principal-all-kpis />
             </div>
         </section>
 
@@ -184,15 +178,15 @@
             <div class="mt-4">
                 <livewire:public-interface.tables.top-air-routes />
 
-            {{-- Toggle arriba para controlar todos los TOP --}}
-            <livewire:public-interface.controls.air-metric-toggle />
+                {{-- Toggle arriba para controlar todos los TOP --}}
+                <livewire:public-interface.controls.air-metric-toggle />
 
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.top-airports-by-metric role="origin" />
-                <livewire:public-interface.charts.top-airports-by-metric role="destination" />
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.top-airports-by-metric role="origin" />
+                    <livewire:public-interface.charts.top-airports-by-metric role="destination" />
+                </div>
+                <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
             </div>
-            <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
-        </div>
     </section>
 
 </div>

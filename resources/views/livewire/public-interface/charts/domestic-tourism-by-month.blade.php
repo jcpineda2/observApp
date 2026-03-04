@@ -22,7 +22,7 @@
         <div
             class="relative w-full"
             style="height: 280px;"
-            x-data="observatorioChart(@js($cfg), '{{ $chartId }}')"
+            x-data="observatorioChart(@j    s($cfg), '{{ $chartId }}')"
             x-init="init()"
             wire:ignore
         >

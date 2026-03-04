@@ -35,7 +35,7 @@ export function observatorioChart(config, chartId) {
     init(canvasMaybe) {
       const canvas = this.resolveCanvas(canvasMaybe);
 
-      // 🔥 Si no existe aún, reintenta (esto arregla el tab receptivo)
+      // Si no existe aún, reintenta (esto arregla el tab receptivo)
       if (!canvas) {
         requestAnimationFrame(() => this.init(canvasMaybe));
         return;
@@ -55,7 +55,7 @@ export function observatorioChart(config, chartId) {
       });
       observer.observe(document.body, { childList: true, subtree: true });
 
-      // ✅ listener único por instancia
+      // listener único por instancia
       this._handler = (e) => {
         const { chartId: targetId, config: nextCfg } = e.detail || {};
         if (!nextCfg) return;
@@ -76,131 +76,6 @@ export function observatorioChart(config, chartId) {
 
 window.observatorioChart = observatorioChart;
 
-// // ✅ Mapa por departamentos (Leaflet + GeoJSON local)
-// window.observatorioDepartmentMap = function ({ mapId, geojsonUrl }) {
-//   let map = null;
-//   let layer = null;
-//   let geojson = null;
-//   let valuesByDept = {}; // {"Central": 123, ...}
-
-//   // intenta encontrar una key de nombre de depto dentro de feature.properties
-//   function resolveDeptName(props) {
-//     if (!props) return null;
-
-//     const preferredKeys = [
-//       'name', 'NAME', 'Name',
-//       'department', 'Departamento', 'departamento',
-//       'NOMBRE', 'NOMBRE_DPT',
-//       'DPTO', 'Dpto',
-//       'ADM1_ES', 'ADM1', 'NAME_1'
-//     ];
-
-//     for (const k of preferredKeys) {
-//       if (props[k]) return String(props[k]).trim();
-//     }
-
-//     // fallback: primera propiedad string “razonable”
-//     for (const [k, v] of Object.entries(props)) {
-//       if (typeof v === 'string' && v.length >= 3 && v.length <= 40) return v.trim();
-//     }
-//     return null;
-//   }
-
-//   function valueForFeature(feature) {
-//     const deptName = resolveDeptName(feature?.properties);
-//     if (!deptName) return 0;
-//     return Number(valuesByDept[deptName] ?? 0);
-//   }
-
-//   function colorFor(value, max) {
-//     // escala simple: más valor => más oscuro
-//     if (!max || max <= 0) return 'rgba(30, 64, 175, 0.08)'; // azul suave
-//     const t = Math.min(1, value / max);
-//     const alpha = 0.10 + 0.45 * t; // 0.10..0.55
-//     return `rgba(30, 64, 175, ${alpha})`;
-//   }
-
-//   function style(feature) {
-//     const max = Math.max(0, ...Object.values(valuesByDept).map(Number));
-//     const v = valueForFeature(feature);
-
-//     return {
-//       weight: 1,
-//       color: 'rgba(17, 24, 39, 0.35)',
-//       fillColor: colorFor(v, max),
-//       fillOpacity: 1,
-//     };
-//   }
-
-//   function onEachFeature(feature, layer) {
-//     const deptName = resolveDeptName(feature?.properties) ?? 'Departamento';
-//     const v = valueForFeature(feature);
-
-//     layer.on({
-//       mouseover: (e) => {
-//         e.target.setStyle({ weight: 2, color: 'rgba(17,24,39,0.7)' });
-//       },
-//       mouseout: (e) => {
-//         layer.resetStyle(e.target);
-//       },
-//     });
-
-//     layer.bindTooltip(`${deptName}: ${v}`, { sticky: true });
-//   }
-
-//   async function loadGeojsonOnce() {
-//     if (geojson) return geojson;
-//     const res = await fetch(geojsonUrl, { cache: 'force-cache' });
-//     geojson = await res.json();
-//     return geojson;
-//   }
-
-//   async function renderLayer() {
-//     const gj = await loadGeojsonOnce();
-
-//     if (layer) layer.remove();
-//     layer = window.L.geoJSON(gj, { style, onEachFeature });
-//     layer.addTo(map);
-
-//     // ajustar vista a Paraguay
-//     try {
-//       map.fitBounds(layer.getBounds(), { padding: [10, 10] });
-//     } catch (_) {}
-//   }
-
-//   function listenUpdates() {
-//     window.addEventListener('observatorio:map:update', (event) => {
-//       const payload = event.detail || {};
-//       if (payload.mapId !== mapId) return;
-
-//       valuesByDept = payload.data || {};
-//       if (map) renderLayer();
-//     });
-//   }
-
-//   return {
-//     async init() {
-//       if (!window.L) {
-//         console.error('Leaflet no está disponible. Verifica import en app.js');
-//         return;
-//       }
-
-//       map = window.L.map(this.$el, {
-//         zoomControl: true,
-//         attributionControl: false,
-//       });
-
-//       // Fondo liso (sin tiles externos)
-//       this.$el.style.background = '#f8fafc';
-
-//       // Vista inicial (aprox); luego fitBounds
-//       map.setView([-23.4, -58.3], 6);
-
-//       await renderLayer();
-//       listenUpdates();
-//     },
-//   };
-// };
 
 window.observatorioDepartmentMap = function ({ mapId, geojsonUrl }) {
   let map = null;
@@ -362,36 +237,6 @@ window.observatorioDepartmentMap = function ({ mapId, geojsonUrl }) {
   };
 };
 
-// ✅ Ranking lateral (Top 10 + Otros) para el mapa
-// window.observatorioDeptRanking = function (mapId) {
-//   return {
-//     ranking: [],
-//     maxValue: 0,
-
-//     format(n) {
-//       const v = Number(n || 0);
-//       return v.toLocaleString('es-PY');
-//     },
-
-//     pct(n) {
-//       const v = Number(n || 0);
-//       if (!this.maxValue) return 0;
-//       return Math.round((v / this.maxValue) * 100);
-//     },
-
-//     init() {
-//       const handler = (event) => {
-//         const payload = event.detail || {};
-//         if (payload.mapId !== mapId) return;
-
-//         this.ranking = payload.ranking || [];
-//         this.maxValue = Math.max(0, ...this.ranking.map(i => Number(i.value || 0)));
-//       };
-
-//       window.addEventListener('observatorio:map:ranking', handler);
-//     },
-//   };
-// };
 window.observatorioDeptRanking = function (mapId) {
     return {
         ranking: [], // Estructura esperada: [{ name: 'Central', value: 1500 }, ...]

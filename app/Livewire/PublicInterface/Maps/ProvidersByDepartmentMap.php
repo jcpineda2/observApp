@@ -43,7 +43,7 @@ class ProvidersByDepartmentMap extends Component
             return;
         }
 
-        // ✅ stock por departamento (MAX para evitar inflar)
+        //  stock por departamento (MAX para evitar inflar)
         $rows = TourismProviderStat::query()
             ->where('tourism_provider_stats.year_id', $this->year)
             ->when($this->month, fn($q) => $q->where('tourism_provider_stats.month_id', $this->month))
@@ -70,10 +70,10 @@ class ProvidersByDepartmentMap extends Component
         $ranking = $top;
         $ranking[] = ['label' => 'Otros', 'value' => $others];
 
-        // 🔥 1) actualizar mapa
+        // actualizar mapa
         $this->dispatch('observatorio:map:update', mapId: $this->mapId, data: $dataByDept);
 
-        // 🔥 2) actualizar ranking lateral
+        // actualizar ranking lateral
         $this->dispatch('observatorio:map:ranking', mapId: $this->mapId, ranking: $ranking);
     }
     public function render()

@@ -78,9 +78,6 @@
             <div class="space-y-4">
                 <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
                 <livewire:public-interface.kpis.inbound-tourism-kpis />
-
-                <div class="grid gap-4 lg:grid-cols-2">
-                </div>
                 <div class="mt-4">
                     <livewire:public-interface.charts.inbound-tourism-by-month />
                     <livewire:public-interface.charts.inbound-top-countries />
@@ -88,94 +85,92 @@
                 </div>
             </div>
         </section>
-    {{-- PRESTADORES --}}
-    <section id="prestadores" @class([$activeTab !== 'prestadores' ? 'hidden' : ''])>
-        <div class="space-y-4">
-            <h2 class="text-base font-semibold text-gray-900">Prestadores de servicios turísticos</h2>
-            <livewire:public-interface.kpis.tourism-providers-kpis />
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.providers-registrations-cancellations-by-month />
-                <livewire:public-interface.charts.providers-yo-y-stock-by-month />
-            </div>
-            <div class="mt-4">
-                <livewire:public-interface.charts.providers-formalization-by-month />
-                <livewire:public-interface.charts.providers-by-service-sector />
-            </div>
+        {{-- PRESTADORES --}}
+        <section id="prestadores" @class([$activeTab !== 'prestadores' ? 'hidden' : ''])>
+            <div class="space-y-4">
+                <h2 class="text-base font-semibold text-gray-900">Prestadores de servicios turísticos</h2>
+                <livewire:public-interface.kpis.tourism-providers-kpis />
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.providers-registrations-cancellations-by-month />
+                    <livewire:public-interface.charts.providers-yo-y-stock-by-month />
+                </div>
+                <div class="mt-4">
+                    <livewire:public-interface.charts.providers-formalization-by-month />
+                    <livewire:public-interface.charts.providers-by-service-sector />
+                </div>
 
-            <div class="mt-4">
-                <livewire:public-interface.maps.providers-by-department-map />
+                <div class="mt-4">
+                    <livewire:public-interface.maps.providers-by-department-map />
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    {{-- ALOJAMIENTOS --}}
-    <section id="alojamientos" @class([$activeTab !== 'alojamientos' ? 'hidden' : ''])>
-        <div class="space-y-4">
-            <h2 class="text-base font-semibold text-gray-900">Alojamientos turísticos</h2>
-            <livewire:public-interface.kpis.accommodation-kpis />
-            <livewire:public-interface.kpis.accommodation-capacity-kpis />
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.accommodation-installed-capacity-by-month />
-                <livewire:public-interface.charts.accommodation-occupancy-by-month />
-                <livewire:public-interface.charts.accommodation-by-category />
-            </div>
-
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.accommodation-occupancy-yo-y-by-month />
-                <livewire:public-interface.charts.accommodation-season-vs-occupancy />
-            </div>
-
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.accommodation-installed-capacity-by-month />
-                <livewire:public-interface.charts.accommodation-available-rooms-by-month />
-            </div>
-            <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
-        </div>
-    </section>
-
-    {{-- EMPLEO --}}
-    <section id="empleo" @class([$activeTab !== 'empleo' ? 'hidden' : ''])>
-        <div class="space-y-4">
-            <h2 class="text-base font-semibold text-gray-900">Empleo turístico</h2>
-            <livewire:public-interface.kpis.tourism-employment-kpis />
-
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.employment-by-service-sector />
-                <livewire:public-interface.charts.employment-trend />
-            </div>
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.employment-yo-y-trend />
-                <livewire:public-interface.charts.employment-by-gender />
-            </div>
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.employment-by-age />
-                <livewire:public-interface.charts.employment-gender-by-service-sector />
-            </div>
-
-        </div>
-    </section>
-
-    {{-- CONECTIVIDAD --}}
-    <section id="conectividad" @class([$activeTab !== 'conectividad' ? 'hidden' : ''])>
-        <div class="space-y-4">
-            <livewire:public-interface.kpis.air-connectivity-kpis />
-
-            <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                <livewire:public-interface.charts.air-connectivity-flights-seats-by-month />
-                <livewire:public-interface.charts.top-airlines-by-seats />
-            </div>
-            <div class="mt-4">
-                <livewire:public-interface.tables.top-air-routes />
-
-                {{-- Toggle arriba para controlar todos los TOP --}}
-                <livewire:public-interface.controls.air-metric-toggle />
+        {{-- ALOJAMIENTOS --}}
+        <section id="alojamientos" @class([$activeTab !== 'alojamientos' ? 'hidden' : ''])>
+            <div class="space-y-4">
+                <h2 class="text-base font-semibold text-gray-900">Alojamientos turísticos</h2>
+                <livewire:public-interface.kpis.accommodation-kpis />
+                <livewire:public-interface.kpis.accommodation-capacity-kpis />
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.accommodation-occupancy-by-month />
+                    <livewire:public-interface.charts.accommodation-by-category />
+                </div>
 
                 <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                    <livewire:public-interface.charts.top-airports-by-metric role="origin" />
-                    <livewire:public-interface.charts.top-airports-by-metric role="destination" />
+                    <livewire:public-interface.charts.accommodation-occupancy-yo-y-by-month />
+                    <livewire:public-interface.charts.accommodation-season-vs-occupancy />
                 </div>
-                <div class="h-64 rounded-xl bg-gray-50 ring-1 ring-gray-200"></div>
-            </div>
-    </section>
 
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.accommodation-installed-capacity-by-month />
+                    <livewire:public-interface.charts.accommodation-available-rooms-by-month />
+                </div>
+
+            </div>
+        </section>
+
+        {{-- EMPLEO --}}
+        <section id="empleo" @class([$activeTab !== 'empleo' ? 'hidden' : ''])>
+            <div class="space-y-4">
+                <h2 class="text-base font-semibold text-gray-900">Empleo turístico</h2>
+                <livewire:public-interface.kpis.tourism-employment-kpis />
+
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.employment-by-service-sector />
+                    <livewire:public-interface.charts.employment-trend />
+                </div>
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.employment-yo-y-trend />
+                    <livewire:public-interface.charts.employment-by-gender />
+                </div>
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.employment-by-age />
+                    <livewire:public-interface.charts.employment-gender-by-service-sector />
+                </div>
+
+            </div>
+        </section>
+
+        {{-- CONECTIVIDAD --}}
+        <section id="conectividad" @class([$activeTab !== 'conectividad' ? 'hidden' : ''])>
+            <div class="space-y-4">
+                <livewire:public-interface.kpis.air-connectivity-kpis />
+
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <livewire:public-interface.charts.air-connectivity-flights-seats-by-month />
+                    <livewire:public-interface.charts.top-airlines-by-seats />
+                </div>
+                <div class="mt-4">
+                    <livewire:public-interface.tables.top-air-routes />
+
+                    {{-- Toggle arriba para controlar todos los TOP --}}
+                    <livewire:public-interface.controls.air-metric-toggle />
+
+                    <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                        <livewire:public-interface.charts.top-airports-by-metric role="origin" />
+                        <livewire:public-interface.charts.top-airports-by-metric role="destination" />
+                    </div>
+                </div>
+        </section>
+    </div>
 </div>

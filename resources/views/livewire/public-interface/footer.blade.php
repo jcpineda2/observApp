@@ -54,7 +54,7 @@
             </div>
 
             {{-- Información --}}
-            <div>
+            {{-- <div>
                 <h3 class="text-sm font-semibold text-white">Información</h3>
                 <ul class="mt-4 space-y-2 text-sm">
                     <li><a href="#" class="text-slate-300 hover:text-white">Términos y Condiciones</a></li>
@@ -67,10 +67,10 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
 
             {{-- Contactos --}}
-            <div>
+            <div class="">
                 <h3 class="text-sm font-semibold text-white">Contactos</h3>
                 <ul class="mt-4 space-y-2 text-sm text-slate-300">
                     <li>

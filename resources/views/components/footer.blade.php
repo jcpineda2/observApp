@@ -27,14 +27,14 @@
             <!-- /column -->
             <div class="col-md-2 col-lg-3 offset-lg-1">
                 <div class="widget">
-                    <h4 class="widget-title mb-3 text-white">Información</h4>
+                    {{-- <h4 class="widget-title mb-3 text-white">Información</h4>
                     <ul class="list-unstyled mb-0">
                         <li><a href="{{ route('terminos') }}">Términos y Condiciones</a></li>
                         <li><a href="https://senatur.gov.py/atencion-ciudadana/">Reclamos</a></li>
                         <li><a href="{{ route('ayuda') }}">Ayuda</a></li>
                         <li><a href="{{ route('filament.portal.auth.login') }}" target="_blank">Acceso al Portal
                                 Administrador</a></li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </div>
             <!-- /column -->

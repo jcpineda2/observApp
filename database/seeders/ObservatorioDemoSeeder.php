@@ -53,23 +53,15 @@ class ObservatorioDemoSeeder extends Seeder
             }
         }
 
-        EntryMode::query()->count() ?: EntryMode::factory()->count(6)->create();
-        TravelReason::query()->count() ?: TravelReason::factory()->count(8)->create();
-        ServiceSector::query()->count() ?: ServiceSector::factory()->count(10)->create();
-        AccommodationCategory::query()->count() ?: AccommodationCategory::factory()->count(6)->create();
+        EntryMode::query()->count();
+        TravelReason::query()->count();
+        ServiceSector::query()->count();
+        AccommodationCategory::query()->count();
         AirLine::query()->count() ?: AirLine::factory()->count(6)->create();
 
-        // 2) Geografía (asumimos que Countries/States ya vienen de tu seeder oficial)
         $countries = Country::query()->inRandomOrder()->limit(15)->get();
-        $states = State::query()->inRandomOrder()->limit(10)->get();
-
-        // Si por alguna razón no hay datos, creá mínimo
-        // if ($countries->count() === 0) {
-        //     $countries = Country::factory()->count(10)->create();
-        // }
-        // if ($states->count() === 0) {
-        //     $states = State::factory()->count(10)->create();
-        // }
+        $states = State::query()->with(['country' => function ($query) {
+             $query->where('name', 'like', '%paraguay%');}])->get();
 
         // 3) Airports (necesita countries + cities)
         if (Airport::query()->count() < 8) {

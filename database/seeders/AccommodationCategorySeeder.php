@@ -13,19 +13,19 @@ class AccommodationCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('travel_reasons')->insert([
+        DB::table('accommodation_categories')->insert([
             'category' => 'Hoteles',
         ]);
-        DB::table('travel_reasons')->insert([
+        DB::table('accommodation_categories')->insert([
             'category' => 'Hostales',
         ]);
-        DB::table('travel_reasons')->insert([
+        DB::table('accommodation_categories')->insert([
             'category' => 'Posadas',
         ]);
-        DB::table('travel_reasons')->insert([
+        DB::table('accommodation_categories')->insert([
             'category' => 'Apart-hoteles',
         ]);
-        DB::table('travel_reasons')->insert([
+        DB::table('accommodation_categories')->insert([
             'category' => 'Lodges',
         ]);
     }

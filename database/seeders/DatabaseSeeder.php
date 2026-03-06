@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             YearSeeder::class,
             MonthSeeder::class,
             EntryModeSeeder::class,
+            AirLineSeeder::class,
             TravelReasonSeeder::class,
             ServiceSectorSeeder::class,
             AccommodationCategorySeeder::class,

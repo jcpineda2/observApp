@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('country_id')->constrained()->cascadeOnDelete();
             $table->foreignId('city_id')->constrained()->cascadeOnDelete();
-            $table->string('type', 50)->nullable();
-            $table->index('type');
+            $table->string('scope')->nullable();
+            $table->boolean('is_operational')->default(true);
+            $table->index('scope');
+            $table->index('is_operational');
             $table->timestamps();
         });
     }

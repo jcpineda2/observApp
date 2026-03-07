@@ -29,29 +29,6 @@ class ObservatorioDemoSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1) Catálogos base (si ya tenés seeders oficiales, llamalos desde DatabaseSeeder)
-        Year::query()->count() ?: Year::factory()->count(7)->create(); // 2018..2026 por ejemplo
-
-        // Months: ideal semillado fijo por MonthSeeder (1..12). Si no existe, lo creamos mínimo.
-        if (Month::query()->count() === 0) {
-            $months = [
-                ['month' => 'Enero', 'month_number' => 1],
-                ['month' => 'Febrero', 'month_number' => 2],
-                ['month' => 'Marzo', 'month_number' => 3],
-                ['month' => 'Abril', 'month_number' => 4],
-                ['month' => 'Mayo', 'month_number' => 5],
-                ['month' => 'Junio', 'month_number' => 6],
-                ['month' => 'Julio', 'month_number' => 7],
-                ['month' => 'Agosto', 'month_number' => 8],
-                ['month' => 'Septiembre', 'month_number' => 9],
-                ['month' => 'Octubre', 'month_number' => 10],
-                ['month' => 'Noviembre', 'month_number' => 11],
-                ['month' => 'Diciembre', 'month_number' => 12],
-            ];
-            foreach ($months as $m) {
-                Month::updateOrCreate(['month_number' => $m['month_number']], ['month' => $m['month']]);
-            }
-        }
 
         EntryMode::query()->count();
         TravelReason::query()->count();

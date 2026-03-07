@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\EntryMode;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class EntryModeSeeder extends Seeder
 {
@@ -13,19 +13,19 @@ class EntryModeSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('entry_modes')->insert([
+        EntryMode::create([
             'description' => "Aérea",
         ]);
 
-        DB::table('entry_modes')->insert([
+        EntryMode::create([
             'description' => "Terrestre",
         ]);
 
-        DB::table('entry_modes')->insert([
+        EntryMode::create([
             'description' => "Fluvial",
         ]);
 
-        DB::table('entry_modes')->insert([
+        EntryMode::create([
             'description' => "Marítimo",
         ]);
     }

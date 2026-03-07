@@ -17,15 +17,16 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RolesAndPermissionsSeeder::class,
+            CountrySeeder::class,
             UserSeeder::class,
             YearSeeder::class,
             MonthSeeder::class,
             EntryModeSeeder::class,
             AirLineSeeder::class,
+            AirportSeeder::class,
             TravelReasonSeeder::class,
             ServiceSectorSeeder::class,
             AccommodationCategorySeeder::class,
-            CountrySeeder::class,
             ObservatorioDemoSeeder::class
         ]);
 

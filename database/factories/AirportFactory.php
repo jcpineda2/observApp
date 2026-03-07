@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Scope;
 use App\Models\City;
 use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +26,8 @@ class AirportFactory extends Factory
             'name' => 'Aeropuerto ' . $this->faker->unique()->city(),
             'country_id' => $country->id,
             'city_id' => $city->id,
-            'type' => $this->faker->randomElement(['Internacional', 'Nacional']),
+            'scope' => $this->faker->randomElement(Scope::cases()),
+            'is_operational' => $this->faker->boolean(85),
         ];
     }
 }

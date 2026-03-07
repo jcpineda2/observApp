@@ -53,6 +53,15 @@ class AirportResource extends Resource
         ];
     }
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if ($data['estado'] === 'aprobado') {
+            $data['puntuacion'] = 100;
+        }
+
+        return $data;
+    }
+
     public static function getPages(): array
     {
         return [

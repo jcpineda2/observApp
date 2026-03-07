@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Airports\Schemas;
 
+use App\Enums\Scope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
@@ -38,6 +40,13 @@ class AirportForm
                     ->preload()
                     ->disabled(fn(Get $get): bool => empty($get('country_id')))
                     ->required(),
+                Select::make('scope')
+                    ->options(Scope::class)
+                    ->label('Tipo')
+                    ->visibleOn('edit'),
+                Toggle::make('is_operational')
+                    ->label('Operativo')
+                    ->visibleOn('edit'),
             ]);
     }
 }

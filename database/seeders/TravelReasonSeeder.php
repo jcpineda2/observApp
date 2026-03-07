@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\TravelReason;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TravelReasonSeeder extends Seeder
 {
@@ -13,20 +13,20 @@ class TravelReasonSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('travel_reasons')->insert([
+        TravelReason::create([
             'description' => 'Ocio',
         ]);
 
-        DB::table('travel_reasons')->insert([
+        TravelReason::create([
             'description' => 'Negocios',
         ]);
-        DB::table('travel_reasons')->insert([
+        TravelReason::create([
             'description' => 'Visitas familiares',
         ]);
-        DB::table('travel_reasons')->insert([
+        TravelReason::create([
             'description' => 'Vacaciones',
         ]);
-        DB::table('travel_reasons')->insert([
+        TravelReason::create([
             'description' => 'Deportes',
         ]);
     }

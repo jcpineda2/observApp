@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use App\Enums\Scope;
 
 class Airport extends Model
 {
@@ -18,8 +19,16 @@ class Airport extends Model
         'name',
         'type',
         'country_id',
-        'city_id'
+        'city_id',
+        'scope',
+        'is_operational'
     ];
+
+    protected $casts = [
+        'is_operational' => 'boolean',
+        'scope' => Scope::class,
+    ];
+
 
     protected function name(): Attribute
     {

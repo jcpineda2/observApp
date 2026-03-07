@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\AccommodationCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class AccommodationCategorySeeder extends Seeder
 {
@@ -13,20 +13,20 @@ class AccommodationCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('accommodation_categories')->insert([
+        AccommodationCategory::create([
             'category' => 'Hoteles',
         ]);
-        DB::table('accommodation_categories')->insert([
-            'category' => 'Hostales',
-        ]);
-        DB::table('accommodation_categories')->insert([
+        AccommodationCategory::create([
             'category' => 'Posadas',
         ]);
-        DB::table('accommodation_categories')->insert([
+        AccommodationCategory::create([
             'category' => 'Apart-hoteles',
         ]);
-        DB::table('accommodation_categories')->insert([
+        AccommodationCategory::create([
             'category' => 'Lodges',
+        ]);
+        AccommodationCategory::create([
+            'category' => 'Hostales',
         ]);
     }
 }

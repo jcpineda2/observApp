@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\ServiceSector;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ServiceSectorSeeder extends Seeder
 {
@@ -13,16 +13,16 @@ class ServiceSectorSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('service_sectors')->insert([
+        ServiceSector::create([
             'description' => "Alojamientos",
         ]);
-        DB::table('service_sectors')->insert([
+        ServiceSector::create([
             'description' => "Agencias de viajes",
         ]);
-        DB::table('service_sectors')->insert([
+        ServiceSector::create([
             'description' => "Operadores mayoristas",
         ]);
-        DB::table('service_sectors')->insert([
+        ServiceSector::create([
             'description' => "ETC",
         ]);
     }

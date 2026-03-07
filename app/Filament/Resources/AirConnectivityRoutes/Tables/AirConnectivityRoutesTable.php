@@ -46,9 +46,9 @@ class AirConnectivityRoutesTable
                 TextColumn::make('seats_count')->label('Asientos')->numeric()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('year_id')->label('Año')->relationship('year', 'year'),
-                SelectFilter::make('month_id')->label('Mes')->relationship('month', 'month'),
-                SelectFilter::make('air_line_id')->label('Aerolínea')->relationship('airLine', 'name'),
+                SelectFilter::make('year_id')->label('Año')->relationship('year', 'year')->preload(),
+                SelectFilter::make('month_id')->label('Mes')->relationship('month', 'month')->preload(),
+                SelectFilter::make('air_line_id')->label('Aerolínea')->relationship('airLine', 'name')->preload(),
 
                 // País destino
                 SelectFilter::make('dest_country_id')
@@ -61,7 +61,7 @@ class AirConnectivityRoutesTable
 
                         return $query->whereHas('destinationAirport.country', fn ($q) => $q->where('id', $data['value']));
                     })
-                    ->searchable(),
+                    ->searchable()->preload(),
 
                 // Ciudad destino
                 SelectFilter::make('dest_city_id')
@@ -74,7 +74,7 @@ class AirConnectivityRoutesTable
 
                         return $query->whereHas('destinationAirport.city', fn ($q) => $q->where('id', $data['value']));
                     })
-                    ->searchable(),
+                    ->searchable()->preload(),
 
                 TernaryFilter::make('is_active')->label('Activa'),
             ])

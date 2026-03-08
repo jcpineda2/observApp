@@ -28,7 +28,7 @@ return new class extends Migration {
             // Evita duplicados por período + ruta + aerolínea
             $table->unique(
                 ['year_id', 'month_id', 'air_line_id', 'origin_airport_id', 'destination_airport_id'],
-                'acr_unique_period_airline_route'
+                'air_connectivity_routes_unique'
             );
 
             // índices para dashboards

@@ -6,6 +6,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
@@ -21,9 +22,10 @@ class AirConnectivityRouteForm
                     Select::make('year_id')
                         ->label('Año')
                         ->relationship(
-                            name:'year',
+                            name: 'year',
                             titleAttribute: 'year',
-                            modifyQueryUsing: fn(Builder $query)=> $query->orderBy('year', 'desc'))
+                            modifyQueryUsing: fn(Builder $query) => $query->orderBy('year', 'desc')
+                        )
                         ->preload()
                         ->searchable()
                         ->required(),
@@ -31,9 +33,10 @@ class AirConnectivityRouteForm
                     Select::make('month_id')
                         ->label('Mes')
                         ->relationship(
-                            name:'month',
-                            titleAttribute:'month',
-                            modifyQueryUsing: fn(Builder $query)=> $query->orderBy('month_number','asc'))
+                            name: 'month',
+                            titleAttribute: 'month',
+                            modifyQueryUsing: fn(Builder $query) => $query->orderBy('month_number', 'asc')
+                        )
                         ->preload()
                         ->searchable()
                         ->required(),
@@ -63,16 +66,40 @@ class AirConnectivityRouteForm
                         ->searchable()
                         ->required()
                         // Validación anti-duplicado por período + aerolínea + ruta
-                        ->rules([
-                            fn ($get, $record) => Rule::unique('air_connectivity_routes', 'destination_airport_id')
-                                ->where(fn ($q) => $q
-                                    ->where('year_id', $get('year_id'))
-                                    ->where('month_id', $get('month_id'))
-                                    ->where('air_line_id', $get('air_line_id'))
-                                    ->where('origin_airport_id', $get('origin_airport_id'))
-                                )
-                                ->ignore($record?->id),
+                        ->rules(function (Get $get, $record) {
+                            if (
+                                ! $get('year_id') ||
+                                ! $get('month_id') ||
+                                ! $get('air_line_id') ||
+                                ! $get('origin_airport_id') ||
+                                ! $get('destination_airport_id')
+                            ) {
+                                return [];
+                            }
+
+                            $rule = Rule::unique('air_connectivity_routes', 'destination_airport_id')
+                                ->where(
+                                    fn($query) => $query
+                                        ->where('year_id', $get('year_id'))
+                                        ->where('month_id', $get('month_id'))
+                                        ->where('air_line_id', $get('air_line_id'))
+                                        ->where('origin_airport_id', $get('origin_airport_id'))
+                                );
+
+                            if ($record) {
+                                $rule->ignore($record->getKey());
+                            }
+
+                            return [$rule];
+                        })
+                        ->validationMessages([
+                            'unique' => 'Ya existe una ruta registrada para el Año, Mes, Aerolínea, Origen y Destino seleccionados.',
+                        ])
+                        ->different('origin_airport_id')
+                        ->validationMessages([
+                            'different' => 'El aeropuerto destino debe ser diferente al aeropuerto origen.',
                         ]),
+
                 ]),
 
             Section::make('Estado y métricas (opcional)')
@@ -85,12 +112,14 @@ class AirConnectivityRouteForm
                     TextInput::make('flights_count')
                         ->label('Cantidad de vuelos (opcional)')
                         ->numeric()
-                        ->minValue(0),
+                        ->minValue(0)
+                        ->required(),
 
                     TextInput::make('seats_count')
-                        ->label('Asientos (opcional)')
+                        ->label('Cantidad de asientos')
                         ->numeric()
-                        ->minValue(0),
+                        ->minValue(0)
+                        ->required(),
                 ]),
         ]);
     }

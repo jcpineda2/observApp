@@ -18,6 +18,7 @@ class AirLineFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
+            'is_active' => true,
         ];
     }
 }

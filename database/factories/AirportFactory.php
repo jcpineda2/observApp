@@ -19,15 +19,16 @@ class AirportFactory extends Factory
      */
     public function definition(): array
     {
-        $country = Country::inRandomOrder()->first();
-        $city = City::where('country_id', $country?->id)->inRandomOrder()->first()
-            ?? City::inRandomOrder()->first();
+
         return [
-            'name' => 'Aeropuerto ' . $this->faker->unique()->city(),
-            'country_id' => $country->id,
-            'city_id' => $city->id,
-            'scope' => $this->faker->randomElement(Scope::cases()),
-            'is_operational' => $this->faker->boolean(85),
+            'name' => fake()->unique()->company() . ' Airport',
+            'country_id' => Country::query()->inRandomOrder()->value('id') ?? Country::factory(),
+            'city_id' => City::query()->inRandomOrder()->value('id'),
+            'scope' => fake()->randomElement([
+                Scope::NATIONAL,
+                Scope::INTERNATIONAL,
+            ]),
+            'is_operational' => true,
         ];
     }
 }

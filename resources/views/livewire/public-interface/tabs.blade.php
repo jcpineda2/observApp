@@ -88,25 +88,7 @@
 
         @if ($activeTab === 'conectividad')
             <section id="conectividad">
-                <div class="space-y-4">
-                    <livewire:public-interface.kpis.air-connectivity-kpis />
-
-                    <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                        <livewire:public-interface.charts.air-connectivity-flights-seats-by-month />
-                        <livewire:public-interface.charts.top-airlines-by-seats />
-                    </div>
-
-                    <div class="mt-4">
-                        <livewire:public-interface.tables.top-air-routes />
-
-                        <livewire:public-interface.controls.air-metric-toggle />
-
-                        <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                            <livewire:public-interface.charts.top-airports-by-metric role="origin" />
-                            <livewire:public-interface.charts.top-airports-by-metric role="destination" />
-                        </div>
-                    </div>
-                </div>
+                <livewire:public-interface.tabs.connectivity-tab />
             </section>
         @endif
 

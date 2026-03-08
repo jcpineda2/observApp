@@ -22,6 +22,11 @@ class AirConnectivityRoute extends Model
     ];
 
     protected $casts = [
+        'year_id' => 'integer',
+        'month_id' => 'integer',
+        'air_line_id' => 'integer',
+        'origin_airport_id' => 'integer',
+        'destination_airport_id' => 'integer',
         'is_active' => 'boolean',
         'flights_count' => 'integer',
         'seats_count' => 'integer',

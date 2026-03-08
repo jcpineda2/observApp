@@ -18,9 +18,12 @@ return new class extends Migration
             $table->foreignId('city_id')->constrained()->cascadeOnDelete();
             $table->string('scope')->nullable();
             $table->boolean('is_operational')->default(true);
+            $table->timestamps();
+
+            $table->index('country_id');
+            $table->index('city_id');
             $table->index('scope');
             $table->index('is_operational');
-            $table->timestamps();
         });
     }
 

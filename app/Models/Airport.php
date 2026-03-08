@@ -17,7 +17,6 @@ class Airport extends Model
 
     protected $fillable = [
         'name',
-        'type',
         'country_id',
         'city_id',
         'scope',
@@ -25,6 +24,8 @@ class Airport extends Model
     ];
 
     protected $casts = [
+        'country_id' => 'integer',
+        'city_id' => 'integer',
         'is_operational' => 'boolean',
         'scope' => Scope::class,
     ];

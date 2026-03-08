@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Airports\Tables;
 
+use App\Enums\Scope;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class AirportsTable
@@ -27,10 +29,10 @@ class AirportsTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('scope')
-                    ->label('Tipo')
+                    ->label('Ámbito')
                     ->sortable(),
                 IconColumn::make('is_operational')
-                    ->label('Activo?'),
+                    ->label('Operativo'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -41,7 +43,13 @@ class AirportsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('country_id')
+                    ->label('País')
+                    ->relationship('country', 'name'),
+
+                SelectFilter::make('scope')
+                    ->label('Ámbito')
+                    ->options(Scope::class),
             ])
             ->recordActions([
                 ViewAction::make(),

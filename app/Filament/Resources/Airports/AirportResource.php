@@ -23,7 +23,7 @@ class AirportResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::PaperAirplane;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
+    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
 
     protected static ?string $navigationLabel = 'Aeropuertos';
 

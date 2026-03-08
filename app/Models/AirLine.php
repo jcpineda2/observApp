@@ -15,13 +15,22 @@ class AirLine extends Model
 
     protected $fillable = [
         'name',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     protected function name(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => Str::ucfirst(Str::lower($value)),
+            set: fn($value) => Str::ucfirst(Str::lower($value)),
         );
     }
 
+    public function routes(): HasMany
+    {
+        return $this->hasMany(AirConnectivityRoute::class);
+    }
 }

@@ -23,9 +23,9 @@ class AirConnectivityRouteResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Indicadores';
 
-    protected static ?string $navigationLabel = 'Conectividad (rutas mensual)';
+    protected static ?string $navigationLabel = 'Rutas aéreas';
 
-    protected static ?string $modelLabel = 'Ruta aérea (mensual)';
+    protected static ?string $modelLabel = 'Ruta aéreas';
 
     protected static ?string $pluralModelLabel = 'Rutas aéreas (mensual)';
 

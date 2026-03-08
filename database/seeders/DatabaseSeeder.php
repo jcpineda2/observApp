@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             EntryModeSeeder::class,
             AirLineSeeder::class,
             AirportSeeder::class,
+            AirConnectivityRouteSeeder::class,
             TravelReasonSeeder::class,
             ServiceSectorSeeder::class,
             AgeRangeSeeder::class,

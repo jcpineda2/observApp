@@ -28,7 +28,7 @@ class AirConnectivityRoutesTable
                 TextColumn::make('destinationAirport.name')->label('Destino')->sortable()->searchable(),
 
                 TextColumn::make('destinationAirport.country.name')
-                    ->label('País destino')
+                    ->label('Destino')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: false),
 
@@ -38,12 +38,11 @@ class AirConnectivityRoutesTable
                     ->toggleable(isToggledHiddenByDefault: false),
 
                 IconColumn::make('is_active')
-                    ->label('Activa')
-                    ->boolean()
-                    ->sortable(),
+                    ->label('Ruta activa')
+                    ->boolean(),
 
-                TextColumn::make('flights_count')->label('Vuelos')->numeric()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('seats_count')->label('Asientos')->numeric()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('flights_count')->label('Cantidad de vuelos')->numeric()->minvalue(0)->required(),
+                TextColumn::make('seats_count')->label('Cantidad de asientos')->numeric()->minvalue(0)->required(),
             ])
             ->filters([
                 SelectFilter::make('year_id')->label('Año')->relationship('year', 'year')->preload(),

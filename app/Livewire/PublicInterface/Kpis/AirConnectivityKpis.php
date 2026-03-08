@@ -2,7 +2,9 @@
 
 namespace App\Livewire\PublicInterface\Kpis;
 
+use App\Enums\Scope;
 use App\Models\AirConnectivityRoute;
+use App\Models\Airport;
 use App\Models\Year;
 use Livewire\Component;
 
@@ -15,7 +17,11 @@ class AirConnectivityKpis extends Component
     public int $totalFlights = 0;
     public int $totalSeats = 0;
     public int $airlines = 0;
-    public int $airports = 0;
+    public int $airportsInRoutes = 0;
+
+    public int $operationalNationalAirports = 0;
+    public int $operationalInternationalAirports = 0;
+    public int $connectedDestinations = 0;
 
     protected $listeners = [
         'public-filters-updated' => 'onFiltersUpdated',
@@ -40,18 +46,30 @@ class AirConnectivityKpis extends Component
 
     private function recalculate(): void
     {
+
+        $this->operationalNationalAirports = Airport::query()
+            ->where('is_operational', true)
+            ->where('scope', Scope::NATIONAL)
+            ->count();
+
+        $this->operationalInternationalAirports = Airport::query()
+            ->where('is_operational', true)
+            ->where('scope', Scope::INTERNATIONAL)
+            ->count();
+
         if (! $this->year) {
             $this->activeRoutes = 0;
             $this->totalFlights = 0;
             $this->totalSeats = 0;
             $this->airlines = 0;
-            $this->airports = 0;
+            $this->airportsInRoutes = 0;
+            $this->connectedDestinations = 0;
             return;
         }
 
         $q = AirConnectivityRoute::query()
             ->where('year_id', $this->year)
-            ->when($this->month, fn ($qq) => $qq->where('month_id', $this->month));
+            ->when($this->month, fn($qq) => $qq->where('month_id', $this->month));
 
         $this->activeRoutes = (int) (clone $q)->where('is_active', true)->count();
 
@@ -64,7 +82,9 @@ class AirConnectivityKpis extends Component
         $originIds = (clone $q)->distinct()->pluck('origin_airport_id')->filter()->unique();
         $destIds   = (clone $q)->distinct()->pluck('destination_airport_id')->filter()->unique();
 
-        $this->airports = $originIds->merge($destIds)->unique()->count();
+        $this->airportsInRoutes = $originIds->merge($destIds)->unique()->count();
+
+        $this->connectedDestinations = (int) (clone $q)->distinct('destination_airport_id')->count('destination_airport_id');
     }
 
     public function render()

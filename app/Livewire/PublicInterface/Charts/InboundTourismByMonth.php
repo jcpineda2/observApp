@@ -11,12 +11,13 @@ use Livewire\Component;
 class InboundTourismByMonth extends Component
 {
     public ?int $year = null;
-    public ?int $month = null;
 
     public string $chartId;
+
+    public string $type = 'line';
+
     public array $labels = [];
     public array $datasets = [];
-    public string $type = 'line';
 
     protected $listeners = [
         'public-filters-updated' => 'onFiltersUpdated',
@@ -24,10 +25,12 @@ class InboundTourismByMonth extends Component
 
     public function mount(): void
     {
-        $this->chartId = 'chart_' . Str::random(8);
+        $this->chartId = 'chart_' . Str::random(10);
 
         if (! $this->year) {
-            $this->year = Year::query()->orderByDesc('year')->value('id');
+            $this->year = Year::query()
+                ->orderByDesc('year')
+                ->value('id');
         }
 
         $this->buildChart();
@@ -36,59 +39,44 @@ class InboundTourismByMonth extends Component
     public function onFiltersUpdated($year, $month): void
     {
         $this->year = $year ?: null;
-        $this->month = $month ?: null;
 
         $this->buildChart();
     }
 
     private function buildChart(): void
     {
-        if (! $this->year) return;
-
-        $months = Month::orderBy('month_number')->get();
-
-        $totals = InboundTourism::query()
-            ->where('year_id', $this->year)
-            ->when($this->month, fn($q) => $q->where('month_id', $this->month))
-            ->selectRaw('month_id, SUM(tourist_arrivals) as total')
-            ->groupBy('month_id')
-            ->pluck('total', 'month_id')
-            ->toArray();
-
-        $this->labels = $this->month
-            ? [$months->firstWhere('id', $this->month)?->month]
-            : $months->pluck('month')->toArray();
-
-        $data = [];
-
-        if ($this->month) {
-            $data[] = (int) ($totals[$this->month] ?? 0);
-        } else {
-            foreach ($months as $m) {
-                $data[] = (int) ($totals[$m->id] ?? 0);
-            }
+        if (! $this->year) {
+            $this->labels = [];
+            $this->datasets = [];
+            return;
         }
 
-        $this->datasets = [[
-            'label' => 'Llegadas internacionales',
-            'data' => $data,
-            'borderWidth' => 2,
-            'tension' => 0.3,
-        ]];
+        $months = Month::query()
+            ->orderBy('month_number')
+            ->get();
 
+        $rows = InboundTourism::query()
+            ->where('year_id', $this->year)
+            ->selectRaw('month_id, SUM(tourist_arrivals) as total')
+            ->groupBy('month_id')
+            ->pluck('total', 'month_id');
 
-        $this->dispatch('observatorio:chart:update', chartId: $this->chartId, config: [
-            'type' => $this->type,
-            'data' => [
-                'labels' => $this->labels,
-                'datasets' => $this->datasets,
-            ],
-            'options' => [
-                'responsive' => true,
-                'maintainAspectRatio' => false,
-                'animation' => false,
-            ],
-        ]);
+        $this->labels = $months
+            ->pluck('month')
+            ->toArray();
+
+        $data = $months
+            ->map(fn ($month) => (int) ($rows[$month->id] ?? 0))
+            ->toArray();
+
+        $this->datasets = [
+            [
+                'label' => 'Llegadas de turistas',
+                'data' => $data,
+                'borderWidth' => 2,
+                'tension' => 0.3,
+            ]
+        ];
     }
 
     public function render()

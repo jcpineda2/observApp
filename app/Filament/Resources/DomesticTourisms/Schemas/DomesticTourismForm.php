@@ -19,9 +19,10 @@ class DomesticTourismForm
             ->components([
                 Select::make('year_id')
                     ->relationship(
-                        name:'year',
+                        name: 'year',
                         titleAttribute: 'year',
-                        modifyQueryUsing: fn(Builder $query)=> $query->orderBy('year','desc'),)
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('year', 'desc'),
+                    )
                     ->label('Año')
                     ->searchable()
                     ->preload()
@@ -30,8 +31,9 @@ class DomesticTourismForm
                     ->label('Mes')
                     ->relationship(
                         name: 'month',
-                        titleAttribute:'month',
-                        modifyQueryUsing: fn(Builder $query) => $query->orderby('month_number', 'asc'),)
+                        titleAttribute: 'month',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderby('month_number', 'asc'),
+                    )
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -65,36 +67,29 @@ class DomesticTourismForm
                                     ->where('year_id', $get('year_id'))
                                     ->where('month_id', $get('month_id'))
                                     ->where('destination_department_id', $get('destination_department_id'))
-                                    ->where('origin_region', $get('origin_region') ?: 'N/A')
                             )
                             ->ignore($record?->id),
                     ])
                     ->validationMessages([
                         'unique' => 'Ya existe un registro para ese Año/Mes/Departamento/Motivo/Región de origen.',
                     ]),
-                TextInput::make('origin_region')
-                    ->label('Region origen')
-                    ->default('N/A')
-                    ->dehydrateStateUsing(fn($state) => filled($state) ? $state : 'N/A'),
                 TextInput::make('tourist_quantity')
                     ->label('Cantidad de Turistas')
                     ->required()
                     ->numeric()
-                    ->default(0),
+                    ->minValue(0),
                 TextInput::make('total_spend')
-                    ->label('Composición del gasto')
+                    ->label('Gasto total')
                     ->required()
                     ->numeric()
+                    ->minValue(0)
                     ->default(0.0),
                 TextInput::make('average_stay')
                     ->label('Estadía promedio')
                     ->required()
                     ->numeric()
+                    ->minValue(0)
                     ->default(0.0),
-                TextInput::make('spend_composition')
-                    ->label('Gasto total')
-                    ->default(null),
             ]);
-
     }
 }

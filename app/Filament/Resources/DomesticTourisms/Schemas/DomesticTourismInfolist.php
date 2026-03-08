@@ -20,9 +20,7 @@ class DomesticTourismInfolist
                     ->numeric(),
                 TextEntry::make('travelReason.description')
                     ->label('Motivo'),
-                TextEntry::make('origin_region')
-                    ->label('Region de origen')
-                    ->placeholder('-'),
+
                 TextEntry::make('tourist_quantity')
                     ->label('Cantidad de Turistas')
                     ->numeric(),
@@ -32,9 +30,6 @@ class DomesticTourismInfolist
                 TextEntry::make('average_stay')
                     ->label('Estadía promedio')
                     ->numeric(),
-                TextEntry::make('spend_composition')
-                    ->label('Composición gasto')
-                    ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),

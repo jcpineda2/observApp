@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DomesticTourism extends Model
 {
-    /** @use HasFactory<\Database\Factories\DomesticTourismFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -16,14 +15,16 @@ class DomesticTourism extends Model
         'month_id',
         'destination_department_id',
         'travel_reason_id',
-        'origin_region',
         'tourist_quantity',
         'total_spend',
         'average_stay',
-        'spend_composition'
     ];
 
     protected $casts = [
+        'year_id' => 'integer',
+        'month_id' => 'integer',
+        'destination_department_id' => 'integer',
+        'travel_reason_id' => 'integer',
         'tourist_quantity' => 'integer',
         'total_spend' => 'decimal:2',
         'average_stay' => 'decimal:2',

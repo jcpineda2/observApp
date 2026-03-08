@@ -27,9 +27,6 @@ class DomesticTourismsTable
                     ->sortable(),
                 TextColumn::make('travelReason.description')
                     ->searchable(),
-                TextColumn::make('origin_region')
-                    ->label('Region de origen')
-                    ->searchable(),
                 TextColumn::make('tourist_quantity')
                     ->label('Cantidad de Turistas')
                     ->numeric()
@@ -42,9 +39,6 @@ class DomesticTourismsTable
                     ->label('Estadía promedio')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('spend_composition')
-                    ->label('Composición del gasto')
-                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

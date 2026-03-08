@@ -8,15 +8,12 @@ use Livewire\Component;
 
 class DomesticTourismKpis extends Component
 {
-    public ?int $year = null;   // year_id
-    public ?int $month = null;  // month_id (opcional)
+    public ?int $year = null;
+    public ?int $month = null;
 
     public int $tourists = 0;
-    public float $totalSpend = 0.0;
-
-    // Estadía promedio (dos variantes)
-    public float $avgStaySimple = 0.0;      // AVG(average_stay)
-    public float $avgStayWeighted = 0.0;    // SUM(average_stay*tourist_quantity) / SUM(tourist_quantity)
+    public float $totalSpendObserved = 0.0;
+    public float $avgStayObserved = 0.0;
 
     protected $listeners = [
         'public-filters-updated' => 'onFiltersUpdated',
@@ -24,7 +21,6 @@ class DomesticTourismKpis extends Component
 
     public function mount(): void
     {
-        // Si no llega año, usamos el último disponible
         if (! $this->year) {
             $this->year = Year::query()->orderByDesc('year')->value('id');
         }
@@ -43,39 +39,37 @@ class DomesticTourismKpis extends Component
     private function baseQuery()
     {
         return DomesticTourism::query()
-            ->when($this->year, fn ($q) => $q->where('year_id', $this->year))
-            ->when($this->month, fn ($q) => $q->where('month_id', $this->month));
+            ->when($this->year, fn ($query) => $query->where('year_id', $this->year))
+            ->when($this->month, fn ($query) => $query->where('month_id', $this->month));
     }
 
     private function recalculate(): void
     {
         if (! $this->year) {
-            // Sin año, mostramos ceros (podríamos mostrar mensaje luego)
-            $this->tourists = 0;
-            $this->totalSpend = 0.0;
-            $this->avgStaySimple = 0.0;
-            $this->avgStayWeighted = 0.0;
+            $this->resetKpis();
             return;
         }
 
-        $q = $this->baseQuery();
+        $query = $this->baseQuery();
 
-        $this->tourists = (int) $q->clone()->sum('tourist_quantity');
-        $this->totalSpend = (float) $q->clone()->sum('total_spend');
+        $this->tourists = (int) (clone $query)->sum('tourist_quantity');
 
-        $this->avgStaySimple = (float) $q->clone()->avg('average_stay');
+        $this->totalSpendObserved = round(
+            (float) ((clone $query)->sum('total_spend') ?? 0),
+            2
+        );
 
-        $weighted = $q->clone()
-            ->selectRaw('
-                SUM(average_stay * tourist_quantity) as weighted_sum,
-                SUM(tourist_quantity) as qty_sum
-            ')
-            ->first();
+        $this->avgStayObserved = round(
+            (float) ((clone $query)->avg('average_stay') ?? 0),
+            2
+        );
+    }
 
-        $qty = (float) ($weighted->qty_sum ?? 0);
-        $ws  = (float) ($weighted->weighted_sum ?? 0);
-
-        $this->avgStayWeighted = $qty > 0 ? ($ws / $qty) : 0.0;
+    private function resetKpis(): void
+    {
+        $this->tourists = 0;
+        $this->totalSpendObserved = 0.0;
+        $this->avgStayObserved = 0.0;
     }
 
     public function render()

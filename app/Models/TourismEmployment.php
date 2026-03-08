@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TourismEmployment extends Model
 {
-    /** @use HasFactory<\Database\Factories\TourismEmploymentFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -17,10 +16,12 @@ class TourismEmployment extends Model
         'service_sector_id',
         'direct_employment',
         'national_participation',
-        'interannual_variation'
+        'interannual_variation',
     ];
 
     protected $casts = [
+        'year_id' => 'integer',
+        'service_sector_id' => 'integer',
         'direct_employment' => 'integer',
         'national_participation' => 'decimal:2',
         'interannual_variation' => 'decimal:2',
@@ -38,6 +39,6 @@ class TourismEmployment extends Model
 
     public function demographics(): HasMany
     {
-        return $this->hasMany(EmploymentDemographic::class);
+        return $this->hasMany(EmploymentDemographic::class, 'tourism_employment_id');
     }
 }

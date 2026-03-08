@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationPerformances\Schemas;
 
+use App\Enums\Season;
 use Filament\Actions\SelectAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -23,6 +24,7 @@ class AccommodationPerformanceForm
                         modifyQueryUsing: fn(Builder $query) => $query->orderBy('year', 'desc')
                     )
                     ->preload()
+                    ->searchable()
                     ->label('Año')
                     ->required(),
                 Select::make('month_id')
@@ -34,17 +36,15 @@ class AccommodationPerformanceForm
                     ->preload()
                     ->label('Mes')
                     ->required()
-                    ->rules(function (Get $get, $record) {
-                        // Evita validar mientras el usuario aún no seleccionó todo
-                        if (! $get('accommodation_id') || ! $get('year_id') || ! $get('month_id')) {
+                   ->rules(function (Get $get, $record) {
+                        if (! $get('year_id') || ! $get('month_id') || ! $get('state_id')) {
                             return [];
                         }
 
                         $rule = Rule::unique('accommodation_performances', 'month_id')
-                            ->where(
-                                fn($q) => $q
-                                    ->where('accommodation_id', $get('accommodation_id'))
-                                    ->where('year_id', $get('year_id'))
+                            ->where(fn ($query) => $query
+                                ->where('year_id', $get('year_id'))
+                                ->where('state_id', $get('state_id'))
                             );
 
                         if ($record) {
@@ -54,28 +54,34 @@ class AccommodationPerformanceForm
                         return [$rule];
                     })
                     ->validationMessages([
-                        'unique' => 'Ya existe un desempeño para ese Alojamiento/Año/Mes.',
+                        'unique' => 'Ya existe una ocupación registrada para el Año, Mes y Departamento seleccionados.',
                     ]),
 
-                Select::make('accommodation_id')
-                    ->relationship('accommodation', 'id')
-                    ->getOptionLabelFromRecordUsing(fn($record) => "{$record->state?->name} - {$record->category?->category}")
-                    ->label('Alojamiento (Depto - Categoría)')
+                Select::make('state_id')
+                    ->label('Departamento')
+                    ->relationship(
+                        name: 'state',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn(Builder $query) => $query
+                            ->whereHas('country', function ($q) {
+                                $q->where('name', 'Paraguay');
+                            })
+                    )
                     ->searchable()
                     ->preload()
                     ->required(),
+
                 TextInput::make('occupancy_rate')
-                    ->label('Tasa de ocupación (%)')
+                    ->label('Ocupación (%)')
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)
+                    ->step('0.01')
                     ->required(),
+
                 Select::make('season')
                     ->label('Temporada')
-                    ->options([
-                        'alta' => 'Alta',
-                        'baja' => 'Baja',
-                    ])
+                    ->options(Season::class)
                     ->nullable()
                     ->searchable()
             ]);

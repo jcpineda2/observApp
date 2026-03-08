@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Season;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,17 +13,20 @@ class AccommodationPerformance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'accommodation_id',
         'year_id',
         'month_id',
+        'state_id',
         'occupancy_rate',
-        'season'
+        'season',
     ];
 
-    public function accommodation(): BelongsTo
-    {
-        return $this->belongsTo(Accommodation::class);
-    }
+    protected $casts = [
+        'year_id' => 'integer',
+        'month_id' => 'integer',
+        'state_id' => 'integer',
+        'occupancy_rate' => 'decimal:2',
+        'season' => Season::class,
+    ];
 
     public function year(): BelongsTo
     {
@@ -34,4 +38,8 @@ class AccommodationPerformance extends Model
         return $this->belongsTo(Month::class);
     }
 
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
 }

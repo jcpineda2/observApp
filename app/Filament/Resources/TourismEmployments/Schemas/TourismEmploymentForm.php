@@ -17,9 +17,10 @@ class TourismEmploymentForm
             ->components([
                 Select::make('year_id')
                     ->relationship(
-                        name:'year',
-                        titleAttribute:'year',
-                        modifyQueryUsing: fn (Builder $query)=> $query->orderBy('year','desc'))
+                        name: 'year',
+                        titleAttribute: 'year',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('year', 'desc')
+                    )
                     ->searchable()
                     ->preload()
                     ->label('Año')
@@ -28,7 +29,7 @@ class TourismEmploymentForm
                     ->relationship('serviceSector', 'description')
                     ->searchable()
                     ->preload()
-                    ->label('Rubro')
+                    ->label('Segmento/ Rubro')
                     ->required()
                     ->rules(function (Get $get, $record) {
                         $rule = Rule::unique('tourism_employments', 'service_sector_id')
@@ -49,15 +50,17 @@ class TourismEmploymentForm
                     ->numeric()
                     ->default(0),
                 TextInput::make('national_participation')
-                    ->label('Participación nacional (%)')
+                    ->label('Participación en el empleo nacional (%)')
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)
+                    ->step('0.01')
                     ->nullable(),
                 TextInput::make('interannual_variation')
                     ->label('Variación interanual (%)')
                     ->numeric()
                     ->minValue(-100)
+                    ->step('0.01')
                     ->maxValue(1000)
                     ->nullable()
             ]);

@@ -24,7 +24,7 @@ class TourismEmploymentResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserCircle;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
+    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
 
     protected static ?string $navigationLabel = 'Empleo Turístico';
 

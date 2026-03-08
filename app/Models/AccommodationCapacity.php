@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Accommodation extends Model
+class AccommodationCapacity extends Model
 {
-    /** @use HasFactory<\Database\Factories\AccommodationFactory> */
+    /** @use HasFactory<\Database\Factories\AccommodationCapacityFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -17,20 +17,24 @@ class Accommodation extends Model
         'state_id',
         'establishments_count',
         'rooms_count',
-        'beds_count'
+        'beds_count',
     ];
 
-    public function category(): BelongsTo{
+    protected $casts = [
+        'accommodation_category_id' => 'integer',
+        'state_id' => 'integer',
+        'establishments_count' => 'integer',
+        'rooms_count' => 'integer',
+        'beds_count' => 'integer',
+    ];
+
+    public function category(): BelongsTo
+    {
         return $this->belongsTo(AccommodationCategory::class, 'accommodation_category_id');
     }
 
-    public function state(): BelongsTo {
+    public function state(): BelongsTo
+    {
         return $this->belongsTo(State::class);
     }
-
-    // Relación con su desempeño mensual
-    public function performances(): HasMany {
-        return $this->hasMany(AccommodationPerformance::class);
-    }
 }
-

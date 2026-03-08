@@ -82,26 +82,7 @@
 
         @if ($activeTab === 'empleo')
             <section id="empleo">
-                <div class="space-y-4">
-                    <h2 class="text-base font-semibold text-gray-900">Empleo turístico</h2>
-
-                    <livewire:public-interface.kpis.tourism-employment-kpis />
-
-                    <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                        <livewire:public-interface.charts.employment-by-service-sector />
-                        <livewire:public-interface.charts.employment-trend />
-                    </div>
-
-                    <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                        <livewire:public-interface.charts.employment-yo-y-trend />
-                        <livewire:public-interface.charts.employment-by-gender />
-                    </div>
-
-                    <div class="mt-4 grid gap-4 lg:grid-cols-2">
-                        <livewire:public-interface.charts.employment-by-age />
-                        <livewire:public-interface.charts.employment-gender-by-service-sector />
-                    </div>
-                </div>
+                <livewire:public-interface.tabs.employment-tab />
             </section>
         @endif
 

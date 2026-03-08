@@ -21,9 +21,9 @@ class AccommodationPerformanceResource extends Resource
 {
     protected static ?string $model = AccommodationPerformance::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
+    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
 
     protected static ?string $navigationLabel = 'Desempeño de alojamientos';
 

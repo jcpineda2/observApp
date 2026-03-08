@@ -26,11 +26,11 @@ class EmploymentDemographicResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
+    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
 
-    protected static ?string $navigationLabel = 'Empleo Demográfico ';
+    protected static ?string $navigationLabel = 'Demografía del empleo';
 
-    protected static ?string $modelLabel = 'Empleo Demográfico';
+    protected static ?string $modelLabel = 'Demografía del empleo';
 
     public static function form(Schema $schema): Schema
     {

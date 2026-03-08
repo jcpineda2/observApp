@@ -2,7 +2,7 @@
     <div>
         <h2 class="text-base font-semibold text-gray-900">Alojamientos turísticos</h2>
         <p class="mt-1 text-sm text-gray-500">
-            Indicadores, capacidad y desempeño del sector de alojamientos.
+            Indicadores, capacidad instalada y desempeño del sector de alojamientos.
         </p>
     </div>
 
@@ -42,7 +42,6 @@
         />
     </div>
 
-    {{-- Desempeño --}}
     <div class="grid gap-4 lg:grid-cols-2">
         <div wire:key="accommodation-occupancy-by-month-{{ $year ?? 'null' }}">
             <x-chart.card
@@ -65,7 +64,7 @@
         <div wire:key="accommodation-by-category-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
             <x-chart.card
                 title="Distribución por categoría"
-                subtitle="Capacidad por tipo/categoría"
+                subtitle="Establecimientos por categoría"
                 :chart-id="'accommodation-by-category-'.($year ?? 'null').'-'.($month ?? 'all')"
                 type="bar"
                 :labels="$byCategory['labels'] ?? []"
@@ -84,7 +83,7 @@
         <div wire:key="accommodation-occupancy-yoy-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Ocupación interanual"
-                subtitle="Comparación año seleccionado vs anterior"
+                subtitle="Comparación año seleccionado vs año anterior"
                 :chart-id="'accommodation-occupancy-yoy-'.($year ?? 'null')"
                 type="line"
                 :labels="$occupancyYoYByMonth['labels'] ?? []"
@@ -124,56 +123,17 @@
         </div>
     </div>
 
-    {{-- Capacidad --}}
-    <div class="grid gap-4 lg:grid-cols-2">
-        <div wire:key="accommodation-installed-capacity-by-month-{{ $year ?? 'null' }}">
-            <x-chart.card
-                title="Capacidad instalada por mes"
-                subtitle="Referencia mensual de camas instaladas"
-                :chart-id="'accommodation-installed-capacity-by-month-'.($year ?? 'null')"
-                type="line"
-                :labels="$installedCapacityByMonth['labels'] ?? []"
-                :datasets="[
-                    [
-                        'label' => 'Camas',
-                        'data' => $installedCapacityByMonth['data'] ?? [],
-                        'borderWidth' => 2,
-                        'tension' => 0.3,
-                    ]
-                ]"
-            />
-        </div>
-
-        <div wire:key="accommodation-available-rooms-by-month-{{ $year ?? 'null' }}">
-            <x-chart.card
-                title="Habitaciones disponibles por mes"
-                subtitle="Referencia mensual de habitaciones instaladas"
-                :chart-id="'accommodation-available-rooms-by-month-'.($year ?? 'null')"
-                type="line"
-                :labels="$availableRoomsByMonth['labels'] ?? []"
-                :datasets="[
-                    [
-                        'label' => 'Habitaciones',
-                        'data' => $availableRoomsByMonth['data'] ?? [],
-                        'borderWidth' => 2,
-                        'tension' => 0.3,
-                    ]
-                ]"
-            />
-        </div>
-    </div>
-
-    <div wire:key="accommodation-installed-capacity-by-department-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
+    <div wire:key="accommodation-capacity-by-department-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
         <x-chart.card
             title="Capacidad por departamento"
             subtitle="Distribución territorial de camas instaladas"
-            :chart-id="'accommodation-installed-capacity-by-department-'.($year ?? 'null').'-'.($month ?? 'all')"
+            :chart-id="'accommodation-capacity-by-department-'.($year ?? 'null').'-'.($month ?? 'all')"
             type="bar"
-            :labels="$installedCapacityByDepartment['labels'] ?? []"
+            :labels="$capacityByDepartment['labels'] ?? []"
             :datasets="[
                 [
                     'label' => 'Camas',
-                    'data' => $installedCapacityByDepartment['data'] ?? [],
+                    'data' => $capacityByDepartment['data'] ?? [],
                     'borderWidth' => 1,
                 ]
             ]"

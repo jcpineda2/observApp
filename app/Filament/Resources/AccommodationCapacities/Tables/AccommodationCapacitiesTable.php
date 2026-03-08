@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Accommodations\Tables;
+namespace App\Filament\Resources\AccommodationCapacities\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -8,9 +8,8 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
-class AccommodationsTable
+class AccommodationCapacitiesTable
 {
     public static function configure(Table $table): Table
     {
@@ -18,31 +17,25 @@ class AccommodationsTable
             ->columns([
                 TextColumn::make('category.category')
                     ->label('Categoría')
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('state.name')
                     ->label('Departamento')
-                    ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('establishments_count')
-                    ->label('Cantidad de Establecimientos')
-                    ->numeric()
+                    ->label('Establecimientos')
                     ->sortable(),
+
                 TextColumn::make('rooms_count')
-                    ->label('Cantidad habitaciones')
-                    ->numeric()
+                    ->label('Habitaciones')
                     ->sortable(),
+
                 TextColumn::make('beds_count')
-                    ->label('Cantidad camas')
-                    ->numeric()
+                    ->label('Camas')
                     ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('accommodation_category_id')

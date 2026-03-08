@@ -26,10 +26,15 @@ class DatabaseSeeder extends Seeder
             AirportSeeder::class,
             TravelReasonSeeder::class,
             ServiceSectorSeeder::class,
+            AgeRangeSeeder::class,
             AccommodationCategorySeeder::class,
-            ObservatorioDemoSeeder::class
+            AccommodationCapacitySeeder::class,
+            TourismEmploymentSeeder::class,
+            EmploymentDemographicSeeder::class,
+            AccommodationPerformanceSeeder::class,
+            ObservatorioDemoSeeder::class,
+            TourismEmploymentSeeder::class,
+            EmploymentDemographicSeeder::class,
         ]);
-
-
-     }
+    }
 }

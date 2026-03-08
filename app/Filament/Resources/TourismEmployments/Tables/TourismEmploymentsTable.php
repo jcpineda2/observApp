@@ -20,19 +20,19 @@ class TourismEmploymentsTable
                     ->label('Año')
                     ->searchable(),
                 TextColumn::make('serviceSector.description')
-                    ->label('Rubro')
+                    ->label('Segmento / Rubro')
                     ->searchable(),
                 TextColumn::make('direct_employment')
                     ->label('Empleo directo')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('national_participation')
-                    ->label('Participación nacional')
+                    ->label('Participación nacional (%)')
                     ->suffix('%')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('interannual_variation')
-                    ->label('Variación interanual')
+                    ->label('Variación interanual (%)')
                     ->suffix('%')
                     ->numeric()
                     ->sortable(),

@@ -8,15 +8,14 @@ use Filament\Support\Contracts\HasLabel;
 enum Season: string implements HasLabel
 
 {
-    case ACTIVE = 'active';
-    case INACTIVE = 'inactive';
-
+    case High = 'high';
+    case Low = 'low';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::ACTIVE => 'Activo',
-            self::INACTIVE => 'Inactivo',
+            self::High => 'Alta',
+            self::Low => 'Baja',
         };
     }
 }

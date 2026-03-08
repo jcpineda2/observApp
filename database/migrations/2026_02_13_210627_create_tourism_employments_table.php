@@ -6,30 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('tourism_employments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('year_id')->constrained();
-            $table->foreignId('service_sector_id')->constrained();
-            $table->integer('direct_employment')->default(0);
-            $table->decimal('national_participation', 5, 2)->nullable();
-            $table->decimal('interannual_variation', 5, 2)->nullable();
+
+            $table->foreignId('year_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('service_sector_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->unsignedInteger('direct_employment')->default(0);
+            $table->decimal('national_participation', 8, 2)->default(0);
+            $table->decimal('interannual_variation', 8, 2)->default(0);
+
+            $table->timestamps();
 
             $table->unique(
                 ['year_id', 'service_sector_id'],
-                'employment_unique'
+                'tourism_employments_year_sector_unique'
             );
-            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('tourism_employments');

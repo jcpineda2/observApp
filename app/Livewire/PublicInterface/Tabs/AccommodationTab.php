@@ -2,7 +2,7 @@
 
 namespace App\Livewire\PublicInterface\Tabs;
 
-use App\Models\Accommodation;
+use App\Models\AccommodationCapacity;
 use App\Models\AccommodationPerformance;
 use App\Models\Month;
 use App\Models\Year;
@@ -19,9 +19,7 @@ class AccommodationTab extends Component
     public array $occupancyYoYByMonth = [];
     public array $seasonVsOccupancy = [];
     public array $byCategory = [];
-    public array $installedCapacityByDepartment = [];
-    public array $installedCapacityByMonth = [];
-    public array $availableRoomsByMonth = [];
+    public array $capacityByDepartment = [];
 
     protected $listeners = [
         'public-filters-updated' => 'onFiltersUpdated',
@@ -53,9 +51,7 @@ class AccommodationTab extends Component
         $this->occupancyYoYByMonth = $this->loadOccupancyYoYByMonth();
         $this->seasonVsOccupancy = $this->loadSeasonVsOccupancy();
         $this->byCategory = $this->loadByCategory();
-        $this->installedCapacityByDepartment = $this->loadInstalledCapacityByDepartment();
-        $this->installedCapacityByMonth = $this->loadInstalledCapacityByMonth();
-        $this->availableRoomsByMonth = $this->loadAvailableRoomsByMonth();
+        $this->capacityByDepartment = $this->loadCapacityByDepartment();
     }
 
     private function cacheKey(string $suffix): string
@@ -73,12 +69,12 @@ class AccommodationTab extends Component
     private function loadKpis(): array
     {
         return Cache::remember($this->cacheKey('kpis'), now()->addMinutes(10), function () {
-            $establishments = (int) Accommodation::query()->sum('establishments');
-            $rooms = (int) Accommodation::query()->sum('rooms');
-            $beds = (int) Accommodation::query()->sum('beds');
+            $establishments = (int) AccommodationCapacity::query()->sum('establishments_count');
+            $rooms = (int) AccommodationCapacity::query()->sum('rooms_count');
+            $beds = (int) AccommodationCapacity::query()->sum('beds_count');
 
             $occupancyAverage = round(
-                (float) (($this->performanceQuery()->avg('occupancy_rate')) ?? 0),
+                (float) ($this->performanceQuery()->avg('occupancy_rate') ?? 0),
                 2
             );
 
@@ -93,6 +89,7 @@ class AccommodationTab extends Component
 
     /**
      * Serie mensual de ocupación.
+     * Ignora el filtro de mes para mostrar el año completo.
      */
     private function loadOccupancyByMonth(): array
     {
@@ -142,7 +139,9 @@ class AccommodationTab extends Component
                 }
 
                 $selectedYearValue = (int) Year::whereKey($this->year)->value('year');
-                $previousYearId = Year::query()->where('year', $selectedYearValue - 1)->value('id');
+                $previousYearId = Year::query()
+                    ->where('year', $selectedYearValue - 1)
+                    ->value('id');
 
                 $months = Month::query()
                     ->orderBy('month_number')
@@ -182,27 +181,27 @@ class AccommodationTab extends Component
     {
         return Cache::remember($this->cacheKey('season_vs_occupancy'), now()->addMinutes(10), function () {
             $rows = $this->performanceQuery()
-                ->selectRaw('COALESCE(season, "Sin temporada") as season_label, AVG(occupancy_rate) as avg_occupancy')
-                ->groupBy('season_label')
-                ->orderBy('season_label')
+                ->selectRaw('season, AVG(occupancy_rate) as avg_occupancy')
+                ->groupBy('season')
+                ->orderBy('season')
                 ->get();
 
             return [
-                'labels' => $rows->pluck('season_label')->toArray(),
+                'labels' => $rows->map(fn ($row) => $row->season?->getLabel() ?? '-')->toArray(),
                 'data' => $rows->pluck('avg_occupancy')->map(fn ($value) => round((float) $value, 2))->toArray(),
             ];
         });
     }
 
     /**
-     * Capacidad instalada por categoría.
+     * Establecimientos por categoría.
      */
     private function loadByCategory(): array
     {
         return Cache::remember('public_accommodation_tab:by_category', now()->addMinutes(10), function () {
-            $rows = Accommodation::query()
-                ->leftJoin('accommodation_categories', 'accommodation_categories.id', '=', 'accommodations.accommodation_category_id')
-                ->selectRaw('COALESCE(accommodation_categories.description, "Sin categoría") as category, SUM(accommodations.establishments) as total')
+            $rows = AccommodationCapacity::query()
+                ->leftJoin('accommodation_categories', 'accommodation_categories.id', '=', 'accommodation_capacities.accommodation_category_id')
+                ->selectRaw('COALESCE(accommodation_categories.category, "Sin categoría") as category, SUM(accommodation_capacities.establishments_count) as total')
                 ->groupBy('category')
                 ->orderByDesc('total')
                 ->get();
@@ -215,14 +214,14 @@ class AccommodationTab extends Component
     }
 
     /**
-     * Capacidad instalada por departamento.
+     * Camas por departamento.
      */
-    private function loadInstalledCapacityByDepartment(): array
+    private function loadCapacityByDepartment(): array
     {
-        return Cache::remember('public_accommodation_tab:installed_capacity_by_department', now()->addMinutes(10), function () {
-            $rows = Accommodation::query()
-                ->leftJoin('states', 'states.id', '=', 'accommodations.state_id')
-                ->selectRaw('COALESCE(states.description, "Sin departamento") as department, SUM(accommodations.beds) as total')
+        return Cache::remember('public_accommodation_tab:capacity_by_department', now()->addMinutes(10), function () {
+            $rows = AccommodationCapacity::query()
+                ->leftJoin('states', 'states.id', '=', 'accommodation_capacities.state_id')
+                ->selectRaw('COALESCE(states.name, "Sin departamento") as department, SUM(accommodation_capacities.beds_count) as total')
                 ->groupBy('department')
                 ->orderByDesc('total')
                 ->get();
@@ -232,62 +231,6 @@ class AccommodationTab extends Component
                 'data' => $rows->pluck('total')->map(fn ($value) => (int) $value)->toArray(),
             ];
         });
-    }
-
-    /**
-     * Serie mensual de capacidad instalada.
-     * Como la tabla base de capacidad no es mensual, repetimos el total como referencia anual.
-     */
-    private function loadInstalledCapacityByMonth(): array
-    {
-        return Cache::remember(
-            "public_accommodation_tab:installed_capacity_by_month:year_{$this->year}",
-            now()->addMinutes(10),
-            function () {
-                if (! $this->year) {
-                    return ['labels' => [], 'data' => []];
-                }
-
-                $months = Month::query()
-                    ->orderBy('month_number')
-                    ->get(['id', 'month']);
-
-                $totalBeds = (int) Accommodation::query()->sum('beds');
-
-                return [
-                    'labels' => $months->pluck('month')->toArray(),
-                    'data' => $months->map(fn () => $totalBeds)->toArray(),
-                ];
-            }
-        );
-    }
-
-    /**
-     * Serie mensual de habitaciones disponibles.
-     * Si no existe un campo mensual específico, usamos rooms como referencia instalada.
-     */
-    private function loadAvailableRoomsByMonth(): array
-    {
-        return Cache::remember(
-            "public_accommodation_tab:available_rooms_by_month:year_{$this->year}",
-            now()->addMinutes(10),
-            function () {
-                if (! $this->year) {
-                    return ['labels' => [], 'data' => []];
-                }
-
-                $months = Month::query()
-                    ->orderBy('month_number')
-                    ->get(['id', 'month']);
-
-                $totalRooms = (int) Accommodation::query()->sum('rooms');
-
-                return [
-                    'labels' => $months->pluck('month')->toArray(),
-                    'data' => $months->map(fn () => $totalRooms)->toArray(),
-                ];
-            }
-        );
     }
 
     public function render()

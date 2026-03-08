@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationPerformances\Tables;
 
+use App\Enums\Season;
 use App\Models\AccommodationCategory;
 use App\Models\State;
 use Filament\Actions\BulkActionGroup;
@@ -25,12 +26,12 @@ class AccommodationPerformancesTable
                 TextColumn::make('month.month')
                     ->label('Més')
                     ->searchable(),
-                TextColumn::make('accommodation.category.category')
-                    ->label('Categoría de Alojamiento')
+                TextColumn::make('state.name')
+                    ->label('Departamento')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('occupancy_rate')
-                    ->label('Tasa de ocupación (%)')
+                    ->label('Ocupación (%)')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('season')
@@ -46,25 +47,17 @@ class AccommodationPerformancesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('year_id')
+                    ->label('Año')
+                    ->relationship('year', 'year'),
+
+                SelectFilter::make('month_id')
+                    ->label('Mes')
+                    ->relationship('month', 'month'),
+
                 SelectFilter::make('state_id')
                     ->label('Departamento')
-                    ->query(function ($query, array $data) {
-                        if (blank($data['value'] ?? null)) return $query;
-
-                        return $query->whereHas('accommodation', fn($q) => $q->where('state_id', $data['value']));
-                    })
-                    ->options(State::query()->orderBy('name')->pluck('name', 'id')->toArray())
-                    ->searchable(),
-
-                SelectFilter::make('accommodation_category_id')
-                    ->label('Categoría')
-                    ->query(function ($query, array $data) {
-                        if (blank($data['value'] ?? null)) return $query;
-
-                        return $query->whereHas('accommodation', fn($q) => $q->where('accommodation_category_id', $data['value']));
-                    })
-                    ->options(AccommodationCategory::query()->orderBy('category')->pluck('category', 'id')->toArray())
-                    ->searchable(),
+                    ->relationship('state', 'name'),
             ])
             ->recordActions([
                 ViewAction::make(),

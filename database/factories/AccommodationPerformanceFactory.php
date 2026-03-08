@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Enums\Season;
 use App\Models\Accommodation;
 use App\Models\Month;
+use App\Models\State;
 use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,8 +22,14 @@ class AccommodationPerformanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'occupancy_rate' => $this->faker->randomFloat(2, 0, 100),
-            'season' => $this->faker->randomElement(['Alta', 'Baja', null]),
+            'year_id' => Year::query()->inRandomOrder()->value('id') ?? Year::factory(),
+            'month_id' => Month::query()->inRandomOrder()->value('id') ?? Month::factory(),
+            'state_id' => State::query()->inRandomOrder()->value('id') ?? State::factory(),
+            'occupancy_rate' => $this->faker->randomFloat(2, 5, 100),
+            'season' => $this->faker->randomElement([
+                Season::High->value,
+                Season::Low->value,
+            ]),
         ];
     }
 }

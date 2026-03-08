@@ -24,10 +24,8 @@ class AccommodationCategory extends Model
         );
     }
 
-
-
-    public function accommodations(): HasMany
+    public function capacities(): HasMany
     {
-        return $this->hasMany(Accommodation::class);
+        return $this->hasMany(AccommodationCapacity::class, 'accommodation_category_id');
     }
 }

@@ -19,6 +19,10 @@ return new class extends Migration
                 ->constrained('states')
                 ->nullOnDelete();
 
+            $table->foreignId('origin_region_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->foreignId('travel_reason_id')
                 ->nullable()
                 ->constrained()
@@ -33,6 +37,12 @@ return new class extends Migration
             $table->index(['year_id', 'month_id']);
             $table->index('destination_department_id');
             $table->index('travel_reason_id');
+            $table->index('origin_region_id');
+
+            $table->unique(
+                ['year_id', 'month_id', 'destination_department_id', 'origin_region_id', 'travel_reason_id'],
+                'domestic_tourisms_unique'
+            );
         });
     }
 

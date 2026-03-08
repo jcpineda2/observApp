@@ -14,6 +14,7 @@ class DomesticTourism extends Model
         'year_id',
         'month_id',
         'destination_department_id',
+        'origin_region_id',
         'travel_reason_id',
         'tourist_quantity',
         'total_spend',
@@ -24,6 +25,7 @@ class DomesticTourism extends Model
         'year_id' => 'integer',
         'month_id' => 'integer',
         'destination_department_id' => 'integer',
+        'origin_region_id' => 'integer',
         'travel_reason_id' => 'integer',
         'tourist_quantity' => 'integer',
         'total_spend' => 'decimal:2',
@@ -43,6 +45,11 @@ class DomesticTourism extends Model
     public function destinationDepartment(): BelongsTo
     {
         return $this->belongsTo(State::class, 'destination_department_id');
+    }
+
+    public function originRegion(): BelongsTo
+    {
+        return $this->belongsTo(OriginRegion::class);
     }
 
     public function travelReason(): BelongsTo

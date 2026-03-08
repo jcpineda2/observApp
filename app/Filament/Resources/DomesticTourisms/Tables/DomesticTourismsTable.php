@@ -25,6 +25,12 @@ class DomesticTourismsTable
                 TextColumn::make('destinationDepartment.name')
                     ->label('Dpartamento Destino')
                     ->sortable(),
+
+                TextColumn::make('originRegion.name')
+                    ->label('Región de origen')
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('travelReason.description')
                     ->searchable(),
                 TextColumn::make('tourist_quantity')
@@ -32,11 +38,11 @@ class DomesticTourismsTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('total_spend')
-                    ->label('Gasto Total')
+                    ->label('Gasto observado')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('average_stay')
-                    ->label('Estadía promedio')
+                    ->label('Estadía observada')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

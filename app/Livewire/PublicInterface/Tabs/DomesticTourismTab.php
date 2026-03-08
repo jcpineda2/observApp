@@ -2,7 +2,10 @@
 
 namespace App\Livewire\PublicInterface\Tabs;
 
+use App\Enums\IndicatorDomain;
+use App\Enums\IndicatorKey;
 use App\Models\DomesticTourism;
+use App\Models\IndicatorConstant;
 use App\Models\Month;
 use App\Models\Year;
 use Illuminate\Support\Facades\Cache;
@@ -14,9 +17,11 @@ class DomesticTourismTab extends Component
     public ?int $month = null;
 
     public array $kpis = [];
-    public array $byMonth = [];
-    public array $spendByMonth = [];
-    public array $avgStayByMonth = [];
+    public array $fixedComposition = [];
+
+    public array $touristsByMonth = [];
+    public array $spendObservedByMonth = [];
+    public array $averageStayObservedByMonth = [];
     public array $byDestinationDepartment = [];
     public array $byOriginRegion = [];
     public array $byTravelReason = [];
@@ -47,9 +52,11 @@ class DomesticTourismTab extends Component
     private function loadAll(): void
     {
         $this->kpis = $this->loadKpis();
-        $this->byMonth = $this->loadByMonth();
-        $this->spendByMonth = $this->loadSpendByMonth();
-        $this->avgStayByMonth = $this->loadAverageStayByMonth();
+        $this->fixedComposition = $this->loadFixedComposition();
+
+        $this->touristsByMonth = $this->loadTouristsByMonth();
+        $this->spendObservedByMonth = $this->loadSpendObservedByMonth();
+        $this->averageStayObservedByMonth = $this->loadAverageStayObservedByMonth();
         $this->byDestinationDepartment = $this->loadByDestinationDepartment();
         $this->byOriginRegion = $this->loadByOriginRegion();
         $this->byTravelReason = $this->loadByTravelReason();
@@ -72,21 +79,60 @@ class DomesticTourismTab extends Component
         return Cache::remember($this->cacheKey('kpis'), now()->addMinutes(10), function () {
             $query = $this->baseQuery();
 
+            $fixedAvgSpend = $this->resolveConstant(IndicatorKey::AvgSpendFixed);
+            $fixedAvgStay = $this->resolveConstant(IndicatorKey::AvgStayFixed);
+
             return [
                 'tourists' => (int) (clone $query)->sum('tourist_quantity'),
-                'total_spend_observed' => round((float) ((clone $query)->sum('total_spend') ?? 0), 2),
-                'average_stay_observed' => round((float) ((clone $query)->avg('average_stay') ?? 0), 2),
+                'fixed_avg_spend' => $fixedAvgSpend?->value,
+                'fixed_avg_spend_unit' => $fixedAvgSpend?->unit,
+                'fixed_avg_spend_source' => $fixedAvgSpend?->source,
+                'fixed_avg_stay' => $fixedAvgStay?->value,
+                'fixed_avg_stay_unit' => $fixedAvgStay?->unit,
+                'fixed_avg_stay_source' => $fixedAvgStay?->source,
+            ];
+        });
+    }
+
+    private function loadFixedComposition(): array
+    {
+        return Cache::remember("public_domestic_tab:fixed_composition:year_{$this->year}", now()->addMinutes(10), function () {
+            $rows = [
+                IndicatorKey::ExpenseCompositionFood,
+                IndicatorKey::ExpenseCompositionLodging,
+                IndicatorKey::ExpenseCompositionTransport,
+                IndicatorKey::ExpenseCompositionShopping,
+                IndicatorKey::ExpenseCompositionOther,
+            ];
+
+            $items = collect($rows)->map(function (IndicatorKey $key) {
+                $constant = $this->resolveConstant($key);
+
+                return [
+                    'key' => $key->value,
+                    'label' => $key->getLabel(),
+                    'value' => $constant?->value ?? 0,
+                    'unit' => $constant?->unit,
+                    'source' => $constant?->source,
+                ];
+            });
+
+            return [
+                'labels' => $items->pluck('label')->toArray(),
+                'data' => $items->pluck('value')->map(fn ($value) => round((float) $value, 2))->toArray(),
+                'items' => $items->toArray(),
             ];
         });
     }
 
     /**
-     * Apertura mensual: ignora el filtro de mes para mostrar todos los meses del año.
+     * Serie mensual de turistas.
+     * Ignora el filtro de mes para mostrar el año completo.
      */
-    private function loadByMonth(): array
+    private function loadTouristsByMonth(): array
     {
         return Cache::remember(
-            "public_domestic_tab:by_month:year_{$this->year}",
+            "public_domestic_tab:tourists_by_month:year_{$this->year}",
             now()->addMinutes(10),
             function () {
                 if (! $this->year) {
@@ -111,13 +157,10 @@ class DomesticTourismTab extends Component
         );
     }
 
-    /**
-     * Apertura mensual de gasto: ignora el filtro de mes para mostrar la serie anual completa.
-     */
-    private function loadSpendByMonth(): array
+    private function loadSpendObservedByMonth(): array
     {
         return Cache::remember(
-            "public_domestic_tab:spend_by_month:year_{$this->year}",
+            "public_domestic_tab:spend_observed_by_month:year_{$this->year}",
             now()->addMinutes(10),
             function () {
                 if (! $this->year) {
@@ -142,13 +185,10 @@ class DomesticTourismTab extends Component
         );
     }
 
-    /**
-     * Apertura mensual de estadía promedio: ignora el filtro de mes para mostrar la serie anual completa.
-     */
-    private function loadAverageStayByMonth(): array
+    private function loadAverageStayObservedByMonth(): array
     {
         return Cache::remember(
-            "public_domestic_tab:avg_stay_by_month:year_{$this->year}",
+            "public_domestic_tab:average_stay_observed_by_month:year_{$this->year}",
             now()->addMinutes(10),
             function () {
                 if (! $this->year) {
@@ -161,9 +201,9 @@ class DomesticTourismTab extends Component
 
                 $rows = DomesticTourism::query()
                     ->where('year_id', $this->year)
-                    ->selectRaw('month_id, AVG(average_stay) as avg_value')
+                    ->selectRaw('month_id, AVG(average_stay) as avg_stay')
                     ->groupBy('month_id')
-                    ->pluck('avg_value', 'month_id');
+                    ->pluck('avg_stay', 'month_id');
 
                 return [
                     'labels' => $months->pluck('month')->toArray(),
@@ -195,7 +235,8 @@ class DomesticTourismTab extends Component
     {
         return Cache::remember($this->cacheKey('by_origin_region'), now()->addMinutes(10), function () {
             $rows = $this->baseQuery()
-                ->selectRaw('COALESCE(origin_region, "Sin región") as region, SUM(tourist_quantity) as total')
+                ->leftJoin('origin_regions', 'origin_regions.id', '=', 'domestic_tourisms.origin_region_id')
+                ->selectRaw('COALESCE(origin_regions.name, "Sin región") as region, SUM(domestic_tourisms.tourist_quantity) as total')
                 ->groupBy('region')
                 ->orderByDesc('total')
                 ->get();
@@ -222,6 +263,33 @@ class DomesticTourismTab extends Component
                 'data' => $rows->pluck('total')->map(fn ($value) => (int) $value)->toArray(),
             ];
         });
+    }
+
+    private function resolveConstant(IndicatorKey $key): ?object
+    {
+        if (! $this->year) {
+            return null;
+        }
+
+        $row = IndicatorConstant::query()
+            ->where('domain', IndicatorDomain::Domestic->value)
+            ->where('key', $key->value)
+            ->where(function ($query) {
+                $query->where('year_id', $this->year)
+                    ->orWhereNull('year_id');
+            })
+            ->orderByRaw('CASE WHEN year_id = ? THEN 0 ELSE 1 END', [$this->year])
+            ->first();
+
+        if (! $row) {
+            return null;
+        }
+
+        return (object) [
+            'value' => (float) $row->value,
+            'unit' => $row->unit,
+            'source' => $row->source,
+        ];
     }
 
     public function render()

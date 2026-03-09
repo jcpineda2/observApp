@@ -22,7 +22,7 @@
             <nav class="hidden items-center gap-6 md:flex">
                 <a href="#principal" class="text-sm font-medium text-white/90 hover:text-white">Principal</a>
                 <a href="#turismo-interno" class="text-sm font-medium text-white/90 hover:text-white">Turismo interno</a>
-                <a href="#turismo-receptivo" class="text-sm font-medium text-white/90 hover:text-white">Turismo receptivo</a>
+                <a href="?tab=turismo-receptivo" class="text-sm font-medium text-white/90 hover:text-white">Turismo receptivo</a>
                 <a href="#prestadores" class="text-sm font-medium text-white/90 hover:text-white">Prestadores</a>
                 <a href="#alojamientos" class="text-sm font-medium text-white/90 hover:text-white">Alojamientos</a>
                 <a href="#empleo" class="text-sm font-medium text-white/90 hover:text-white">Empleo</a>
@@ -31,6 +31,7 @@
 
             {{-- Botón hamburguesa --}}
             <button
+            ObservatorioDemoSeeder::class,
                 type="button"
                 class="inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30 md:hidden"
                 @click="open = !open"

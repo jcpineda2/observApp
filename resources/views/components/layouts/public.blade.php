@@ -13,9 +13,10 @@
 
     @livewireStyles
 </head>
+
 <body class="min-h-screen bg-gray-50 text-gray-900 antialiased">
     {{-- Header público --}}
-
+    <livewire:public-interface.header />
     {{-- Contenido --}}
     <main class="min-h-[calc(100vh-64px)]">
         {{ $slot }}

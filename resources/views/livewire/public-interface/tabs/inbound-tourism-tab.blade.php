@@ -54,7 +54,7 @@
         />
     </div>
 
-    {{-- Aperturas --}}
+    {{-- Aperturas principales --}}
     <div class="grid gap-4 lg:grid-cols-2">
         <div wire:key="inbound-by-month-{{ $year ?? 'null' }}">
             <x-chart.card
@@ -172,11 +172,15 @@
         </div>
     </div>
 
-    {{-- Pendiente PDF --}}
-    <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-4">
-        <h3 class="text-sm font-semibold text-gray-700">Pendiente</h3>
-        <p class="mt-1 text-xs text-gray-500">
-            Falta incorporar el mapa geográfico del eje Turismo Receptivo.
-        </p>
+    {{-- Mapa geográfico --}}
+    <div wire:key="inbound-map-by-department-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
+        <x-map.paraguay-departments
+            :map-id="'inbound-map-by-department-'.($year ?? 'null').'-'.($month ?? 'all')"
+            :geo-json-url="asset('maps/paraguay-departments.geojson')"
+            :values="$mapByDepartment ?? []"
+            title="Mapa geográfico"
+            subtitle="Distribución territorial del turismo receptivo por departamento destino"
+            :height="460"
+        />
     </div>
 </div>

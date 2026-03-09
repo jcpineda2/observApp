@@ -23,6 +23,7 @@ class InboundTourismTab extends Component
     public array $byTravelReason = [];
     public array $topMarkets = [];
     public array $yoy = [];
+    public array $mapByDepartment = [];
 
     protected $listeners = [
         'public-filters-updated' => 'onFiltersUpdated',
@@ -31,7 +32,9 @@ class InboundTourismTab extends Component
     public function mount(): void
     {
         if (! $this->year) {
-            $this->year = Year::query()->orderByDesc('year')->value('id');
+            $this->year = Year::query()
+                ->orderByDesc('year')
+                ->value('id');
         }
 
         $this->loadAll();
@@ -54,6 +57,7 @@ class InboundTourismTab extends Component
         $this->byTravelReason = $this->loadByTravelReason();
         $this->topMarkets = $this->loadTopMarkets();
         $this->yoy = $this->loadYoY();
+        $this->mapByDepartment = $this->loadMapByDepartment();
     }
 
     private function cacheKey(string $suffix): string
@@ -73,8 +77,8 @@ class InboundTourismTab extends Component
         return Cache::remember($this->cacheKey('kpis'), now()->addMinutes(10), function () {
             $query = $this->baseQuery();
 
-            $avgSpend = $this->resolveConstant(IndicatorDomain::Inbound, IndicatorKey::AvgSpendFixed);
-            $avgStay = $this->resolveConstant(IndicatorDomain::Inbound, IndicatorKey::AvgStayFixed);
+            $avgSpend = $this->resolveConstant(IndicatorKey::AvgSpendFixed);
+            $avgStay = $this->resolveConstant(IndicatorKey::AvgStayFixed);
 
             return [
                 'tourists' => (int) (clone $query)->sum('tourist_arrivals'),
@@ -90,6 +94,10 @@ class InboundTourismTab extends Component
         });
     }
 
+    /**
+     * Serie mensual.
+     * Ignora el filtro de mes para mostrar el año completo.
+     */
     private function loadByMonth(): array
     {
         return Cache::remember(
@@ -170,6 +178,10 @@ class InboundTourismTab extends Component
         });
     }
 
+    /**
+     * Ranking de mercados emisores.
+     * Sí, se parece a byCountry, pero este bloque queda explícitamente como ranking ejecutivo.
+     */
     private function loadTopMarkets(): array
     {
         return Cache::remember($this->cacheKey('top_markets'), now()->addMinutes(10), function () {
@@ -196,11 +208,15 @@ class InboundTourismTab extends Component
                     'labels' => [],
                     'current' => [],
                     'previous' => [],
+                    'current_year' => null,
+                    'previous_year' => null,
                 ];
             }
 
             $selectedYearValue = (int) Year::whereKey($this->year)->value('year');
-            $previousYearId = Year::query()->where('year', $selectedYearValue - 1)->value('id');
+            $previousYearId = Year::query()
+                ->where('year', $selectedYearValue - 1)
+                ->value('id');
 
             $months = Month::query()
                 ->orderBy('month_number')
@@ -232,14 +248,31 @@ class InboundTourismTab extends Component
         });
     }
 
-    private function resolveConstant(IndicatorDomain $domain, IndicatorKey $key): ?object
+    private function loadMapByDepartment(): array
+    {
+        return Cache::remember($this->cacheKey('map_by_department'), now()->addMinutes(10), function () {
+            $rows = $this->baseQuery()
+                ->leftJoin('states', 'states.id', '=', 'inbound_tourisms.destination_department_id')
+                ->selectRaw('COALESCE(states.name, "Sin departamento") as department, SUM(inbound_tourisms.tourist_arrivals) as total')
+                ->groupBy('department')
+                ->get();
+
+            return $rows
+                ->mapWithKeys(fn ($row) => [
+                    mb_strtolower(trim($row->department)) => (int) $row->total,
+                ])
+                ->toArray();
+        });
+    }
+
+    private function resolveConstant(IndicatorKey $key): ?object
     {
         if (! $this->year) {
             return null;
         }
 
         $row = IndicatorConstant::query()
-            ->where('domain', $domain->value)
+            ->where('domain', IndicatorDomain::Inbound->value)
             ->where('key', $key->value)
             ->where(function ($query) {
                 $query->where('year_id', $this->year)

@@ -8,23 +8,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InboundTourism extends Model
 {
-    /** @use HasFactory<\Database\Factories\InboundTourismFactory> */
     use HasFactory;
 
     protected $fillable = [
         'year_id',
         'month_id',
         'residence_country_id',
+        'destination_department_id',
         'entry_mode_id',
         'travel_reason_id',
         'tourist_arrivals',
         'excursionist_arrivals',
         'foreign_exchange_revenue',
         'average_spend',
-        'average_stay'
+        'average_stay',
     ];
 
     protected $casts = [
+        'year_id' => 'integer',
+        'month_id' => 'integer',
+        'residence_country_id' => 'integer',
+        'destination_department_id' => 'integer',
+        'entry_mode_id' => 'integer',
+        'travel_reason_id' => 'integer',
         'tourist_arrivals' => 'integer',
         'excursionist_arrivals' => 'integer',
         'foreign_exchange_revenue' => 'decimal:2',
@@ -35,6 +41,11 @@ class InboundTourism extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'residence_country_id');
+    }
+
+    public function destinationDepartment(): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'destination_department_id');
     }
 
     public function year(): BelongsTo

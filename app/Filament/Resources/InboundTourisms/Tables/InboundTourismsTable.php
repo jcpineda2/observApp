@@ -26,6 +26,10 @@ class InboundTourismsTable
                 TextColumn::make('country.name')
                     ->label('País de Residencia')
                     ->sortable(),
+                TextColumn::make('destinationDepartment.name')
+                    ->label('Departamento destino')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('entryMode.description')
                     ->label('Vía de Ingreso')
                     ->searchable(),

@@ -4,29 +4,31 @@ namespace Database\Factories;
 
 use App\Models\Country;
 use App\Models\EntryMode;
+use App\Models\InboundTourism;
 use App\Models\Month;
+use App\Models\State;
 use App\Models\TravelReason;
 use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\InboundTourism>
- */
 class InboundTourismFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = InboundTourism::class;
+
     public function definition(): array
     {
         return [
-            'tourist_arrivals' => $this->faker->numberBetween(0, 200000),
-            'excursionist_arrivals' => $this->faker->numberBetween(0, 80000),
-            'foreign_exchange_revenue' => $this->faker->randomFloat(2, 0, 50000000),
-            'average_spend' => $this->faker->randomFloat(2, 0, 800),
-            'average_stay' => $this->faker->randomFloat(2, 0, 20),
+            'year_id' => Year::query()->inRandomOrder()->value('id') ?? Year::factory(),
+            'month_id' => Month::query()->inRandomOrder()->value('id') ?? Month::factory(),
+            'residence_country_id' => Country::query()->inRandomOrder()->value('id') ?? Country::factory(),
+            'destination_department_id' => State::query()->inRandomOrder()->value('id'),
+            'entry_mode_id' => EntryMode::query()->inRandomOrder()->value('id') ?? EntryMode::factory(),
+            'travel_reason_id' => TravelReason::query()->inRandomOrder()->value('id') ?? TravelReason::factory(),
+            'tourist_arrivals' => fake()->numberBetween(10, 10000),
+            'excursionist_arrivals' => fake()->numberBetween(0, 5000),
+            'foreign_exchange_revenue' => fake()->randomFloat(2, 1000, 5000000),
+            'average_spend' => fake()->randomFloat(2, 50, 1000),
+            'average_stay' => fake()->randomFloat(2, 1, 15),
         ];
     }
 }

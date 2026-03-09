@@ -18,9 +18,10 @@ class InboundTourismForm
                 Select::make('year_id')
                     ->label('Año')
                     ->relationship(
-                        name:'year',
+                        name: 'year',
                         titleAttribute: 'year',
-                        modifyQueryUsing: fn(Builder $query)=> $query->orderBy('year','desc'),)
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('year', 'desc'),
+                    )
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -28,8 +29,9 @@ class InboundTourismForm
                     ->label('Més')
                     ->relationship(
                         name: 'month',
-                        titleAttribute:'month',
-                        modifyQueryUsing: fn(Builder $query) => $query->orderby('month_number', 'asc'),)
+                        titleAttribute: 'month',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderby('month_number', 'asc'),
+                    )
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -39,6 +41,21 @@ class InboundTourismForm
                     ->preload()
                     ->label('País de Residencia')
                     ->required(),
+
+                Select::make('destination_department_id')
+                    ->label('Departamento destino')
+                    ->relationship('destinationDepartment', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
+                Select::make('destination_department_id')
+                    ->label('Departamento destino')
+                    ->relationship('destinationDepartment', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
                 Select::make('entry_mode_id')
                     ->relationship('entryMode', 'description')
                     ->searchable()
@@ -51,17 +68,38 @@ class InboundTourismForm
                     ->preload()
                     ->label('Motivo de viaje')
                     ->required()
-                    ->rules([
-                        fn($get, $record) => Rule::unique('inbound_tourisms', 'travel_reason_id')
+                    ->rules(function (Get $get, $record) {
+                        if (
+                            ! $get('year_id') ||
+                            ! $get('month_id') ||
+                            ! $get('residence_country_id') ||
+                            ! $get('destination_department_id') ||
+                            ! $get('entry_mode_id') ||
+                            ! $get('travel_reason_id')
+                        ) {
+                            return [];
+                        }
+
+                        $rule = Rule::unique('inbound_tourisms', 'travel_reason_id')
                             ->where(
-                                fn($q) => $q
+                                fn($query) => $query
                                     ->where('year_id', $get('year_id'))
                                     ->where('month_id', $get('month_id'))
                                     ->where('residence_country_id', $get('residence_country_id'))
+                                    ->where('destination_department_id', $get('destination_department_id'))
                                     ->where('entry_mode_id', $get('entry_mode_id'))
-                            )
-                            ->ignore($record?->id),
+                            );
+
+                        if ($record) {
+                            $rule->ignore($record->getKey());
+                        }
+
+                        return [$rule];
+                    })
+                    ->validationMessages([
+                        'unique' => 'Ya existe un registro para el Año, Mes, País de residencia, Departamento destino, Vía de ingreso y Motivo seleccionados.',
                     ]),
+
                 TextInput::make('tourist_arrivals')
                     ->label('Llegadas Turistas')
                     ->required()

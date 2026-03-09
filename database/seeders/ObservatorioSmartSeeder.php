@@ -230,6 +230,7 @@ class ObservatorioSmartSeeder extends Seeder
     }
 
     private function seedInboundTourism(
+
         Collection $years,
         Collection $months,
         Collection $countries,

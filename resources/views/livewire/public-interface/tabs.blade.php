@@ -1,8 +1,8 @@
 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
     {{-- Barra de Tabs (Desktop) --}}
     <div class="hidden md:block">
-        <div class="flex items-center justify-between gap-4">
-            <h1 class="text-xl font-semibold text-gray-900">
+        <div class="flex items-center justify-between gap-4 ">
+            <h1 class="text-xl font-semibold text-gray-900 dark:text-white">
                 Observatorio Turístico
             </h1>
 
@@ -10,8 +10,8 @@
                 @foreach ($tabs as $key => $label)
                     <button type="button" wire:click="setTab('{{ $key }}')" @class([
                         'rounded-full px-4 py-2 text-sm font-medium transition',
-                        'bg-blue-800 text-white cursor-pointer' => $activeTab === $key,
-                        'bg-white text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50 cursor-pointer' =>
+                        'bg-blue-800 text-white dark:bg-blue-600 cursor-pointer' => $activeTab === $key,
+                        'bg-white text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50 cursor-pointer ' =>
                             $activeTab !== $key,
                     ])>
                         {{ $label }}

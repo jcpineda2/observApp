@@ -4,7 +4,7 @@
     'values' => [],
     'title' => 'Mapa',
     'subtitle' => null,
-    'height' => 420,
+    'height' => 650,
 ])
 
 <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200">

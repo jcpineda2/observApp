@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Scope;
 use App\Models\Airport;
 use App\Models\City;
 use App\Models\Country;
@@ -17,26 +18,28 @@ class AirportSeeder extends Seeder
      */
     public function run(): void
     {
-        Airport::create([
-            'name' => "Aeropuerto Int. Silvio Pettirossi",
-            'country_id' => Country::query()->where('name', 'like', '%Paraguay%')->value('id'),
-            'city_id' => City::query()->where('name', 'like', '%Luque%')->whereHas('country', function ($query) {
-                $query->where('name', 'like', '%Paraguay%');
-            })->value('id'),
-        ]);
-        Airport::create([
-            'name' => "Aeropuerto Int. Guarani",
-            'country_id' => Country::query()->where('name', 'like', '%Paraguay%')->value('id'),
-            'city_id' => City::query()->where('name', 'like', '%Minga Guazu%')->whereHas('country', function ($query) {
-                $query->where('name', 'like', '%Paraguay%');
-            })->value('id'),
-        ]);
+        // Airport::create([
+        //     'name' => "Aeropuerto Int. Silvio Pettirossi",
+        //     'country_id' => Country::query()->where('name', 'like', '%Paraguay%')->value('id'),
+        //     'city_id' => City::query()->where('name', 'like', '%Luque%')->whereHas('country', function ($query) {
+        //         $query->where('name', 'like', '%Paraguay%');
+        //     })->value('id'),
+        // ]);
+        // Airport::create([
+        //     'name' => "Aeropuerto Int. Guarani",
+        //     'country_id' => Country::query()->where('name', 'like', '%Paraguay%')->value('id'),
+        //     'city_id' => City::query()->where('name', 'like', '%Minga Guazu%')->whereHas('country', function ($query) {
+        //         $query->where('name', 'like', '%Paraguay%');
+        //     })->value('id'),
+        // ]);
         Airport::create([
             'name' => "Aeropuerto Int. Teniente Amin Ayub González",
             'country_id' => Country::query()->where('name', 'like', '%Paraguay%')->value('id'),
             'city_id' => City::query()->where('name', 'like', '%Encarnación%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Paraguay%');
             })->value('id'),
+            'scope' => Scope::NATIONAL,
+            'is_operational' => true,
         ]);
 
         Airport::create([
@@ -45,6 +48,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Buenos Aires%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%argentina%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
 
         Airport::create([
@@ -53,6 +58,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Córdoba%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%argentina%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
 
         Airport::create([
@@ -61,6 +68,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Santa Cruz%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Bolivia%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
         Airport::create([
             'name' => "Aeropuerto Int. Presidente Juscelino Kubitschek",
@@ -68,6 +77,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Brasilia%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Brazil%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
 
         Airport::create([
@@ -76,6 +87,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Santiago%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Chile%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
         Airport::create([
             'name' => "Aeropuerto Int. El Dorado",
@@ -83,6 +96,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Bogotá%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Colombia%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
 
         Airport::create([
@@ -91,6 +106,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Medellín%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Colombia%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
 
         Airport::create([
@@ -99,6 +116,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Cartagena%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Colombia%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
         Airport::create([
             'name' => "Aeropuerto Int. Mariscal Sucre",
@@ -106,6 +125,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Quito%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Ecuador%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
         Airport::create([
             'name' => "Aeropuerto Int. de Carrasco",
@@ -113,6 +134,8 @@ class AirportSeeder extends Seeder
             'city_id' => City::query()->where('name', 'like', '%Montevideo%')->whereHas('country', function ($query) {
                 $query->where('name', 'like', '%Uruguay%');
             })->value('id'),
+            'scope' => Scope::INTERNATIONAL,
+            'is_operational' => true,
         ]);
     }
 }

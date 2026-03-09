@@ -31,3 +31,67 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+/* Inicio del css del mapa */
+.paraguay-map-label-wrapper {
+    background: transparent;
+    border: none;
+}
+
+.paraguay-map-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #111827;
+    white-space: nowrap;
+    text-shadow:
+        0 0 2px #ffffff,
+        0 0 4px #ffffff,
+        0 0 6px #ffffff;
+    pointer-events: none;
+}
+
+.paraguay-map-hover-tooltip {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #111827;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 6px 8px;
+}
+
+.paraguay-map-legend {
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+}
+
+.paraguay-map-legend-scale {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 12px;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.paraguay-map-legend-scale span {
+    width: 28px;
+    height: 12px;
+    display: inline-block;
+}
+
+.paraguay-map-legend-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.leaflet-container {
+    background: #ffffff !important;
+    font-family: inherit;
+}
+/* Fin del css del mapa */

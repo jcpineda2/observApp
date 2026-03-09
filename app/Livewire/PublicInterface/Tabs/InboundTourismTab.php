@@ -68,8 +68,8 @@ class InboundTourismTab extends Component
     private function baseQuery()
     {
         return InboundTourism::query()
-            ->when($this->year, fn ($query) => $query->where('year_id', $this->year))
-            ->when($this->month, fn ($query) => $query->where('month_id', $this->month));
+            ->when($this->year, fn($query) => $query->where('year_id', $this->year))
+            ->when($this->month, fn($query) => $query->where('month_id', $this->month));
     }
 
     private function loadKpis(): array
@@ -120,7 +120,7 @@ class InboundTourismTab extends Component
 
                 return [
                     'labels' => $months->pluck('month')->toArray(),
-                    'data' => $months->map(fn ($month) => (int) ($rows[$month->id] ?? 0))->toArray(),
+                    'data' => $months->map(fn($month) => (int) ($rows[$month->id] ?? 0))->toArray(),
                 ];
             }
         );
@@ -139,7 +139,7 @@ class InboundTourismTab extends Component
 
             return [
                 'labels' => $rows->pluck('country')->toArray(),
-                'data' => $rows->pluck('total')->map(fn ($value) => (int) $value)->toArray(),
+                'data' => $rows->pluck('total')->map(fn($value) => (int) $value)->toArray(),
             ];
         });
     }
@@ -156,7 +156,7 @@ class InboundTourismTab extends Component
 
             return [
                 'labels' => $rows->pluck('entry_mode')->toArray(),
-                'data' => $rows->pluck('total')->map(fn ($value) => (int) $value)->toArray(),
+                'data' => $rows->pluck('total')->map(fn($value) => (int) $value)->toArray(),
             ];
         });
     }
@@ -173,7 +173,7 @@ class InboundTourismTab extends Component
 
             return [
                 'labels' => $rows->pluck('travel_reason')->toArray(),
-                'data' => $rows->pluck('total')->map(fn ($value) => (int) $value)->toArray(),
+                'data' => $rows->pluck('total')->map(fn($value) => (int) $value)->toArray(),
             ];
         });
     }
@@ -195,7 +195,7 @@ class InboundTourismTab extends Component
 
             return [
                 'labels' => $rows->pluck('country')->toArray(),
-                'data' => $rows->pluck('total')->map(fn ($value) => (int) $value)->toArray(),
+                'data' => $rows->pluck('total')->map(fn($value) => (int) $value)->toArray(),
             ];
         });
     }
@@ -240,8 +240,8 @@ class InboundTourismTab extends Component
 
             return [
                 'labels' => $months->pluck('month')->toArray(),
-                'current' => $months->map(fn ($month) => (int) ($current[$month->id] ?? 0))->toArray(),
-                'previous' => $months->map(fn ($month) => (int) ($previous[$month->id] ?? 0))->toArray(),
+                'current' => $months->map(fn($month) => (int) ($current[$month->id] ?? 0))->toArray(),
+                'previous' => $months->map(fn($month) => (int) ($previous[$month->id] ?? 0))->toArray(),
                 'current_year' => $selectedYearValue,
                 'previous_year' => $selectedYearValue - 1,
             ];
@@ -258,11 +258,38 @@ class InboundTourismTab extends Component
                 ->get();
 
             return $rows
-                ->mapWithKeys(fn ($row) => [
-                    mb_strtolower(trim($row->department)) => (int) $row->total,
-                ])
+                ->mapWithKeys(function ($row) {
+                    $key = $this->normalizeDepartmentKey($row->department);
+
+                    return [$key => (int) $row->total];
+                })
                 ->toArray();
         });
+        }
+
+    private function normalizeDepartmentKey(?string $name): string
+    {
+        $normalized = mb_strtolower(trim((string) $name), 'UTF-8');
+
+        $replacements = [
+            'á' => 'a',
+            'é' => 'e',
+            'í' => 'i',
+            'ó' => 'o',
+            'ú' => 'u',
+            'ü' => 'u',
+            'ñ' => 'n',
+            '.' => '',
+            '-' => ' ',
+        ];
+
+        $normalized = strtr($normalized, $replacements);
+        $normalized = preg_replace('/\s+/', ' ', $normalized);
+
+        return match ($normalized) {
+            'pdte hayes' => 'presidente hayes',
+            default => $normalized,
+        };
     }
 
     private function resolveConstant(IndicatorKey $key): ?object

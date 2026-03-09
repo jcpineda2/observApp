@@ -1,8 +1,13 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
-window.Alpine = Alpine;
-Alpine.start();
+import Alpine from 'alpinejs'
+import { paraguayDepartmentMap } from './maps/paraguay-department-map'
+
+window.Alpine = Alpine
+window.paraguayDepartmentMap = paraguayDepartmentMap
+
+Alpine.start()
+
 
 import './charts/observatorio';
 
@@ -11,6 +16,6 @@ import L from 'leaflet';
 window.L = L;
 
 
-import { paraguayDepartmentMap } from './maps/paraguay-department-map';
+import { initThemeToggle } from './theme-toggle';
 
-window.paraguayDepartmentMap = paraguayDepartmentMap;
+initThemeToggle();

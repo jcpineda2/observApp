@@ -19,9 +19,9 @@ class IndicatorConstantForm
                     ->label('Dominio')
                     ->options(IndicatorDomain::class)
                     ->required(),
-                TextInput::make('key')
+                Select::make('key')
                     ->label('Clave')
-                    ->option(IndicatorKey::class)
+                    ->options(IndicatorKey::class)
                     ->required(),
 
                 Select::make('year_id')

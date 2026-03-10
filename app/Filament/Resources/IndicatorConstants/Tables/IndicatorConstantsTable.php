@@ -55,12 +55,12 @@ class IndicatorConstantsTable
                 SelectFilter::make('domain')
                     ->label('Dominio')
                     ->options([
-                        IndicatorDomain::cases(),
+                        IndicatorDomain::class,
                     ]),
                 SelectFilter::make('key')
                     ->label('Indicador')
                     ->options([
-                        IndicatorKey::cases(),
+                        IndicatorKey::class,
                     ]),
             ])
             ->recordActions([

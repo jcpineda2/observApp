@@ -19,10 +19,6 @@ class State extends Model
         return $this->hasMany(City::class);
     }
 
-    public function accommodations(): HasMany {
-        return $this->hasMany(Accommodation::class);
-    }
-
     public function providers(): HasMany {
         return $this->hasMany(TourismProviderStat::class);
     }

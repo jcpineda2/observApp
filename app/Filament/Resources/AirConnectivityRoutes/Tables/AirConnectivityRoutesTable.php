@@ -41,8 +41,8 @@ class AirConnectivityRoutesTable
                     ->label('Ruta activa')
                     ->boolean(),
 
-                TextColumn::make('flights_count')->label('Cantidad de vuelos')->numeric()->minvalue(0)->required(),
-                TextColumn::make('seats_count')->label('Cantidad de asientos')->numeric()->minvalue(0)->required(),
+                TextColumn::make('flights_count')->label('Cantidad de vuelos')->numeric(),
+                TextColumn::make('seats_count')->label('Cantidad de asientos')->numeric(),
             ])
             ->filters([
                 SelectFilter::make('year_id')->label('Año')->relationship('year', 'year')->preload(),

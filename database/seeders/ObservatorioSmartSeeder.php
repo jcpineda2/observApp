@@ -48,6 +48,10 @@ class ObservatorioSmartSeeder extends Seeder
         $airLines = AirLine::query()->where('is_active', true)->get(['id', 'name']);
         $airports = Airport::query()->where('is_operational', true)->get(['id', 'name', 'country_id', 'city_id']);
 
+        $departments = State::withWhereHas('country', function ($query) {
+            $query->where('name','like', '%Paraguay%');
+        })->get(['id', 'name']);
+
         if (
             $years->isEmpty() ||
             $months->isEmpty() ||
@@ -69,7 +73,7 @@ class ObservatorioSmartSeeder extends Seeder
         $this->seedInboundIndicatorConstants($years);
 
         $this->seedDomesticTourism($years, $months, $states, $originRegions, $travelReasons);
-        $this->seedInboundTourism($years, $months, $countries, $states, $entryModes, $travelReasons);
+        $this->seedInboundTourism($years, $months, $countries, $states, $entryModes, $travelReasons,$departments);
         $this->seedTourismProviderStats($years, $months, $serviceSectors, $states);
         $this->seedAccommodationCapacities($accommodationCategories, $states);
         $this->seedAccommodationPerformances($years, $months, $states);
@@ -230,25 +234,25 @@ class ObservatorioSmartSeeder extends Seeder
     }
 
     private function seedInboundTourism(
-
         Collection $years,
         Collection $months,
         Collection $countries,
         Collection $states,
         Collection $entryModes,
-        Collection $travelReasons
+        Collection $travelReasons,
+        Collection $departments,
     ): void {
         foreach ($years as $year) {
             foreach ($months as $month) {
                 foreach ($countries as $country) {
-                    foreach ($states as $state) {
+                    foreach ($departments as $department) {
                         foreach ($entryModes as $entryMode) {
                             foreach ($travelReasons as $reason) {
                                 $payload = InboundTourism::factory()->make([
                                     'year_id' => $year->id,
                                     'month_id' => $month->id,
                                     'residence_country_id' => $country->id,
-                                    'destination_department_id' => $state->id,
+                                    'destination_department_id' => $department->id,
                                     'entry_mode_id' => $entryMode->id,
                                     'travel_reason_id' => $reason->id,
                                 ])->toArray();
@@ -267,7 +271,7 @@ class ObservatorioSmartSeeder extends Seeder
                                         'year_id' => $year->id,
                                         'month_id' => $month->id,
                                         'residence_country_id' => $country->id,
-                                        'destination_department_id' => $state->id,
+                                        'destination_department_id' => $department->id,
                                         'entry_mode_id' => $entryMode->id,
                                         'travel_reason_id' => $reason->id,
                                     ],

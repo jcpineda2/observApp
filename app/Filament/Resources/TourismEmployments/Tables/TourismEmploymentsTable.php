@@ -56,7 +56,6 @@ class TourismEmploymentsTable
                     ->relationship('serviceSector', 'description'),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

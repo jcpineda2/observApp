@@ -77,7 +77,6 @@ class CountriesTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

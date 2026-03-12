@@ -54,7 +54,6 @@ class EmploymentDemographicsTable
                     ->relationship('ageRange', 'name'),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

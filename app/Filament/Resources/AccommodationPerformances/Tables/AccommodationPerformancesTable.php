@@ -58,7 +58,6 @@ class AccommodationPerformancesTable
                     ->relationship('state', 'name'),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

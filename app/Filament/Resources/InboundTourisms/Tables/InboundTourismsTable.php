@@ -85,7 +85,6 @@ class InboundTourismsTable
 
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

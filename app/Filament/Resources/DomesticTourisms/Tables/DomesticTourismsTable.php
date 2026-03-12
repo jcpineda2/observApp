@@ -64,7 +64,6 @@ class DomesticTourismsTable
                 SelectFilter::make('travel_reason_id')->relationship('travelReason', 'description')->label('Motivo'),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

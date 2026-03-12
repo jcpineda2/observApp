@@ -33,7 +33,6 @@ class TravelReasonsTable
             ])
             ->filters([])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

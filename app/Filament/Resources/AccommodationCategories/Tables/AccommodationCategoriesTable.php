@@ -32,7 +32,6 @@ class AccommodationCategoriesTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

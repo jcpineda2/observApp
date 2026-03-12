@@ -53,7 +53,6 @@ class AirportsTable
                     ->options(Scope::class),
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

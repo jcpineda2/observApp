@@ -20,7 +20,8 @@ class UserForm
                     ->label('Email address')
                     ->email()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
+                DateTimePicker::make('email_verified_at')
+                    ->hiddenOn(Operation::Edit),
                 TextInput::make('password')
                     ->password()
                     ->required()

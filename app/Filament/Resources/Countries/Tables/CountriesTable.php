@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Countries\Tables;
 
+use App\Filament\Resources\Countries\CountryResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -81,9 +82,8 @@ class CountriesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => CountryResource::canDeleteAny()),
+
                 ]),
             ]);
     }

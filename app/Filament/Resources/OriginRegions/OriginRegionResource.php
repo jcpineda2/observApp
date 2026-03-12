@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OriginRegions;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\OriginRegions\Pages\CreateOriginRegion;
 use App\Filament\Resources\OriginRegions\Pages\EditOriginRegion;
 use App\Filament\Resources\OriginRegions\Pages\ListOriginRegions;
@@ -17,11 +18,15 @@ use UnitEnum;
 
 class OriginRegionResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'origin-regions';
+
     protected static ?string $model = OriginRegion::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
 
     protected static ?string $navigationLabel = 'Regiones de origen';
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\InboundTourisms;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\InboundTourisms\Pages\CreateInboundTourism;
 use App\Filament\Resources\InboundTourisms\Pages\EditInboundTourism;
 use App\Filament\Resources\InboundTourisms\Pages\ListInboundTourisms;
@@ -19,11 +20,15 @@ use UnitEnum;
 
 class InboundTourismResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'inbound-tourism';
+
     protected static ?string $model = InboundTourism::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Camera;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Indicadores';
+    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
 
     protected static ?string $navigationLabel = 'Turismo Receptivo ';
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Years\Tables;
 
+use App\Filament\Resources\Years\YearResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -35,7 +36,7 @@ class YearsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    // DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => YearResource::canDeleteAny()),
                 ]),
             ]);
     }

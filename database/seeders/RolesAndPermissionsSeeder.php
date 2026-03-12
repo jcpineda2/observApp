@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
@@ -14,39 +13,37 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        // HABILIDADES alineadas al trait/Filament
         $abilities = ['viewAny', 'view', 'create', 'update', 'delete'];
 
-        // SUBJECTS (deben coincidir con getPermissionSubject()).
-        // Recomiendo definirlos explícitos para control total.
         $subjects = [
+            // Seguridad
             'users',
             'roles',
             'permissions',
 
+            // Catálogos
             'countries',
             'months',
             'years',
-
             'entry-modes',
             'travel-reasons',
-
             'service-sectors',
-            'tourism-provider-stats',
-
             'accommodation-categories',
-            'accommodations',
-            'accommodation-performances',
-
+            'origin-regions',
+            'age-ranges',
             'air-lines',
             'airports',
-            'air-connectivity-routes',
 
+            // Observatorio
             'domestic-tourisms',
             'inbound-tourisms',
-
+            'tourism-provider-stats',
+            'accommodation-capacities',
+            'accommodation-performances',
             'tourism-employments',
             'employment-demographics',
+            'air-connectivity-routes',
+            'indicator-constants',
         ];
 
         $allPermissions = [];
@@ -57,7 +54,6 @@ class RolesAndPermissionsSeeder extends Seeder
             }
         }
 
-        // Crear/actualizar permisos (idempotente)
         foreach ($allPermissions as $name) {
             Permission::updateOrCreate(
                 ['name' => $name, 'guard_name' => 'web'],
@@ -65,23 +61,73 @@ class RolesAndPermissionsSeeder extends Seeder
             );
         }
 
-        // Roles
-        $admin  = Role::updateOrCreate(['name' => 'Admin', 'guard_name' => 'web'], []);
-        $editor = Role::updateOrCreate(['name' => 'Editor', 'guard_name' => 'web'], []);
-        $viewer = Role::updateOrCreate(['name' => 'Visor', 'guard_name' => 'web'], []);
+        $admin = Role::updateOrCreate(
+            ['name' => 'Admin', 'guard_name' => 'web'],
+            []
+        );
+
+        $editor = Role::updateOrCreate(
+            ['name' => 'Editor', 'guard_name' => 'web'],
+            []
+        );
+
+        $viewer = Role::updateOrCreate(
+            ['name' => 'Visor', 'guard_name' => 'web'],
+            []
+        );
+
+        $observer = Role::updateOrCreate(
+            ['name' => 'Observador', 'guard_name' => 'web'],
+            []
+        );
 
         // Admin: todo
         $admin->syncPermissions(Permission::all());
 
         // Editor: todo menos delete
-        $editorPerms = array_filter($allPermissions, fn ($p) => ! str_ends_with($p, '.delete'));
+        $editorPerms = array_filter(
+            $allPermissions,
+            fn ($permission) => ! str_ends_with($permission, '.delete')
+        );
         $editor->syncPermissions($editorPerms);
 
         // Visor: solo ver
-        $viewerPerms = array_filter($allPermissions, fn ($p) =>
-            str_ends_with($p, '.viewAny') || str_ends_with($p, '.view')
+        $viewerPerms = array_filter(
+            $allPermissions,
+            fn ($permission) =>
+                str_ends_with($permission, '.viewAny') ||
+                str_ends_with($permission, '.view')
         );
         $viewer->syncPermissions($viewerPerms);
+
+        // Observador:
+        // puede ver, crear y editar
+        // NO puede borrar
+        // NO tiene acceso a usuarios, roles ni permisos
+        $restrictedSubjects = [
+            'users',
+            'roles',
+            'permissions',
+        ];
+
+        $observerPerms = array_filter(
+            $allPermissions,
+            function ($permission) use ($restrictedSubjects) {
+                foreach ($restrictedSubjects as $subject) {
+                    if (str_starts_with($permission, "{$subject}.")) {
+                        return false;
+                    }
+                }
+
+                return
+                    str_ends_with($permission, '.viewAny') ||
+                    str_ends_with($permission, '.view') ||
+                    str_ends_with($permission, '.create') ||
+                    str_ends_with($permission, '.update');
+            }
+        );
+
+        $observer->syncPermissions($observerPerms);
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
     }

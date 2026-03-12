@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ServiceSectors;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\ServiceSectors\Pages\CreateServiceSector;
 use App\Filament\Resources\ServiceSectors\Pages\EditServiceSector;
 use App\Filament\Resources\ServiceSectors\Pages\ListServiceSectors;
@@ -19,6 +20,10 @@ use UnitEnum;
 
 class ServiceSectorResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'service-sectors';
+
     protected static ?string $model = ServiceSector::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMap;

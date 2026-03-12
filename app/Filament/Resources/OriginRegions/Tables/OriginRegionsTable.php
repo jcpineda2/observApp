@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OriginRegions\Tables;
 
+use App\Filament\Resources\OriginRegions\OriginRegionResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -31,7 +32,7 @@ class OriginRegionsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => OriginRegionResource::canDeleteAny()),
                 ]),
             ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Airports;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\Airports\Pages\CreateAirport;
 use App\Filament\Resources\Airports\Pages\EditAirport;
 use App\Filament\Resources\Airports\Pages\ListAirports;
@@ -19,11 +20,15 @@ use UnitEnum;
 
 class AirportResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'airports';
+
     protected static ?string $model = Airport::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::PaperAirplane;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
 
     protected static ?string $navigationLabel = 'Aeropuertos';
 

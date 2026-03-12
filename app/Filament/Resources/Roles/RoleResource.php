@@ -18,11 +18,13 @@ class RoleResource extends Resource
 {
     use HasResourcePermissions;
 
+    protected static ?string $permissionSubject = 'roles';
+
     protected static ?string $model = Role::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Configuraciones';
+    protected static string | UnitEnum | null $navigationGroup = 'Seguridad';
     protected static ?string $modelLabel = 'Rol';
     protected static ?string $pluralModelLabel = 'Roles';
 

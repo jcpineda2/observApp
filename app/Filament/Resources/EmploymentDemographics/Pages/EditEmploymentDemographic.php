@@ -15,7 +15,9 @@ class EditEmploymentDemographic extends EditRecord
     {
         return [
             ViewAction::make(),
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->visible(fn (): bool => static::getResource()::canDelete($this->record)),
+
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AgeRanges;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\AgeRanges\Pages\CreateAgeRange;
 use App\Filament\Resources\AgeRanges\Pages\EditAgeRange;
 use App\Filament\Resources\AgeRanges\Pages\ListAgeRanges;
@@ -17,6 +18,10 @@ use UnitEnum;
 
 class AgeRangeResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'age-ranges';
+
     protected static ?string $model = AgeRange::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
@@ -24,7 +29,7 @@ class AgeRangeResource extends Resource
     protected static ?string $navigationLabel = 'Rangos de edad';
     protected static ?string $modelLabel = 'Rango de edad';
     protected static ?string $pluralModelLabel = 'Rangos de edad';
-    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
 
 
     public static function form(Schema $schema): Schema

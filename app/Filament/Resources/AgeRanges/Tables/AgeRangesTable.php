@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AgeRanges\Tables;
 
+use App\Filament\Resources\AgeRanges\AgeRangeResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -31,7 +32,7 @@ class AgeRangesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => AgeRangeResource::canDeleteAny()),
                 ]),
             ]);
     }

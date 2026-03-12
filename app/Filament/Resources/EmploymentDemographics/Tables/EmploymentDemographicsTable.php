@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\EmploymentDemographics\Tables;
 
 use App\Enums\Gender;
+use App\Filament\Resources\TourismEmployments\TourismEmploymentResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -58,7 +59,8 @@ class EmploymentDemographicsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => TourismEmploymentResource::canDeleteAny()),
+
                 ]),
             ]);
     }

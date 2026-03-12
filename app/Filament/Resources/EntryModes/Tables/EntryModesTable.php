@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EntryModes\Tables;
 
+use App\Filament\Resources\EntryModes\EntryModeResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -36,7 +37,7 @@ class EntryModesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => EntryModeResource::canDeleteAny()),
                 ]),
             ]);
     }

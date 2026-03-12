@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationCategories\Tables;
 
+use App\Filament\Resources\AccommodationCategories\AccommodationCategoryResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -36,7 +37,7 @@ class AccommodationCategoriesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => AccommodationCategoryResource::canDeleteAny()),
                 ]),
             ]);
     }

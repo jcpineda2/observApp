@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TourismEmployments\Tables;
 
+use App\Filament\Resources\TourismEmployments\TourismEmploymentResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -60,7 +61,7 @@ class TourismEmploymentsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => TourismEmploymentResource::canDeleteAny()),
                 ]),
             ]);
     }

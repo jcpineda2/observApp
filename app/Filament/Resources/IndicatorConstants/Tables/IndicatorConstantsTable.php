@@ -4,6 +4,7 @@ namespace App\Filament\Resources\IndicatorConstants\Tables;
 
 use App\Enums\IndicatorDomain;
 use App\Enums\IndicatorKey;
+use App\Filament\Resources\IndicatorConstants\IndicatorConstantResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -68,7 +69,7 @@ class IndicatorConstantsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => IndicatorConstantResource::canDeleteAny()),
                 ]),
             ]);
     }

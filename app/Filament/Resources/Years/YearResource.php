@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Years;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\Years\Pages\CreateYear;
 use App\Filament\Resources\Years\Pages\EditYear;
 use App\Filament\Resources\Years\Pages\ListYears;
@@ -17,6 +18,11 @@ use UnitEnum;
 
 class YearResource extends Resource
 {
+
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'years';
+
     protected static ?string $model = Year::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

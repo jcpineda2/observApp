@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Countries;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\Countries\Pages\CreateCountry;
 use App\Filament\Resources\Countries\Pages\EditCountry;
 use App\Filament\Resources\Countries\Pages\ListCountries;
@@ -21,6 +22,10 @@ use UnitEnum;
 
 class CountryResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'countries';
+
     protected static ?string $model = Country::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::GlobeAlt;

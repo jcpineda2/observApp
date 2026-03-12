@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EntryModes;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\EntryModes\Pages\CreateEntryMode;
 use App\Filament\Resources\EntryModes\Pages\EditEntryMode;
 use App\Filament\Resources\EntryModes\Pages\ListEntryModes;
@@ -19,6 +20,10 @@ use UnitEnum;
 
 class EntryModeResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'entry-modes';
+
     protected static ?string $model = EntryMode::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::RocketLaunch;

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DomesticTourisms\Tables;
 
+use App\Filament\Resources\DomesticTourisms\DomesticTourismResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -68,7 +69,7 @@ class DomesticTourismsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => DomesticTourismResource::canDeleteAny()),
                 ]),
             ]);
     }

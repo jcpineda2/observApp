@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ServiceSectors\Tables;
 
+use App\Filament\Resources\ServiceSectors\ServiceSectorResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -36,7 +37,7 @@ class ServiceSectorsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => ServiceSectorResource::canDeleteAny()),
                 ]),
             ]);
     }

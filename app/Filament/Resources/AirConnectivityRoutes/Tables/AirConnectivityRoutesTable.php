@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AirConnectivityRoutes\Tables;
 
+use App\Filament\Resources\AirConnectivityRoutes\AirConnectivityRouteResource;
 use App\Models\City;
 use App\Models\Country;
 use Filament\Actions\BulkActionGroup;
@@ -52,26 +53,26 @@ class AirConnectivityRoutesTable
                 // País destino
                 SelectFilter::make('dest_country_id')
                     ->label('País destino')
-                    ->options(fn () => Country::query()->orderBy('name')->pluck('name', 'id')->toArray())
+                    ->options(fn() => Country::query()->orderBy('name')->pluck('name', 'id')->toArray())
                     ->query(function ($query, array $data) {
                         if (blank($data['value'] ?? null)) {
                             return $query;
                         }
 
-                        return $query->whereHas('destinationAirport.country', fn ($q) => $q->where('id', $data['value']));
+                        return $query->whereHas('destinationAirport.country', fn($q) => $q->where('id', $data['value']));
                     })
                     ->searchable()->preload(),
 
                 // Ciudad destino
                 SelectFilter::make('dest_city_id')
                     ->label('Ciudad destino')
-                    ->options(fn () => City::query()->orderBy('name')->pluck('name', 'id')->toArray())
+                    ->options(fn() => City::query()->orderBy('name')->pluck('name', 'id')->toArray())
                     ->query(function ($query, array $data) {
                         if (blank($data['value'] ?? null)) {
                             return $query;
                         }
 
-                        return $query->whereHas('destinationAirport.city', fn ($q) => $q->where('id', $data['value']));
+                        return $query->whereHas('destinationAirport.city', fn($q) => $q->where('id', $data['value']));
                     })
                     ->searchable()->preload(),
 
@@ -82,7 +83,8 @@ class AirConnectivityRoutesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => AirConnectivityRouteResource::canDeleteAny()),
+
                 ]),
             ]);
     }

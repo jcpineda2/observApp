@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationCapacities;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\AccommodationCapacities\Pages\CreateAccommodationCapacity;
 use App\Filament\Resources\AccommodationCapacities\Pages\EditAccommodationCapacity;
 use App\Filament\Resources\AccommodationCapacities\Pages\ListAccommodationCapacities;
@@ -17,6 +18,11 @@ use UnitEnum;
 
 class AccommodationCapacityResource extends Resource
 {
+
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'accommodation-capacities';
+
     protected static ?string $model = AccommodationCapacity::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;

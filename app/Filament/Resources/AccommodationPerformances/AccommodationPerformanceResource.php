@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationPerformances;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\AccommodationPerformances\Pages\CreateAccommodationPerformance;
 use App\Filament\Resources\AccommodationPerformances\Pages\EditAccommodationPerformance;
 use App\Filament\Resources\AccommodationPerformances\Pages\ListAccommodationPerformances;
@@ -19,6 +20,11 @@ use UnitEnum;
 
 class AccommodationPerformanceResource extends Resource
 {
+
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'accommodation-performances';
+
     protected static ?string $model = AccommodationPerformance::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TourismProviderStats;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\TourismProviderStats\Pages\CreateTourismProviderStat;
 use App\Filament\Resources\TourismProviderStats\Pages\EditTourismProviderStat;
 use App\Filament\Resources\TourismProviderStats\Pages\ListTourismProviderStats;
@@ -17,11 +18,16 @@ use UnitEnum;
 
 class TourismProviderStatResource extends Resource
 {
+
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'tourism-provider-stats';
+
     protected static ?string $model = TourismProviderStat::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartBar;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Indicadores';
+    protected static string|UnitEnum|null $navigationGroup = 'Observatorio';
 
     protected static ?string $navigationLabel = 'Prestadores (mensual)';
 

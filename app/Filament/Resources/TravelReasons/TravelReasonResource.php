@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TravelReasons;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\TravelReasons\Pages\CreateTravelReason;
 use App\Filament\Resources\TravelReasons\Pages\EditTravelReason;
 use App\Filament\Resources\TravelReasons\Pages\ListTravelReasons;
@@ -19,6 +20,10 @@ use UnitEnum;
 
 class TravelReasonResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'travel-reasons';
+
     protected static ?string $model = TravelReason::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNumberedList;

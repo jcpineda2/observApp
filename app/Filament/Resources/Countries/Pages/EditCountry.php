@@ -17,8 +17,8 @@ class EditCountry extends EditRecord
     {
         return [
             ViewAction::make(),
-            DeleteAction::make(),
-            ForceDeleteAction::make(),
+            DeleteAction::make()
+                ->visible(fn (): bool => static::getResource()::canDelete($this->record)),
             RestoreAction::make(),
         ];
     }

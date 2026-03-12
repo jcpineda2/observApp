@@ -22,6 +22,8 @@ class EmploymentDemographicResource extends Resource
 {
     use HasResourcePermissions;
 
+    protected static ?string $permissionSubject = 'employment-demographics';
+
     protected static ?string $model = EmploymentDemographic::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

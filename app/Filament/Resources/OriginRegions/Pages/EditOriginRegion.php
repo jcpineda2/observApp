@@ -13,7 +13,8 @@ class EditOriginRegion extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->visible(fn(): bool => static::getResource()::canDelete($this->record)),
         ];
     }
     protected function getRedirectUrl(): string

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\DomesticTourisms;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\DomesticTourisms\Pages\CreateDomesticTourism;
 use App\Filament\Resources\DomesticTourisms\Pages\EditDomesticTourism;
 use App\Filament\Resources\DomesticTourisms\Pages\ListDomesticTourisms;
@@ -20,6 +21,8 @@ use UnitEnum;
 
 class DomesticTourismResource extends Resource
 {
+    use HasResourcePermissions;
+
     protected static ?string $model = DomesticTourism::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Home;

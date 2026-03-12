@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AirLines\Tables;
 
+use App\Filament\Resources\AirLines\AirLineResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -41,7 +42,8 @@ class AirLinesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(fn(): bool => AirLineResource::canDeleteAny()),
                 ]),
             ]);
     }

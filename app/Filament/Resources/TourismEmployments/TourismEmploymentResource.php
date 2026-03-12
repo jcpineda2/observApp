@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TourismEmployments;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\TourismEmployments\Pages\CreateTourismEmployment;
 use App\Filament\Resources\TourismEmployments\Pages\EditTourismEmployment;
 use App\Filament\Resources\TourismEmployments\Pages\ListTourismEmployments;
@@ -20,6 +21,10 @@ use UnitEnum;
 
 class TourismEmploymentResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'tourism-employments';
+
     protected static ?string $model = TourismEmployment::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserCircle;

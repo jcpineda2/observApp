@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TourismProviderStats\Tables;
 
+use App\Filament\Resources\TourismProviderStats\TourismProviderStatResource;
 use App\Models\State;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -101,7 +102,7 @@ class TourismProviderStatsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => TourismProviderStatResource::canDeleteAny()),
                 ]),
             ]);
     }

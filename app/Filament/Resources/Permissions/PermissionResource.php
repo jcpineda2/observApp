@@ -22,11 +22,13 @@ class PermissionResource extends Resource
 
     use HasResourcePermissions;
 
+    protected static ?string $permissionSubject = 'permissions';
+
     protected static ?string $model = Permission::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Configuraciones';
+    protected static string | UnitEnum | null $navigationGroup = 'Seguridad';
 
     protected static ?string $modelLabel = 'Permiso';
 

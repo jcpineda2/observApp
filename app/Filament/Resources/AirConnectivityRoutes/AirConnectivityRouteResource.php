@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AirConnectivityRoutes;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\AirConnectivityRoutes\Pages\CreateAirConnectivityRoute;
 use App\Filament\Resources\AirConnectivityRoutes\Pages\EditAirConnectivityRoute;
 use App\Filament\Resources\AirConnectivityRoutes\Pages\ListAirConnectivityRoutes;
@@ -17,11 +18,15 @@ use UnitEnum;
 
 class AirConnectivityRouteResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'age-connectivity-routes';
+
     protected static ?string $model = AirConnectivityRoute::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPaperAirplane;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Indicadores';
+    protected static string|UnitEnum|null $navigationGroup = 'Observatorio';
 
     protected static ?string $navigationLabel = 'Rutas aéreas';
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Permissions\Tables;
 
+use App\Filament\Resources\Permissions\PermissionResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -24,7 +25,7 @@ class PermissionsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => PermissionResource::canDeleteAny()),
                 ]),
             ]);
     }

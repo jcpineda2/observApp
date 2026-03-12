@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TravelReasons\Tables;
 
+use App\Filament\Resources\TravelReasons\TravelReasonResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -37,7 +38,7 @@ class TravelReasonsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => TravelReasonResource::canDeleteAny()),
                 ]),
             ]);
     }

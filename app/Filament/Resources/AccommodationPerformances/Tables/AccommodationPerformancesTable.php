@@ -2,9 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationPerformances\Tables;
 
-use App\Enums\Season;
-use App\Models\AccommodationCategory;
-use App\Models\State;
+use App\Filament\Resources\AccommodationPerformances\AccommodationPerformanceResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -65,7 +63,7 @@ class AccommodationPerformancesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    //DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn (): bool => AccommodationPerformanceResource::canDeleteAny()),
                 ]),
             ]);
     }

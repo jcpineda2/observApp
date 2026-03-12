@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationCapacities\Tables;
 
+use App\Filament\Resources\AccommodationCapacities\AccommodationCapacityResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -51,7 +52,7 @@ class AccommodationCapacitiesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => AccommodationCapacityResource::canDeleteAny()),
                 ]),
             ]);
     }

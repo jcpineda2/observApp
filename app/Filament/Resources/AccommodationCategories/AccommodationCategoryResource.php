@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AccommodationCategories;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\AccommodationCategories\Pages\CreateAccommodationCategory;
 use App\Filament\Resources\AccommodationCategories\Pages\EditAccommodationCategory;
 use App\Filament\Resources\AccommodationCategories\Pages\ListAccommodationCategories;
@@ -15,10 +16,15 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Spatie\Permission\Traits\HasPermissions;
 use UnitEnum;
 
 class AccommodationCategoryResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'accommodation-categories';
+
     protected static ?string $model = AccommodationCategory::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;

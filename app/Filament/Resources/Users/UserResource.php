@@ -22,13 +22,13 @@ class UserResource extends Resource
 {
     use HasResourcePermissions;
 
-    protected static string $permissionSubject = 'user';
+    protected static ?string $permissionSubject = 'users';
 
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::UserGroup;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Configuraciones';
+    protected static string | UnitEnum | null $navigationGroup = 'Seguridad';
 
     protected static ?string $recordTitleAttribute = 'name';
 

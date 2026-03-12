@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Airports\Tables;
 
 use App\Enums\Scope;
+use App\Filament\Resources\Airports\AirportResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -57,7 +58,8 @@ class AirportsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    // DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->visible(fn(): bool => AirportResource::canDeleteAny()),
+
                 ]),
             ]);
     }

@@ -8,14 +8,13 @@ use Illuminate\Support\Str;
 
 trait HasResourcePermissions
 {
-    /**
-     * Subject para armar permisos.
-     * Default: plural kebab del Model (AccommodationCategory => accommodation-categories)
-     */
     protected static function getPermissionSubject(): string
     {
-        $model = static::getModel();
+        if (property_exists(static::class, 'permissionSubject') && filled(static::$permissionSubject)) {
+            return static::$permissionSubject;
+        }
 
+        $model = static::getModel();
         $base = class_basename($model);
 
         return Str::kebab(Str::pluralStudly($base));
@@ -26,11 +25,6 @@ trait HasResourcePermissions
         return static::getPermissionSubject() . '.' . $ability;
     }
 
-    /**
-     * Reglas:
-     * - Admin => todo
-     * - Otros => según permisos Spatie
-     */
     protected static function allowed(string $ability): bool
     {
         $user = Auth::user();

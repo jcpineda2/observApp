@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AirLines;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\AirLines\Pages\CreateAirLine;
 use App\Filament\Resources\AirLines\Pages\EditAirLine;
 use App\Filament\Resources\AirLines\Pages\ListAirLines;
@@ -19,11 +20,15 @@ use UnitEnum;
 
 class AirLineResource extends Resource
 {
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'air-lines';
+
     protected static ?string $model = AirLine::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPaperAirplane;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Observatorio';
+    protected static string | UnitEnum | null $navigationGroup = 'Parámetros';
 
     protected static ?string $navigationLabel = 'Aerolineas';
 

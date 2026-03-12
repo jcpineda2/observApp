@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\IndicatorConstants;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\IndicatorConstants\Pages\CreateIndicatorConstant;
 use App\Filament\Resources\IndicatorConstants\Pages\EditIndicatorConstant;
 use App\Filament\Resources\IndicatorConstants\Pages\ListIndicatorConstants;
@@ -17,6 +18,11 @@ use UnitEnum;
 
 class IndicatorConstantResource extends Resource
 {
+
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'age-ranges';
+
     protected static ?string $model = IndicatorConstant::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::AdjustmentsHorizontal;

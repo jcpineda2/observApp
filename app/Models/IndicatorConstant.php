@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\IndicatorDomain;
 use App\Enums\IndicatorKey;
 use App\Filament\Resources\IndicatorConstants\IndicatorConstantResource;
+use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class IndicatorConstant extends Model
 {
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'domain',

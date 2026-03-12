@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use App\Enums\Scope;
+use App\Models\Concerns\Auditable;
 
 class Airport extends Model
 {
     /** @use HasFactory<\Database\Factories\AirportFactory> */
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'name',

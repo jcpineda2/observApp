@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class ServiceSector extends Model
 {
     /** @use HasFactory<\Database\Factories\ServiceSectorFactory> */
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'description',

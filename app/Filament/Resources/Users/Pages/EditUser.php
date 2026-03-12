@@ -27,6 +27,8 @@ class EditUser extends EditRecord
                 ->label('Cambiar contraseña')
                 ->schema([
                     TextInput::make('password')
+                        ->password()
+                        ->required()
                 ])
             // action::make('cambiar_contraseña')
             //     ->label('Cambiar Contraseña')

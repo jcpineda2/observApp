@@ -35,4 +35,25 @@ class AuditLog extends Model
     {
         return $this->morphTo();
     }
+
+
+    public function getEventLabelAttribute(): string
+    {
+        return match ($this->event) {
+            'created' => 'Creado',
+            'updated' => 'Actualizado',
+            'deleted' => 'Eliminado',
+            default => ucfirst($this->event),
+        };
+    }
+
+    public function getEventColorAttribute(): string
+    {
+        return match ($this->event) {
+            'created' => 'success',
+            'updated' => 'warning',
+            'deleted' => 'danger',
+            default => 'gray',
+        };
+    }
 }

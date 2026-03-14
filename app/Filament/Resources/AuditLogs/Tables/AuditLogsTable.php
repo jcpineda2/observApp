@@ -15,7 +15,11 @@ class AuditLogsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
+                TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Fecha')
                     ->dateTime('d/m/Y H:i:s')
@@ -33,17 +37,31 @@ class AuditLogsTable
                 TextColumn::make('event')
                     ->label('Evento')
                     ->badge()
-                    ->searchable(),
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                        'created' => 'Creado',
+                        'updated' => 'Actualizado',
+                        'deleted' => 'Eliminado',
+                        default => ucfirst($state),
+                    })
+                    ->color(fn(string $state): string => match ($state) {
+                        'created' => 'success',
+                        'updated' => 'warning',
+                        'deleted' => 'danger',
+                        default => 'gray',
+                    })
+                    ->sortable(),
 
                 TextColumn::make('description')
                     ->label('Descripción')
-                    ->wrap()
+                    ->limit(40)
+                    ->tooltip(fn(?string $state): ?string => $state)
                     ->searchable(),
 
                 TextColumn::make('auditable_type')
                     ->label('Modelo')
-                    ->formatStateUsing(fn(?string $state) => $state ? class_basename($state) : '-')
-                    ->toggleable(),
+                    ->formatStateUsing(fn(?string $state): string => $state ? class_basename($state) : '-')
+                    ->toggleable()
+                    ->sortable(),
 
                 TextColumn::make('auditable_id')
                     ->label('ID')

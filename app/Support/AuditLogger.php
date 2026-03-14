@@ -20,12 +20,12 @@ class AuditLogger
         AuditLog::create([
             'user_id' => Auth::id(),
             'event' => $event,
-            'auditable_type' => $model ? $model::class : null,
-            'auditable_id' => $model?->getKey(),
-            'module' => $module ?? ($model ? class_basename($model) : null),
+            'auditable_type' => $model::class,
+            'auditable_id' => $model->getKey(),
+            'module' => $module ?? class_basename($model),
             'description' => $description,
-            'old_values' => empty($oldValues) ? null : $oldValues,
-            'new_values' => empty($newValues) ? null : $newValues,
+            'old_values' => $oldValues,
+            'new_values' => $newValues,
             'ip_address' => Request::ip(),
             'user_agent' => Request::userAgent(),
         ]);

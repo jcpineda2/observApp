@@ -6,6 +6,7 @@ use App\Filament\Resources\AuditLogs\Pages\CreateAuditLog;
 use App\Filament\Resources\AuditLogs\Pages\EditAuditLog;
 use App\Filament\Resources\AuditLogs\Pages\ListAuditLogs;
 use App\Filament\Resources\AuditLogs\Schemas\AuditLogForm;
+use App\Filament\Resources\AuditLogs\Schemas\AuditLogInfolist;
 use App\Filament\Resources\AuditLogs\Tables\AuditLogsTable;
 use App\Models\AuditLog;
 use BackedEnum;
@@ -37,6 +38,12 @@ class AuditLogResource extends Resource
     public static function table(Table $table): Table
     {
         return AuditLogsTable::configure($table);
+    }
+
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return AuditLogInfolist::configure($schema);
     }
 
     public static function getRelations(): array

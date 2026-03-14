@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('audit_logs', function (Blueprint $table) {
+        Schema::create('audit_logs', function (Blueprint $table): void {
             $table->id();
 
             $table->foreignId('user_id')
@@ -16,26 +16,23 @@ return new class extends Migration
                 ->constrained()
                 ->nullOnDelete();
 
-            $table->string('event', 20);
-            $table->string('auditable_type');
-            $table->unsignedBigInteger('auditable_id')->nullable();
-
+            $table->string('event', 50);
             $table->string('module')->nullable();
             $table->string('description')->nullable();
+
+            $table->morphs('auditable');
 
             $table->json('old_values')->nullable();
             $table->json('new_values')->nullable();
 
-            $table->string('ip_address', 45)->nullable();
+            $table->text('url')->nullable();
+            $table->ipAddress('ip_address')->nullable();
             $table->text('user_agent')->nullable();
 
             $table->timestamps();
 
-            $table->index(['auditable_type', 'auditable_id']);
             $table->index('event');
             $table->index('module');
-            $table->index('user_id');
-            $table->index('created_at');
         });
     }
 

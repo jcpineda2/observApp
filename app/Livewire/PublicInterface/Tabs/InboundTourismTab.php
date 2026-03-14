@@ -15,6 +15,9 @@ class InboundTourismTab extends Component
 {
     public ?int $year = null;
     public ?int $month = null;
+    public ?string $selectedDepartment = null;
+
+    public string $mapId = 'inbound-map-by-department';
 
     public array $kpis = [];
     public array $byMonth = [];
@@ -40,6 +43,11 @@ class InboundTourismTab extends Component
         $this->loadAll();
     }
 
+    public function selectDepartment(string $department): void
+    {
+        $this->selectedDepartment = $department;
+    }
+
     public function onFiltersUpdated($year, $month): void
     {
         $this->year = $year ?: null;
@@ -58,6 +66,12 @@ class InboundTourismTab extends Component
         $this->topMarkets = $this->loadTopMarkets();
         $this->yoy = $this->loadYoY();
         $this->mapByDepartment = $this->loadMapByDepartment();
+
+        $this->dispatch(
+            'paraguay-map:update',
+            mapId: $this->mapId,
+            values: $this->mapByDepartment,
+        );
     }
 
     private function cacheKey(string $suffix): string
@@ -265,7 +279,7 @@ class InboundTourismTab extends Component
                 })
                 ->toArray();
         });
-        }
+    }
 
     private function normalizeDepartmentKey(?string $name): string
     {

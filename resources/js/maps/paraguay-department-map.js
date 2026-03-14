@@ -1,23 +1,93 @@
+const geoJsonCache = new Map()
+const mapInstances = new Map()
+
 export function paraguayDepartmentMap(config) {
     return {
         map: null,
         layer: null,
-        legendControl: null,
+        isLoading: true,
+        isEmpty: false,
+        hasBeenInitialized: false,
+        geoJsonData: null,
+        currentValues: config.values ?? {},
+        selectedDepartment: null,
+        observer: null,
+        updateHandler: null,
         config,
 
-        async init() {
-            if (this.map) {
-                this.map.remove()
-                this.map = null
-            }
-
+        init() {
             const container = document.getElementById(this.config.mapId)
 
             if (!container || typeof L === 'undefined') {
                 return
             }
 
-            this.map = L.map(this.config.mapId, {
+            this.refreshEmptyState()
+            this.destroyPreviousMapInstance()
+            this.setupBrowserListener()
+            this.setupIntersectionObserver(container)
+        },
+
+        setupIntersectionObserver(container) {
+            this.observer?.disconnect()
+
+            this.observer = new IntersectionObserver(
+                async (entries) => {
+                    const [entry] = entries
+
+                    if (!entry.isIntersecting || this.hasBeenInitialized) {
+                        return
+                    }
+
+                    this.hasBeenInitialized = true
+                    this.observer?.disconnect()
+
+                    await this.bootMap()
+                },
+                {
+                    root: null,
+                    threshold: 0.1,
+                }
+            )
+
+            this.observer.observe(container)
+        },
+
+        async bootMap() {
+            try {
+                this.isLoading = true
+
+                this.createMap()
+                this.geoJsonData = await this.loadGeoJson()
+                this.renderLayer()
+
+                this.isLoading = false
+            } catch (error) {
+                console.error('Error al inicializar el mapa de Paraguay:', error)
+                this.isLoading = false
+            }
+        },
+
+        createMap() {
+            const container = document.getElementById(this.config.mapId)
+
+            if (!container) {
+                return
+            }
+
+            if (container._leaflet_id) {
+                container._leaflet_id = null
+            }
+
+            const existingMap = mapInstances.get(this.config.mapId)
+
+            if (existingMap) {
+                existingMap.remove()
+                mapInstances.delete(this.config.mapId)
+            }
+
+            this.map = L.map(container, {
+                preferCanvas: true,
                 zoomControl: false,
                 attributionControl: false,
                 dragging: false,
@@ -29,141 +99,243 @@ export function paraguayDepartmentMap(config) {
                 touchZoom: false,
             }).setView([-23.4, -58.4], 6)
 
-            const response = await fetch(this.config.geoJsonUrl)
+            mapInstances.set(this.config.mapId, this.map)
+        },
+
+        async loadGeoJson() {
+            const url = this.config.geoJsonUrl
+
+            if (geoJsonCache.has(url)) {
+                return geoJsonCache.get(url)
+            }
+
+            const response = await fetch(url, {
+                cache: 'force-cache',
+                headers: {
+                    Accept: 'application/json',
+                },
+            })
 
             if (!response.ok) {
                 throw new Error(`No se pudo cargar el GeoJSON: ${response.status}`)
             }
 
-            const geoJson = await response.json()
-            const values = this.config.values ?? {}
+            const data = await response.json()
 
-            const normalizeName = (name) =>
-                String(name || '')
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .replace(/\./g, '')
-                    .replace(/-/g, ' ')
-                    .replace(/\s+/g, ' ')
-                    .trim()
-                    .toLowerCase()
+            geoJsonCache.set(url, data)
+
+            return data
+        },
+
+        setupBrowserListener() {
+            if (this.updateHandler) {
+                window.removeEventListener('paraguay-map:update', this.updateHandler)
+            }
+
+            this.updateHandler = (event) => {
+                const payload = event.detail ?? {}
+
+                if (payload.mapId !== this.config.mapId) {
+                    return
+                }
+
+                this.currentValues = payload.values ?? {}
+                this.selectedDepartment = null
+                this.refreshEmptyState()
+
+                if (this.layer) {
+                    this.updateLayerStyles()
+                }
+            }
+
+            window.addEventListener('paraguay-map:update', this.updateHandler)
+        },
+
+        refreshEmptyState() {
+            const values = Object.values(this.currentValues ?? {})
+                .map(Number)
+                .filter((value) => !Number.isNaN(value))
+
+            this.isEmpty = values.length === 0 || values.every((value) => value <= 0)
+        },
+
+        renderLayer() {
+            if (!this.map || !this.geoJsonData) {
+                return
+            }
+
+            if (this.layer) {
+                this.layer.remove()
+                this.layer = null
+            }
+
+            this.layer = L.geoJSON(this.geoJsonData, {
+                style: (feature) => this.getFeatureStyle(feature),
+                onEachFeature: (feature, layer) => this.bindFeature(feature, layer),
+            }).addTo(this.map)
+
+            try {
+                this.map.fitBounds(this.layer.getBounds(), {
+                    padding: [16, 16],
+                })
+            } catch (_) {}
+        },
+
+        updateLayerStyles() {
+            if (!this.layer) {
+                return
+            }
+
+            this.layer.eachLayer((layer) => {
+                const feature = layer.feature
+
+                layer.setStyle(this.getFeatureStyle(feature))
+                layer.unbindTooltip()
+                layer.bindTooltip(this.buildTooltipHtml(feature), {
+                    sticky: true,
+                    className: 'paraguay-map-hover-tooltip',
+                })
+            })
+        },
+
+        bindFeature(feature, layer) {
+            const departmentName = this.resolveDepartmentName(feature)
+            const departmentKey = this.normalizeDepartmentName(departmentName)
+
+            layer.bindTooltip(this.buildTooltipHtml(feature), {
+                sticky: true,
+                className: 'paraguay-map-hover-tooltip',
+            })
+
+            layer.on({
+                mouseover: (event) => {
+                    event.target.setStyle({
+                        weight: 2,
+                        color: '#6b7280',
+                        fillOpacity: 1,
+                    })
+
+                    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                        event.target.bringToFront()
+                    }
+                },
+                mouseout: (event) => {
+                    event.target.setStyle(this.getFeatureStyle(feature))
+                },
+                click: (event) => {
+                    this.selectedDepartment = departmentKey
+                    this.updateLayerStyles()
+
+                    window.dispatchEvent(
+                        new CustomEvent('paraguay-map:department-selected', {
+                            detail: {
+                                mapId: this.config.mapId,
+                                department: departmentKey,
+                                departmentName,
+                            },
+                        })
+                    )
+                },
+            })
+        },
+
+        getFeatureStyle(feature) {
+            const departmentName = this.resolveDepartmentName(feature)
+            const key = this.normalizeDepartmentName(departmentName)
+            const value = Number(this.currentValues[key] ?? 0)
+            const isSelected = this.selectedDepartment === key
+
+            return {
+                fillColor: this.getColorByValue(value),
+                weight: isSelected ? 3 : 1,
+                opacity: 1,
+                color: isSelected ? '#111827' : '#d7d9ea',
+                fillOpacity: 1,
+            }
+        },
+
+        buildTooltipHtml(feature) {
+            const departmentName = this.resolveDepartmentName(feature)
+            const key = this.normalizeDepartmentName(departmentName)
+            const value = Number(this.currentValues[key] ?? 0)
+            const formattedValue = new Intl.NumberFormat('es-PY').format(value)
+
+            return `<strong>${departmentName}</strong><br>Turistas: ${formattedValue}`
+        },
+
+        resolveDepartmentName(feature) {
+            const props = feature?.properties ?? {}
+
+            return (
+                props.dpto_desc ||
+                props.shapeName ||
+                props.name ||
+                props.NAME_1 ||
+                props.department ||
+                props.DEPTO ||
+                'Sin nombre'
+            )
+        },
+
+        normalizeDepartmentName(name) {
+            const normalized = String(name || '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/\./g, '')
+                .replace(/-/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .toLowerCase()
 
             const aliases = {
+                'pdte hayes': 'presidente hayes',
                 'alto parana': 'alto parana',
                 'boqueron': 'boqueron',
                 'canindeyu': 'canindeyu',
                 'caaguazu': 'caaguazu',
                 'caazapa': 'caazapa',
+                'central': 'central',
                 'concepcion': 'concepcion',
                 'cordillera': 'cordillera',
-                'central': 'central',
                 'guaira': 'guaira',
                 'itapua': 'itapua',
                 'misiones': 'misiones',
                 'neembucu': 'neembucu',
                 'paraguari': 'paraguari',
                 'presidente hayes': 'presidente hayes',
-                'pdte hayes': 'presidente hayes',
                 'san pedro': 'san pedro',
                 'amambay': 'amambay',
                 'asuncion': 'asuncion',
                 'alto paraguay': 'alto paraguay',
             }
 
-            const resolveKey = (name) => {
-                const normalized = normalizeName(name)
-                return aliases[normalized] ?? normalized
-            }
+            return aliases[normalized] ?? normalized
+        },
 
-            const allValues = Object.values(values).map(Number).filter((v) => !Number.isNaN(v))
-            const maxValue = allValues.length ? Math.max(...allValues) : 0
+        getColorByValue(value) {
+            const maxValue = this.getMaxValue()
 
-            const steps = this.buildLegendSteps(maxValue)
-
-            const getColor = (value) => {
-                if (value >= steps[4]) return '#2f49ff'
-                if (value >= steps[3]) return '#5e74ff'
-                if (value >= steps[2]) return '#8798ff'
-                if (value >= steps[1]) return '#b8c0ff'
-                if (value > 0) return '#dcdffd'
+            if (maxValue <= 0) {
                 return '#ececf8'
             }
 
-            const defaultStyle = (feature) => {
-                const rawName =
-                    feature?.properties?.shapeName ||
-                    feature?.properties?.name ||
-                    feature?.properties?.NAME_1 ||
-                    feature?.properties?.department ||
-                    feature?.properties?.DEPTO ||
-                    ''
+            const steps = this.buildLegendSteps(maxValue)
 
-                const key = resolveKey(rawName)
-                const value = values[key] ?? 0
+            if (value >= steps[4]) return '#2f49ff'
+            if (value >= steps[3]) return '#5e74ff'
+            if (value >= steps[2]) return '#8798ff'
+            if (value >= steps[1]) return '#b8c0ff'
+            if (value > 0) return '#dcdffd'
 
-                return {
-                    fillColor: getColor(value),
-                    weight: 1,
-                    opacity: 1,
-                    color: '#d7d9ea',
-                    fillOpacity: 1,
-                }
-            }
+            return '#ececf8'
+        },
 
-            this.layer = L.geoJSON(geoJson, {
-                style: defaultStyle,
+        getMaxValue() {
+            const allValues = Object.values(this.currentValues)
+                .map(Number)
+                .filter((value) => !Number.isNaN(value))
 
-                onEachFeature: (feature, layer) => {
-                    const rawName =
-                        feature?.properties?.shapeName ||
-                        feature?.properties?.name ||
-                        feature?.properties?.NAME_1 ||
-                        feature?.properties?.department ||
-                        feature?.properties?.DEPTO ||
-                        'Sin nombre'
-
-                    const key = resolveKey(rawName)
-                    const value = values[key] ?? 0
-                    const formattedValue = new Intl.NumberFormat('es-PY').format(value)
-
-                    layer.bindTooltip(
-                        `<strong>${rawName}</strong><br>Turistas: ${formattedValue}`,
-                        {
-                            sticky: true,
-                            className: 'paraguay-map-hover-tooltip',
-                        }
-                    )
-
-                    const center = layer.getBounds().getCenter()
-
-                    L.marker(center, {
-                        interactive: false,
-                        icon: L.divIcon({
-                            className: 'paraguay-map-label-wrapper',
-                            html: `<div class="paraguay-map-label">${rawName}: ${formattedValue}</div>`,
-                            iconSize: null,
-                        }),
-                    }).addTo(this.map)
-
-                    layer.on({
-                        mouseover: (e) => {
-                            e.target.setStyle({
-                                fillColor: '#b8d64a',
-                                weight: 2,
-                                color: '#6b7d2e',
-                                fillOpacity: 1,
-                            })
-                        },
-                        mouseout: (e) => {
-                            e.target.setStyle(defaultStyle(feature))
-                        },
-                    })
-                },
-            }).addTo(this.map)
-
-            this.map.fitBounds(this.layer.getBounds(), { padding: [20, 20] })
-
-            this.renderLegend(steps)
+            return allValues.length ? Math.max(...allValues) : 0
         },
 
         buildLegendSteps(maxValue) {
@@ -171,46 +343,53 @@ export function paraguayDepartmentMap(config) {
                 return [0, 1, 2, 3, 4]
             }
 
-            const step1 = Math.round(maxValue * 0.2)
-            const step2 = Math.round(maxValue * 0.4)
-            const step3 = Math.round(maxValue * 0.6)
-            const step4 = Math.round(maxValue * 0.8)
-            const step5 = Math.round(maxValue)
-
-            return [step1, step2, step3, step4, step5]
+            return [
+                Math.round(maxValue * 0.2),
+                Math.round(maxValue * 0.4),
+                Math.round(maxValue * 0.6),
+                Math.round(maxValue * 0.8),
+                Math.round(maxValue),
+            ]
         },
 
-        renderLegend(steps) {
-            if (this.legendControl) {
-                this.legendControl.remove()
+        destroyPreviousMapInstance() {
+            const existingMap = mapInstances.get(this.config.mapId)
+
+            if (existingMap) {
+                existingMap.remove()
+                mapInstances.delete(this.config.mapId)
             }
 
-            this.legendControl = L.control({ position: 'bottomright' })
+            const container = document.getElementById(this.config.mapId)
 
-            this.legendControl.onAdd = () => {
-                const div = L.DomUtil.create('div', 'paraguay-map-legend')
+            if (container && container._leaflet_id) {
+                container._leaflet_id = null
+            }
+        },
 
-                div.innerHTML = `
-                    <div class="paraguay-map-legend-scale">
-                        <span style="background:#ececf8"></span>
-                        <span style="background:#dcdffd"></span>
-                        <span style="background:#b8c0ff"></span>
-                        <span style="background:#8798ff"></span>
-                        <span style="background:#5e74ff"></span>
-                        <span style="background:#2f49ff"></span>
-                    </div>
-                    <div class="paraguay-map-legend-labels">
-                        <span>0</span>
-                        <span>${new Intl.NumberFormat('es-PY').format(steps[1])}</span>
-                        <span>${new Intl.NumberFormat('es-PY').format(steps[3])}</span>
-                        <span>${new Intl.NumberFormat('es-PY').format(steps[4])}</span>
-                    </div>
-                `
+        destroy() {
+            this.observer?.disconnect()
 
-                return div
+            if (this.updateHandler) {
+                window.removeEventListener('paraguay-map:update', this.updateHandler)
             }
 
-            this.legendControl.addTo(this.map)
+            if (this.layer) {
+                this.layer.remove()
+                this.layer = null
+            }
+
+            if (this.map) {
+                this.map.remove()
+                mapInstances.delete(this.config.mapId)
+                this.map = null
+            }
+
+            const container = document.getElementById(this.config.mapId)
+
+            if (container && container._leaflet_id) {
+                container._leaflet_id = null
+            }
         },
     }
 }

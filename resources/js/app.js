@@ -1,12 +1,9 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs'
 import { paraguayDepartmentMap } from './maps/paraguay-department-map'
 
-window.Alpine = Alpine
 window.paraguayDepartmentMap = paraguayDepartmentMap
 
-Alpine.start()
 
 
 import './charts/observatorio';

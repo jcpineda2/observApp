@@ -31,67 +31,61 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
 /* Inicio del css del mapa */
-.paraguay-map-label-wrapper {
-    background: transparent;
-    border: none;
-}
-
-.paraguay-map-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #111827;
-    white-space: nowrap;
-    text-shadow:
-        0 0 2px #ffffff,
-        0 0 4px #ffffff,
-        0 0 6px #ffffff;
-    pointer-events: none;
-}
-
-.paraguay-map-hover-tooltip {
-    background: #ffffff;
-    border: 1px solid #d1d5db;
-    color: #111827;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
-    border-radius: 8px;
-    font-size: 12px;
-    padding: 6px 8px;
+.paraguay-map-empty-state {
+    position: absolute;
+    inset: 0;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.80);
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    padding: 1rem;
 }
 
 .paraguay-map-legend {
-    background: transparent;
-    padding: 0;
-    box-shadow: none;
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 30;
+    min-width: 150px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 10px 12px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.paraguay-map-legend-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 8px;
 }
 
 .paraguay-map-legend-scale {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    height: 12px;
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-bottom: 6px;
 }
 
 .paraguay-map-legend-scale span {
-    width: 28px;
-    height: 12px;
-    display: inline-block;
+    display: block;
+    height: 10px;
+    border-radius: 9999px;
 }
 
 .paraguay-map-legend-labels {
     display: flex;
     justify-content: space-between;
-    margin-top: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #374151;
+    font-size: 10px;
+    color: #6b7280;
 }
 
-.leaflet-container {
-    background: #ffffff !important;
-    font-family: inherit;
-}
 /* Fin del css del mapa */

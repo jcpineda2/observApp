@@ -1,4 +1,8 @@
-<div class="space-y-6">
+<div
+    class="space-y-6"
+    x-data
+    x-on:paraguay-map:department-selected.window="$wire.selectDepartment($event.detail.department)"
+>
     <div>
         <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
         <p class="mt-1 text-sm text-gray-500">
@@ -111,17 +115,89 @@
     </div>
 
     {{-- Mapa geográfico --}}
-    <div x-data
-        x-on:paraguay-map:department-selected.window="
-        $wire.selectDepartment($event.detail.department)
-    ">
-        <x-map.paraguay-departments :map-id="$mapId" :geo-json-url="asset('geo/paraguay-departamentos.json')" :values="$mapByDepartment ?? []" title="Mapa geográfico"
-            subtitle="Distribución territorial del turismo receptivo por departamento destino" :height="460" />
-            @if ($selectedDepartment)
-                <div class="mb-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">
-                    Departamento seleccionado:
-                    <span class="font-semibold">{{ str($selectedDepartment)->replace('-', ' ')->title() }}</span>
+    <div>
+        <x-map.paraguay-departments
+            :map-id="$mapId"
+            :geo-json-url="asset('geo/paraguay-departamentos.json')"
+            :values="$mapByDepartment ?? []"
+            title="Mapa geográfico"
+            subtitle="Distribución territorial del turismo receptivo por departamento destino"
+            :height="460"
+        />
+
+        @if ($selectedDepartment)
+            <div class="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-4">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h3 class="text-sm font-semibold text-blue-900">
+                            Departamento seleccionado: {{ $selectedDepartmentLabel }}
+                        </h3>
+                        <p class="mt-1 text-xs text-blue-700">
+                            Los indicadores siguientes están filtrados por el departamento seleccionado en el mapa.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        wire:click="clearSelectedDepartment"
+                        class="inline-flex items-center justify-center rounded-lg border border-blue-300 bg-white px-3 py-2 text-sm font-medium text-blue-800 shadow-sm transition hover:bg-blue-100"
+                    >
+                        Limpiar selección
+                    </button>
                 </div>
-            @endif
+            </div>
+
+            <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <livewire:public-interface.kpi-card
+                    :key="'selected-department-tourists-' . $selectedDepartment . '-' . $year . '-' . $month"
+                    title="Turistas del departamento"
+                    :value="number_format($selectedDepartmentSummary['tourists'] ?? 0, 0, ',', '.')"
+                    badge="Mapa"
+                    helpText="Llegadas de turistas en el departamento seleccionado"
+                />
+
+                <livewire:public-interface.kpi-card
+                    :key="'selected-department-excursionists-' . $selectedDepartment . '-' . $year . '-' . $month"
+                    title="Excursionistas del departamento"
+                    :value="number_format($selectedDepartmentSummary['excursionists'] ?? 0, 0, ',', '.')"
+                    badge="Mapa"
+                    helpText="Llegadas de excursionistas en el departamento seleccionado"
+                />
+
+                <livewire:public-interface.kpi-card
+                    :key="'selected-department-revenue-' . $selectedDepartment . '-' . $year . '-' . $month"
+                    title="Divisas del departamento"
+                    :value="number_format($selectedDepartmentSummary['foreign_exchange_revenue'] ?? 0, 2, ',', '.')"
+                    unit="USD"
+                    badge="Mapa"
+                    helpText="Ingresos de divisas del departamento seleccionado"
+                />
+            </div>
+
+            <div
+                class="mt-4"
+                wire:key="selected-department-by-country-{{ $selectedDepartment }}-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}"
+            >
+                <x-chart.card
+                    title="País de residencia del departamento seleccionado"
+                    subtitle="Top 10 países asociados al departamento elegido en el mapa"
+                    :chart-id="'selected-department-by-country-' .
+                        ($selectedDepartment ?? 'none') .
+                        '-' .
+                        ($year ?? 'null') .
+                        '-' .
+                        ($month ?? 'all')"
+                    type="bar"
+                    :labels="$selectedDepartmentByCountry['labels'] ?? []"
+                    :datasets="[
+                        [
+                            'label' => 'Llegadas de turistas',
+                            'data' => $selectedDepartmentByCountry['data'] ?? [],
+                            'borderWidth' => 1,
+                        ],
+                    ]"
+                />
+            </div>
+        @endif
     </div>
 </div>

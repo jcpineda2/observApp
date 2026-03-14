@@ -7,6 +7,7 @@ use App\Enums\IndicatorKey;
 use App\Models\IndicatorConstant;
 use App\Models\InboundTourism;
 use App\Models\Month;
+use App\Models\State;
 use App\Models\Year;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
@@ -15,9 +16,11 @@ class InboundTourismTab extends Component
 {
     public ?int $year = null;
     public ?int $month = null;
-    public ?string $selectedDepartment = null;
 
     public string $mapId = 'inbound-map-by-department';
+
+    public ?string $selectedDepartment = null;
+    public ?string $selectedDepartmentLabel = null;
 
     public array $kpis = [];
     public array $byMonth = [];
@@ -27,6 +30,9 @@ class InboundTourismTab extends Component
     public array $topMarkets = [];
     public array $yoy = [];
     public array $mapByDepartment = [];
+
+    public array $selectedDepartmentSummary = [];
+    public array $selectedDepartmentByCountry = [];
 
     protected $listeners = [
         'public-filters-updated' => 'onFiltersUpdated',
@@ -43,17 +49,49 @@ class InboundTourismTab extends Component
         $this->loadAll();
     }
 
-    public function selectDepartment(string $department): void
-    {
-        $this->selectedDepartment = $department;
-    }
-
     public function onFiltersUpdated($year, $month): void
     {
         $this->year = $year ?: null;
         $this->month = $month ?: null;
 
         $this->loadAll();
+    }
+
+    public function selectDepartment(string $department): void
+    {
+        if ($this->selectedDepartment === $department) {
+            $this->clearSelectedDepartment();
+
+            return;
+        }
+
+        $this->selectedDepartment = $department;
+        $this->selectedDepartmentLabel = $this->humanizeDepartmentKey($department);
+
+        $this->selectedDepartmentSummary = $this->loadSelectedDepartmentSummary();
+        $this->selectedDepartmentByCountry = $this->loadSelectedDepartmentByCountry();
+
+        $this->dispatch(
+            'paraguay-map:update',
+            mapId: $this->mapId,
+            values: $this->mapByDepartment,
+            selectedDepartment: $this->selectedDepartment,
+        );
+    }
+
+    public function clearSelectedDepartment(): void
+    {
+        $this->selectedDepartment = null;
+        $this->selectedDepartmentLabel = null;
+        $this->selectedDepartmentSummary = [];
+        $this->selectedDepartmentByCountry = [];
+
+        $this->dispatch(
+            'paraguay-map:update',
+            mapId: $this->mapId,
+            values: $this->mapByDepartment,
+            selectedDepartment: null,
+        );
     }
 
     private function loadAll(): void
@@ -67,10 +105,14 @@ class InboundTourismTab extends Component
         $this->yoy = $this->loadYoY();
         $this->mapByDepartment = $this->loadMapByDepartment();
 
+        $this->selectedDepartmentSummary = $this->loadSelectedDepartmentSummary();
+        $this->selectedDepartmentByCountry = $this->loadSelectedDepartmentByCountry();
+
         $this->dispatch(
             'paraguay-map:update',
             mapId: $this->mapId,
             values: $this->mapByDepartment,
+            selectedDepartment: $this->selectedDepartment,
         );
     }
 
@@ -84,6 +126,57 @@ class InboundTourismTab extends Component
         return InboundTourism::query()
             ->when($this->year, fn($query) => $query->where('year_id', $this->year))
             ->when($this->month, fn($query) => $query->where('month_id', $this->month));
+    }
+
+    private function baseQueryForSelectedDepartment()
+    {
+        $query = $this->baseQuery();
+
+        if (! $this->selectedDepartment) {
+            return $query;
+        }
+
+        $departmentIds = $this->resolveSelectedDepartmentIds();
+
+        if (empty($departmentIds)) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        return $query->whereIn('destination_department_id', $departmentIds);
+    }
+
+    private function resolveSelectedDepartmentIds(): array
+    {
+        if (! $this->selectedDepartment) {
+            return [];
+        }
+
+        return Cache::remember(
+            "public_inbound_tab:selected_department_ids:{$this->selectedDepartment}",
+            now()->addMinutes(30),
+            function () {
+                return State::query()
+                    ->get(['id', 'name'])
+                    ->filter(function ($state) {
+                        return $this->normalizeDepartmentKey($state->name) === $this->selectedDepartment;
+                    })
+                    ->pluck('id')
+                    ->values()
+                    ->all();
+            }
+        );
+    }
+
+    private function humanizeDepartmentKey(?string $key): ?string
+    {
+        if (! $key) {
+            return null;
+        }
+
+        return str($key)
+            ->replace('-', ' ')
+            ->title()
+            ->toString();
     }
 
     private function loadKpis(): array
@@ -279,6 +372,46 @@ class InboundTourismTab extends Component
                 })
                 ->toArray();
         });
+    }
+
+
+    private function loadSelectedDepartmentByCountry(): array
+    {
+        if (! $this->selectedDepartment) {
+            return [
+                'labels' => [],
+                'data' => [],
+            ];
+        }
+
+        $rows = $this->baseQueryForSelectedDepartment()
+            ->leftJoin('countries', 'countries.id', '=', 'inbound_tourisms.residence_country_id')
+            ->selectRaw('COALESCE(countries.name, "Sin país") as country, SUM(inbound_tourisms.tourist_arrivals) as total')
+            ->groupBy('country')
+            ->orderByDesc('total')
+            ->limit(10)
+            ->get();
+
+        return [
+            'labels' => $rows->pluck('country')->toArray(),
+            'data' => $rows->pluck('total')->map(fn($value) => (int) $value)->toArray(),
+        ];
+    }
+
+    private function loadSelectedDepartmentSummary(): array
+    {
+        if (! $this->selectedDepartment) {
+            return [];
+        }
+
+        $query = $this->baseQueryForSelectedDepartment();
+
+        return [
+            'department' => $this->selectedDepartmentLabel ?? $this->humanizeDepartmentKey($this->selectedDepartment),
+            'tourists' => (int) (clone $query)->sum('tourist_arrivals'),
+            'excursionists' => (int) (clone $query)->sum('excursionist_arrivals'),
+            'foreign_exchange_revenue' => round((float) ((clone $query)->sum('foreign_exchange_revenue') ?? 0), 2),
+        ];
     }
 
     private function normalizeDepartmentKey(?string $name): string

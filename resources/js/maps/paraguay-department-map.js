@@ -140,7 +140,7 @@ export function paraguayDepartmentMap(config) {
                 }
 
                 this.currentValues = payload.values ?? {}
-                this.selectedDepartment = null
+                this.selectedDepartment = payload.selectedDepartment ?? null
                 this.refreshEmptyState()
 
                 if (this.layer) {
@@ -178,7 +178,7 @@ export function paraguayDepartmentMap(config) {
                 this.map.fitBounds(this.layer.getBounds(), {
                     padding: [16, 16],
                 })
-            } catch (_) {}
+            } catch (_) { }
         },
 
         updateLayerStyles() {

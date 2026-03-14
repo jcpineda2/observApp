@@ -1,13 +1,13 @@
-<div class="space-y-6">
-    <div>
-        <h2 class="text-base font-semibold text-gray-900">Alojamientos turísticos</h2>
-        <p class="mt-1 text-sm text-gray-500">
+<div class="public-section">
+    <div class="public-section-header">
+        <h2 class="public-section-title">Alojamientos turísticos</h2>
+        <p class="public-section-description">
             Indicadores, capacidad instalada y desempeño del sector de alojamientos.
         </p>
     </div>
 
     {{-- KPIs --}}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="public-grid-4">
         <livewire:public-interface.kpi-card
             :key="'accommodation-establishments-'.$year.'-'.$month"
             title="Establecimientos"
@@ -42,7 +42,7 @@
         />
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="accommodation-occupancy-by-month-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Ocupación por mes"
@@ -79,7 +79,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="accommodation-occupancy-yoy-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Ocupación interanual"

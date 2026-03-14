@@ -1,13 +1,13 @@
-<div class="space-y-6">
-    <div>
-        <h2 class="text-base font-semibold text-gray-900">Turismo interno</h2>
-        <p class="mt-1 text-sm text-gray-500">
+<div class="public-section">
+    <div class="public-section-header">
+        <h2 class="public-section-title">Turismo interno</h2>
+        <p class="public-section-description">
             Indicadores, aperturas y composición del turismo interno.
         </p>
     </div>
 
     {{-- KPIs principales del PDF --}}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="public-grid-4">
         <livewire:public-interface.kpi-card
             :key="'domestic-tourists-'.$year.'-'.$month"
             title="Turistas internos"
@@ -46,7 +46,7 @@
     </div>
 
     {{-- Composición fija del gasto --}}
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="domestic-fixed-composition-chart-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Composición del gasto"
@@ -89,7 +89,7 @@
     </div>
 
     {{-- Aperturas y observados --}}
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="domestic-tourists-by-month-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Turistas por mes"
@@ -126,7 +126,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="domestic-average-stay-observed-by-month-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Estadía observada por mes"
@@ -163,7 +163,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="domestic-by-origin-region-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
             <x-chart.card
                 title="Región de origen"

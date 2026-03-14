@@ -1,52 +1,34 @@
-<section class="space-y-6">
-    <header class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-        <h1 class="text-2xl sm:text-3xl font-semibold">Observatorio Turístico</h1>
-        <p class="mt-2 text-slate-600">
-            Indicadores y tableros con datos oficiales.
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <button
+        type="button"
+        wire:click="$dispatch('go-to-tab', { tab: 'prestadores' })"
+        class="ui-surface p-5 text-left transition hover:shadow-md"
+    >
+        <div class="text-sm font-semibold text-gray-900 dark:text-white">Prestadores</div>
+        <p class="mt-2 text-xs text-gray-500 dark:text-slate-300">
+            Total, altas, bajas y formalización de prestadores turísticos.
         </p>
+    </button>
 
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="{{ route('public.providers') }}"
-               class="group bg-background-light border border-slate-100 rounded-2xl p-4 hover:shadow-sm transition">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-semibold">Prestadores</div>
-                    <span class="material-symbols-outlined text-primary">apartment</span>
-                </div>
-                <div class="mt-2 text-xs text-slate-500">
-                    Total, altas/bajas, formalización, variación.
-                </div>
-            </a>
+    <button
+        type="button"
+        wire:click="$dispatch('go-to-tab', { tab: 'turismo-receptivo' })"
+        class="ui-surface p-5 text-left transition hover:shadow-md"
+    >
+        <div class="text-sm font-semibold text-gray-900 dark:text-white">Turismo receptivo</div>
+        <p class="mt-2 text-xs text-gray-500 dark:text-slate-300">
+            Indicadores de entrada, mercado emisor y comportamiento del visitante.
+        </p>
+    </button>
 
-            <a href="{{ route('public.inbound') }}"
-               class="group bg-background-light border border-slate-100 rounded-2xl p-4 hover:shadow-sm transition">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-semibold">Turismo Receptivo</div>
-                    <span class="material-symbols-outlined text-primary">flight_land</span>
-                </div>
-                <div class="mt-2 text-xs text-slate-500">
-                    Indicadores de entrada y comportamiento.
-                </div>
-            </a>
-
-            <a href="{{ route('public.domestic') }}"
-               class="group bg-background-light border border-slate-100 rounded-2xl p-4 hover:shadow-sm transition">
-                <div class="flex items-center justify-between">
-                    <div class="text-sm font-semibold">Turismo Interno</div>
-                    <span class="material-symbols-outlined text-primary">tour</span>
-                </div>
-                <div class="mt-2 text-xs text-slate-500">
-                    Motivos, flujo, gasto, estadía.
-                </div>
-            </a>
-        </div>
-    </header>
-
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-        <div class="text-sm font-semibold">Cómo usar</div>
-        <ul class="mt-3 text-sm text-slate-600 list-disc pl-5 space-y-1">
-            <li>Entrá a un tablero en “Indicadores”.</li>
-            <li>Filtrá por año/mes/rubro/departamento.</li>
-            <li>Los KPIs y gráficos se actualizan sin recargar (Livewire 3).</li>
-        </ul>
-    </div>
-</section>
+    <button
+        type="button"
+        wire:click="$dispatch('go-to-tab', { tab: 'turismo-interno' })"
+        class="ui-surface p-5 text-left transition hover:shadow-md"
+    >
+        <div class="text-sm font-semibold text-gray-900 dark:text-white">Turismo interno</div>
+        <p class="mt-2 text-xs text-gray-500 dark:text-slate-300">
+            Flujo, gasto, estadía promedio y comportamiento del turismo interno.
+        </p>
+    </button>
+</div>

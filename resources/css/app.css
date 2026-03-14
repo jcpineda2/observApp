@@ -5,23 +5,284 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/* Inicio de css para tema  */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-    --color-primary: #e4213e;
-    --color-primary-dark: #b91a31;
-    --color-brand-green: #009B4D;
-    --color-brand-yellow: #FFCC00;
-    --color-brand-blue: #0055A4;
-    --color-brand-red: #E31E24;
+    /* Brand */
+    --color-senatur-blue: #1d52b8;
+    --color-senatur-red: #e32b2b;
+    --color-senatur-green: #7ab84b;
 
-    --color-background-light: #f8f9fa;
-    --color-background-dark: #1a1a1a;
-    --color-surface-light: #ffffff;
-    --color-surface-dark: #2d2d2d;
+    /* Light */
+    --color-app-bg: #f8f9fa;
+    --color-app-surface: #ffffff;
+    --color-app-surface-muted: #f3f4f6;
+    --color-app-border: #e5e7eb;
+    --color-app-text: #1a1a1a;
+    --color-app-text-muted: #6b7280;
+
+    /* Dark */
+    --color-app-dark-bg: #0f172a;
+    --color-app-dark-surface: #1e293b;
+    --color-app-dark-surface-muted: #334155;
+    --color-app-dark-border: rgba(148, 163, 184, 0.22);
+    --color-app-dark-text: #f8fafc;
+    --color-app-dark-text-muted: #cbd5e1;
 }
 
+@layer components {
+    .ui-page {
+        @apply min-h-screen bg-[var(--color-app-bg)] text-[var(--color-app-text)] antialiased;
+    }
+
+    .dark .ui-page {
+        @apply bg-[var(--color-app-dark-bg)] text-[var(--color-app-dark-text)];
+    }
+
+    .ui-shell {
+        @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .ui-surface {
+        @apply rounded-2xl border bg-[var(--color-app-surface)] border-[var(--color-app-border)] shadow-sm;
+    }
+
+    .dark .ui-surface {
+        @apply bg-[var(--color-app-dark-surface)] border-[var(--color-app-dark-border)] shadow-md;
+    }
+
+    .ui-surface-muted {
+        @apply rounded-2xl border bg-[var(--color-app-surface-muted)] border-[var(--color-app-border)];
+    }
+
+    .dark .ui-surface-muted {
+        @apply bg-[var(--color-app-dark-surface-muted)] border-[var(--color-app-dark-border)];
+    }
+
+    .ui-heading {
+        @apply text-[var(--color-app-text)] font-semibold;
+    }
+
+    .dark .ui-heading {
+        @apply text-[var(--color-app-dark-text)];
+    }
+
+    .ui-text-muted {
+        @apply text-[var(--color-app-text-muted)];
+    }
+
+    .dark .ui-text-muted {
+        @apply text-[var(--color-app-dark-text-muted)];
+    }
+
+    .ui-tab-active {
+        @apply bg-[var(--color-senatur-blue)] text-white;
+    }
+
+    .ui-tab-inactive {
+        @apply bg-white text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50;
+    }
+
+    .dark .ui-tab-inactive {
+        @apply bg-[var(--color-app-dark-surface)] text-slate-200 ring-1 ring-[var(--color-app-dark-border)] hover:bg-slate-700/60;
+    }
+
+    .ui-btn-primary {
+        @apply inline-flex items-center justify-center rounded-xl bg-[var(--color-senatur-blue)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-95;
+    }
+
+    .ui-btn-secondary {
+        @apply inline-flex items-center justify-center rounded-xl border border-[var(--color-app-border)] bg-white px-4 py-2 text-sm font-medium text-gray-800 transition hover:bg-gray-50;
+    }
+
+    .dark .ui-btn-secondary {
+        @apply border-[var(--color-app-dark-border)] bg-[var(--color-app-dark-surface)] text-slate-100 hover:bg-slate-700/70;
+    }
+
+    .ui-input,
+    .ui-select {
+        @apply mt-1 w-full rounded-lg border border-[var(--color-app-border)] bg-white px-3 py-2 text-sm shadow-sm outline-none transition focus:border-[var(--color-senatur-blue)] focus:ring-2 focus:ring-[var(--color-senatur-blue)]/20;
+    }
+
+    .dark .ui-input,
+    .dark .ui-select {
+        @apply border-[var(--color-app-dark-border)] bg-[var(--color-app-dark-surface)] text-slate-100 placeholder:text-slate-400;
+    }
+
+    .public-section {
+        @apply space-y-6;
+    }
+
+    .public-section-header {
+        @apply space-y-1;
+    }
+
+    .public-section-title {
+        @apply text-base font-semibold text-gray-900 dark:text-white;
+    }
+
+    .public-section-description {
+        @apply text-sm text-gray-500 dark:text-slate-300;
+    }
+
+    .public-grid-2 {
+        @apply grid gap-4 lg:grid-cols-2;
+    }
+
+    .public-grid-3 {
+        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3;
+    }
+
+    .public-grid-4 {
+        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-4;
+    }
+
+    .public-grid-5 {
+        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-5;
+    }
+
+    .public-info-banner {
+        @apply rounded-2xl border border-blue-200 bg-blue-50 px-4 py-4 dark:border-blue-500/30 dark:bg-blue-500/10;
+    }
+
+    .public-info-banner-title {
+        @apply text-sm font-semibold text-blue-900 dark:text-blue-100;
+    }
+
+    .public-info-banner-text {
+        @apply mt-1 text-xs text-blue-700 dark:text-blue-200;
+    }
+
+    .public-empty-state {
+        @apply rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-8 text-center text-sm text-gray-500 dark:border-slate-600 dark:bg-[var(--color-app-dark-surface)] dark:text-slate-300;
+    }
+
+    .chart-card {
+        @apply rounded-2xl border border-[var(--color-app-border)] bg-white shadow-sm dark:border-[var(--color-app-dark-border)] dark:bg-[var(--color-app-dark-surface)];
+    }
+
+    .chart-card-header {
+        @apply flex flex-col gap-1 border-b border-[var(--color-app-border)] px-5 py-4 dark:border-[var(--color-app-dark-border)];
+    }
+
+    .chart-card-title {
+        @apply text-sm font-semibold text-gray-900 dark:text-white;
+    }
+
+    .chart-card-subtitle {
+        @apply text-xs text-gray-500 dark:text-slate-300;
+    }
+
+    .chart-card-body {
+        @apply p-5;
+    }
+
+
+    .map-card {
+        @apply rounded-2xl border border-[var(--color-app-border)] bg-white shadow-sm dark:border-[var(--color-app-dark-border)] dark:bg-[var(--color-app-dark-surface)];
+    }
+
+    .map-card-header {
+        @apply flex flex-col gap-1 border-b border-[var(--color-app-border)] px-5 py-4 dark:border-[var(--color-app-dark-border)];
+    }
+
+    .map-card-title {
+        @apply text-sm font-semibold text-gray-900 dark:text-white;
+    }
+
+    .map-card-subtitle {
+        @apply text-xs text-gray-500 dark:text-slate-300;
+    }
+
+    .map-card-body {
+        @apply p-5;
+    }
+
+    .ranking-card {
+        @apply rounded-2xl border border-[var(--color-app-border)] bg-white shadow-sm dark:border-[var(--color-app-dark-border)] dark:bg-[var(--color-app-dark-surface)];
+    }
+
+    .ranking-card-header {
+        @apply flex flex-col gap-1 border-b border-[var(--color-app-border)] px-5 py-4 dark:border-[var(--color-app-dark-border)];
+    }
+
+    .ranking-card-title {
+        @apply text-sm font-semibold text-gray-900 dark:text-white;
+    }
+
+    .ranking-card-subtitle {
+        @apply text-xs text-gray-500 dark:text-slate-300;
+    }
+
+    .ranking-card-body {
+        @apply p-5;
+    }
+
+    .ranking-list {
+        @apply space-y-3;
+    }
+
+    .ranking-row {
+        @apply flex items-center justify-between gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/60;
+    }
+
+    .ranking-label {
+        @apply text-sm font-medium text-gray-800 dark:text-slate-100;
+    }
+
+    .ranking-value {
+        @apply inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-[var(--color-senatur-blue)] dark:bg-blue-500/15 dark:text-blue-200;
+    }
+
+    .ranking-index {
+        @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--color-senatur-blue)] text-xs font-bold text-white;
+    }
+
+    .public-stack {
+        @apply space-y-4 sm:space-y-5 lg:space-y-6;
+    }
+
+    .public-card-padding {
+        @apply p-4 sm:p-5;
+    }
+
+    .public-section-spacing {
+        @apply space-y-5 sm:space-y-6;
+    }
+
+    .public-kpi-grid {
+        @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-5;
+    }
+
+    .public-two-column-grid {
+        @apply grid gap-4 xl:grid-cols-2;
+    }
+
+    .public-three-column-grid {
+        @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-3;
+    }
+
+    .public-map-wrapper {
+        @apply space-y-4;
+    }
+
+    .public-chart-compact canvas {
+        max-height: 280px;
+    }
+
+    .public-chart-standard canvas {
+        max-height: 320px;
+    }
+
+    .public-chart-tall canvas {
+        max-height: 380px;
+    }
+
+    .public-mobile-scroll {
+        @apply overflow-x-auto;
+    }
+}
 
 .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -32,7 +293,27 @@
     scrollbar-width: none;
 }
 
+/* Fin de css del tema */
 /* Inicio del css del mapa */
+.paraguay-map-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(2px);
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.dark .paraguay-map-loading {
+    background: rgba(15, 23, 42, 0.78);
+    color: #e2e8f0;
+}
+
 .paraguay-map-empty-state {
     position: absolute;
     inset: 0;
@@ -40,12 +321,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.80);
+    background: rgba(255, 255, 255, 0.8);
     color: #4b5563;
     font-size: 14px;
     font-weight: 500;
     text-align: center;
     padding: 1rem;
+}
+
+.dark .paraguay-map-empty-state {
+    background: rgba(15, 23, 42, 0.72);
+    color: #cbd5e1;
+}
+
+.paraguay-map-hover-tooltip {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #111827;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 6px 8px;
+}
+
+.dark .paraguay-map-hover-tooltip {
+    background: #1e293b;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    color: #f8fafc;
 }
 
 .paraguay-map-legend {
@@ -61,11 +363,20 @@
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
+.dark .paraguay-map-legend {
+    background: rgba(30, 41, 59, 0.96);
+    border-color: rgba(148, 163, 184, 0.22);
+}
+
 .paraguay-map-legend-title {
     font-size: 11px;
     font-weight: 700;
     color: #374151;
     margin-bottom: 8px;
+}
+
+.dark .paraguay-map-legend-title {
+    color: #e2e8f0;
 }
 
 .paraguay-map-legend-scale {
@@ -86,6 +397,19 @@
     justify-content: space-between;
     font-size: 10px;
     color: #6b7280;
+}
+
+.dark .paraguay-map-legend-labels {
+    color: #cbd5e1;
+}
+
+.leaflet-container {
+    background: #ffffff !important;
+    font-family: inherit;
+}
+
+.dark .leaflet-container {
+    background: #0f172a !important;
 }
 
 /* Fin del css del mapa */

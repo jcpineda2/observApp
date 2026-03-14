@@ -1,48 +1,36 @@
-{{-- @props([
-    'title' => '',
-    'value' => '',
-    'subtitle' => null,
-    'trend' => null,
-    'trendDirection' => null, // up | down | null
-]) --}}
-
-
-<div class="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:shadow-md">
-
-    {{-- Accent decorativo --}}
-    <div class="absolute inset-x-0 top-0 h-1 bg-blue-800"></div>
+<div class="group relative overflow-hidden rounded-2xl border border-[var(--color-app-border)] bg-white p-5 shadow-sm transition hover:shadow-md dark:border-[var(--color-app-dark-border)] dark:bg-[var(--color-app-dark-surface)]">
+    <div class="absolute inset-x-0 top-0 h-1 bg-[var(--color-senatur-blue)]"></div>
 
     <div class="space-y-3">
-        <div class="text-sm font-medium text-gray-500">
-            {{ $title }}
+        <div class="flex items-start justify-between gap-3">
+            <div class="text-sm font-medium text-gray-500 dark:text-slate-300">
+                {{ $title }}
+            </div>
+
+            @isset($badge)
+                <span class="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-[var(--color-senatur-blue)] dark:bg-blue-500/15 dark:text-blue-200">
+                    {{ $badge }}
+                </span>
+            @endisset
         </div>
 
-        <div class="text-3xl font-bold tracking-tight text-gray-900">
+        <div class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             {{ $value }}
+            @isset($unit)
+                <span class="ml-1 text-sm font-medium text-gray-500 dark:text-slate-300">{{ $unit }}</span>
+            @endisset
         </div>
 
-        @if($subtitle)
-            <div class="text-xs text-gray-500">
-                {{ $subtitle }}
+        @isset($helpText)
+            <div class="text-xs text-gray-500 dark:text-slate-400">
+                {{ $helpText }}
             </div>
-        @endif
+        @endisset
 
-        @if($trend)
-            <div class="flex items-center gap-1 text-xs font-medium
-                @if($trendDirection === 'up') text-emerald-600
-                @elseif($trendDirection === 'down') text-rose-600
-                @else text-gray-500
-                @endif
-            ">
-                @if($trendDirection === 'up')
-                    ↑
-                @elseif($trendDirection === 'down')
-                    ↓
-                @endif
-
-                <span>{{ $trend }}</span>
+        @isset($source)
+            <div class="text-[11px] text-gray-400 dark:text-slate-500">
+                Fuente: {{ $source }}
             </div>
-        @endif
+        @endisset
     </div>
-
 </div>

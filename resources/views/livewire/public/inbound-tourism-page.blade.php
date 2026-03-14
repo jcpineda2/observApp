@@ -1,17 +1,17 @@
 <div
-    class="space-y-6"
+    class="public-section public-section-spacing"
     x-data
     x-on:paraguay-map:department-selected.window="$wire.selectDepartment($event.detail.department)"
 >
-    <div>
-        <h2 class="text-base font-semibold text-gray-900">Turismo receptivo</h2>
-        <p class="mt-1 text-sm text-gray-500">
+    <div class="public-section-header">
+        <h2 class="public-section-title">Turismo receptivo</h2>
+        <p class="public-section-description">
             Indicadores, aperturas y visualizaciones del turismo receptivo.
         </p>
     </div>
 
     {{-- KPIs --}}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="public-kpi-grid">
         <livewire:public-interface.kpi-card :key="'inbound-tourists-' . $year . '-' . $month" title="Llegadas de turistas" :value="number_format($kpis['tourists'] ?? 0, 0, ',', '.')"
             badge="Observado" helpText="Total según filtros aplicados" />
 
@@ -33,7 +33,7 @@
     </div>
 
     {{-- Aperturas principales --}}
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-two-column-grid">
         <div wire:key="inbound-by-month-{{ $year ?? 'null' }}">
             <x-chart.card title="Llegadas por mes" subtitle="Apertura mensual del turismo receptivo" :chart-id="'inbound-by-month-' . ($year ?? 'null')"
                 type="line" :labels="$byMonth['labels'] ?? []" :datasets="[
@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-two-column-grid">
         <div wire:key="inbound-by-entry-mode-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
             <x-chart.card title="Vía de ingreso" subtitle="Aérea, terrestre y fluvial/marítima" :chart-id="'inbound-by-entry-mode-' . ($year ?? 'null') . '-' . ($month ?? 'all')"
                 type="doughnut" :labels="$byEntryMode['labels'] ?? []" :datasets="[
@@ -82,7 +82,7 @@
     </div>
 
     {{-- Visualizaciones --}}
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-two-column-grid">
         <div wire:key="inbound-top-markets-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
             <x-chart.card title="Ranking de mercados emisores" subtitle="Top 10 países con mayor emisión"
                 :chart-id="'inbound-top-markets-' . ($year ?? 'null') . '-' . ($month ?? 'all')" type="bar" :labels="$topMarkets['labels'] ?? []" :datasets="[
@@ -115,7 +115,7 @@
     </div>
 
     {{-- Mapa geográfico --}}
-    <div>
+    <div class="public-map-wrapper">
         <x-map.paraguay-departments
             :map-id="$mapId"
             :geo-json-url="asset('geo/paraguay-departamentos.json')"
@@ -126,13 +126,13 @@
         />
 
         @if ($selectedDepartment)
-            <div class="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-4">
+            <div class="public-info-banner">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h3 class="text-sm font-semibold text-blue-900">
+                        <h3 class="public-info-banner-title">
                             Departamento seleccionado: {{ $selectedDepartmentLabel }}
                         </h3>
-                        <p class="mt-1 text-xs text-blue-700">
+                        <p class="public-info-banner-text">
                             Los indicadores siguientes están filtrados por el departamento seleccionado en el mapa.
                         </p>
                     </div>
@@ -140,14 +140,13 @@
                     <button
                         type="button"
                         wire:click="clearSelectedDepartment"
-                        class="inline-flex items-center justify-center rounded-lg border border-blue-300 bg-white px-3 py-2 text-sm font-medium text-blue-800 shadow-sm transition hover:bg-blue-100"
-                    >
+                        class="ui-btn-secondary">
                         Limpiar selección
                     </button>
                 </div>
             </div>
 
-            <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="public-three-column-grid">
                 <livewire:public-interface.kpi-card
                     :key="'selected-department-tourists-' . $selectedDepartment . '-' . $year . '-' . $month"
                     title="Turistas del departamento"
@@ -175,8 +174,7 @@
             </div>
 
             <div
-                class="mt-4"
-                wire:key="selected-department-by-country-{{ $selectedDepartment }}-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}"
+                    wire:key="selected-department-by-country-{{ $selectedDepartment }}-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}"
             >
                 <x-chart.card
                     title="País de residencia del departamento seleccionado"

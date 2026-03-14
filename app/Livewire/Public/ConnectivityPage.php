@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\PublicInterface\Tabs;
+namespace App\Livewire\Public;
 
 use App\Enums\Scope;
 use App\Models\AirConnectivityRoute;
@@ -8,9 +8,12 @@ use App\Models\Airport;
 use App\Models\Month;
 use App\Models\Year;
 use Illuminate\Support\Facades\Cache;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class ConnectivityTab extends Component
+#[Layout('components.layouts.public')]
+
+class ConnectivityPage extends Component
 {
     public ?int $year = null;
     public ?int $month = null;
@@ -257,6 +260,6 @@ class ConnectivityTab extends Component
 
     public function render()
     {
-        return view('livewire.public-interface.tabs.connectivity-tab');
+        return view('livewire.public.connectivity-page');
     }
 }

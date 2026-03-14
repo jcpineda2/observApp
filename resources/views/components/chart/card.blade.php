@@ -6,6 +6,7 @@
     'labels' => [],
     'datasets' => [],
     'height' => 320,
+    'bodyClass' => 'public-chart-standard',
 ])
 
 @php
@@ -24,44 +25,52 @@
                     'position' => 'bottom',
                 ],
             ],
-            'scales' => in_array($type, ['bar', 'line']) ? [
-                'x' => [
-                    'grid' => [
-                        'display' => false,
+            'scales' => in_array($type, ['bar', 'line'])
+                ? [
+                    'x' => [
+                        'grid' => [
+                            'display' => false,
+                        ],
                     ],
-                ],
-                'y' => [
-                    'beginAtZero' => true,
-                ],
-            ] : new stdClass(),
+                    'y' => [
+                        'beginAtZero' => true,
+                    ],
+                ]
+                : new stdClass(),
         ],
     ];
 @endphp
 
-<div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
-    <div class="flex items-start justify-between gap-3">
+<div class="chart-card">
+    <div class="chart-card-header">
         <div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="chart-card-title">
                 {{ $title }}
             </h3>
 
             @if ($subtitle)
-                <p class="mt-1 text-xs text-gray-500">
+                <p class="chart-card-subtitle">
                     {{ $subtitle }}
                 </p>
             @endif
         </div>
     </div>
 
-    <div class="mt-4">
-        <div
-            class="relative w-full"
-            style="height: {{ $height }}px;"
-            x-data="observatorioChart(@js($config), '{{ $chartId }}')"
-            x-init="init($refs.canvas)"
-            wire:ignore
-        >
-            <canvas x-ref="canvas" id="{{ $chartId }}"></canvas>
-        </div>
+    <div @class(['chart-card-body', $bodyClass])>
+        @if (empty($labels) || empty($datasets))
+            <div class="public-empty-state">
+                No hay datos disponibles para mostrar este gráfico.
+            </div>
+        @else
+            <div
+                class="relative w-full"
+                style="height: {{ $height }}px;"
+                x-data="observatorioChart(@js($config), '{{ $chartId }}')"
+                x-init="init($refs.canvas)"
+                wire:ignore
+            >
+                <canvas x-ref="canvas" id="{{ $chartId }}"></canvas>
+            </div>
+        @endif
     </div>
 </div>

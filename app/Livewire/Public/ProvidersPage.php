@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Livewire\PublicInterface\Tabs;
+namespace App\Livewire\Public;
 
 use App\Models\Month;
 use App\Models\TourismProviderStat;
 use App\Models\Year;
 use Illuminate\Support\Facades\Cache;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class ProvidersTab extends Component
+#[Layout('components.layouts.public')]
+
+class ProvidersPage extends Component
 {
     public ?int $year = null;
     public ?int $month = null;
@@ -250,6 +253,6 @@ class ProvidersTab extends Component
 
     public function render()
     {
-        return view('livewire.public-interface.tabs.providers-tab');
+        return view('livewire.public.providers-page');
     }
 }

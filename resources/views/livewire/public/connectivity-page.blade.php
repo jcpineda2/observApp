@@ -1,13 +1,13 @@
-<div class="space-y-6">
-    <div>
-        <h2 class="text-base font-semibold text-gray-900">Conectividad aérea</h2>
-        <p class="mt-1 text-sm text-gray-500">
+<div class="public-section">
+    <div class="public-section-header">
+        <h2 class="public-section-title">Conectividad aérea</h2>
+        <p class="public-section-description">
             Indicadores, rutas y destinos de la conectividad aérea.
         </p>
     </div>
 
     {{-- KPIs --}}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="public-grid-5">
         <livewire:public-interface.kpi-card
             :key="'connectivity-operational-airports-'.$year.'-'.$month"
             title="Aeropuertos operativos"
@@ -49,7 +49,7 @@
         />
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="connectivity-flights-seats-by-month-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Vuelos y asientos por mes"
@@ -92,7 +92,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="connectivity-top-origin-airports-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
             <x-chart.card
                 title="Top aeropuertos origen"
@@ -128,7 +128,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="connectivity-destinations-by-country-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
             <x-chart.card
                 title="Destinos por país"

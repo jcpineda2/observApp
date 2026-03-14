@@ -1,13 +1,13 @@
-<div class="space-y-6">
-    <div>
-        <h2 class="text-base font-semibold text-gray-900">Empleo turístico</h2>
-        <p class="mt-1 text-sm text-gray-500">
+<div class="public-section">
+    <div class="public-section-header">
+        <h2 class="public-section-title">Empleo turístico</h2>
+        <p class="public-section-description">
             Indicadores, segmentación y composición del empleo turístico.
         </p>
     </div>
 
     {{-- KPIs --}}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="public-grid-4">
         <livewire:public-interface.kpi-card
             :key="'employment-direct-'.$year"
             title="Empleo directo"
@@ -43,7 +43,7 @@
         />
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="employment-by-service-sector-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Empleo por segmento"
@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="employment-yoy-trend">
             <x-chart.card
                 title="Variación interanual"
@@ -115,7 +115,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="employment-by-age-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Empleo por edad"

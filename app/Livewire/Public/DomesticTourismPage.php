@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\PublicInterface\Tabs;
+namespace App\Livewire\Public;
 
 use App\Enums\IndicatorDomain;
 use App\Enums\IndicatorKey;
@@ -9,9 +9,12 @@ use App\Models\IndicatorConstant;
 use App\Models\Month;
 use App\Models\Year;
 use Illuminate\Support\Facades\Cache;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class DomesticTourismTab extends Component
+#[Layout('components.layouts.public')]
+
+class DomesticTourismPage extends Component
 {
     public ?int $year = null;
     public ?int $month = null;
@@ -294,6 +297,6 @@ class DomesticTourismTab extends Component
 
     public function render()
     {
-        return view('livewire.public-interface.tabs.domestic-tourism-tab');
+        return view('livewire.public.domestic-tourism-page');
     }
 }

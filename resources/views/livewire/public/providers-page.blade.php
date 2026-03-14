@@ -1,12 +1,12 @@
-<div class="space-y-6">
-    <div>
-        <h2 class="text-base font-semibold text-gray-900">Prestadores de servicios turísticos</h2>
-        <p class="mt-1 text-sm text-gray-500">
+<div class="public-section">
+    <div class="public-section-header">
+        <h2 class="public-section-title">Prestadores de servicios turísticos</h2>
+        <p class="public-section-description">
             Indicadores, evolución y segmentaciones de los prestadores registrados.
         </p>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="public-grid-4">
         <livewire:public-interface.kpi-card
             :key="'providers-total-'.$year.'-'.$month"
             title="PST registrados"
@@ -41,7 +41,7 @@
         />
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="providers-registrations-cancellations-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Altas y bajas por período"
@@ -92,7 +92,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
+    <div class="public-grid-2">
         <div wire:key="providers-formalization-by-month-{{ $year ?? 'null' }}">
             <x-chart.card
                 title="Porcentaje de formalización"

@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Livewire\PublicInterface\Tabs;
+namespace App\Livewire\Public;
 
 use App\Enums\Gender;
 use App\Models\EmploymentDemographic;
 use App\Models\TourismEmployment;
 use App\Models\Year;
 use Illuminate\Support\Facades\Cache;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-class EmploymentTab extends Component
+#[Layout('components.layouts.public')]
+
+class EmploymentPage extends Component
 {
     public ?int $year = null;
 
@@ -207,6 +210,6 @@ class EmploymentTab extends Component
 
     public function render()
     {
-        return view('livewire.public-interface.tabs.employment-tab');
+        return view('livewire.public.employment-page');
     }
 }

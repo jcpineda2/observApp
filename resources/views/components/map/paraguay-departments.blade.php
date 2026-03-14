@@ -7,22 +7,22 @@
     'height' => 650,
 ])
 
-<div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
-    <div class="flex items-start justify-between gap-3">
+<div class="map-card">
+    <div class="map-card-header">
         <div>
-            <h3 class="text-sm font-semibold text-gray-900">
+            <h3 class="map-card-title">
                 {{ $title }}
             </h3>
 
             @if ($subtitle)
-                <p class="mt-1 text-xs text-gray-500">
+                <p class="map-card-subtitle">
                     {{ $subtitle }}
                 </p>
             @endif
         </div>
     </div>
 
-    <div class="mt-4">
+    <div class="map-card-body">
         <div
             wire:ignore
             class="relative w-full overflow-hidden rounded-xl border border-gray-200 bg-white"

@@ -3,9 +3,6 @@
 namespace App\Filament\Resources\AuditLogs\Tables;
 
 use App\Models\AuditLog;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
@@ -87,11 +84,8 @@ class AuditLogsTable
                             ->when($data['until'] ?? null, fn($q, $date) => $q->whereDate('created_at', '<=', $date));
                     }),
             ])
-            ->recordActions('view')
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
-            ])
-            ->bulkActions([]);
-
+            ]);
     }
 }

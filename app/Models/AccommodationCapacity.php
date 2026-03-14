@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ class AccommodationCapacity extends Model
 {
     /** @use HasFactory<\Database\Factories\AccommodationCapacityFactory> */
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'accommodation_category_id',
@@ -28,6 +30,13 @@ class AccommodationCapacity extends Model
         'beds_count' => 'integer',
     ];
 
+    //Personaliza el nombre del módulo para auditoría
+    public function getAuditModuleName(): string
+    {
+        return 'Capacidad de Alojamiento';
+    }
+
+    //Relaciones con otros modelos
     public function category(): BelongsTo
     {
         return $this->belongsTo(AccommodationCategory::class, 'accommodation_category_id');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TourismProviderStat extends Model
 {
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'year_id',
@@ -28,6 +30,13 @@ class TourismProviderStat extends Model
         'formalized_total' => 'integer',
     ];
 
+    //Personaliza el nombre del módulo para auditoría
+    public function getAuditModuleName(): string
+    {
+        return 'Prestadores Turísticos';
+    }
+
+    //Relaciones con otros modelos
     public function year(): BelongsTo
     {
         return $this->belongsTo(Year::class);

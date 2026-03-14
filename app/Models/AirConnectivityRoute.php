@@ -34,6 +34,12 @@ class AirConnectivityRoute extends Model
         'seats_count' => 'integer',
     ];
 
+    //función para hacer amigable el nombre del modelo al usuario
+    public function getAuditModuleName(): string
+    {
+        return 'Conectividad Aérea';
+    }
+    //Relaciones con otro modelos
     public function year(): BelongsTo
     {
         return $this->belongsTo(Year::class);

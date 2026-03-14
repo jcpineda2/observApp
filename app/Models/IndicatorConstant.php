@@ -32,6 +32,13 @@ class IndicatorConstant extends Model
         'value' => 'decimal:4',
     ];
 
+    //Personaliza el nombre del módulo para auditoría
+    public function getAuditModuleName(): string
+    {
+        return 'Constantes de Indicadores';
+    }
+
+    //Relaciones con otros modelos
     public function year(): BelongsTo
     {
         return $this->belongsTo(Year::class);

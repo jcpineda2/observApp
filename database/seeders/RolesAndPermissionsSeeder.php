@@ -20,6 +20,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'users',
             'roles',
             'permissions',
+            'audit-logs',
 
             // Catálogos
             'countries',
@@ -108,6 +109,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'users',
             'roles',
             'permissions',
+            'audit-logs',
         ];
 
         $observerPerms = array_filter(

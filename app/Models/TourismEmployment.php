@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class TourismEmployment extends Model
 {
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'year_id',
@@ -27,6 +29,12 @@ class TourismEmployment extends Model
         'interannual_variation' => 'decimal:2',
     ];
 
+    //Personaliza el nombre del módulo para auditoría
+    public function getAuditModuleName(): string
+    {
+        return 'Empleo Turístico';
+    }
+    //Relaciones con otro modelo
     public function year(): BelongsTo
     {
         return $this->belongsTo(Year::class);

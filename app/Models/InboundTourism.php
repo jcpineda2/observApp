@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class InboundTourism extends Model
 {
     use HasFactory;
+    use Auditable;
 
     protected $fillable = [
         'year_id',
@@ -38,6 +40,13 @@ class InboundTourism extends Model
         'average_stay' => 'decimal:2',
     ];
 
+    //Personaliza el nombre del módulo para auditoría
+    public function getAuditModuleName(): string
+    {
+        return 'Turismo Receptivo';
+    }
+
+    //Relaciones a otros modelos
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'residence_country_id');

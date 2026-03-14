@@ -30,7 +30,7 @@ use App\Models\Year;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
-class ObservatorioSmartSeeder extends Seeder
+class go extends Seeder
 {
     public function run(): void
     {

@@ -645,12 +645,40 @@ body {
         }
     }
 
+    .page-transition {
+        transition:
+            opacity 180ms ease,
+            transform 180ms ease;
+    }
+
+    .page-transition.is-loading {
+        opacity: 0.45;
+        transform: translateY(4px);
+    }
+
+    .page-loader {
+        position: fixed;
+        inset-inline: 0;
+        top: 0;
+        z-index: 9999;
+        height: 3px;
+        background: var(--color-senatur-blue);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 180ms ease, opacity 180ms ease;
+        opacity: 0;
+    }
+
+    .page-loader.is-loading {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+
 }
 
 .paraguay-map-loading {
     position: absolute;
     inset: 0;
-    z-index: 20;
     display: flex;
     align-items: center;
     justify-content: center;

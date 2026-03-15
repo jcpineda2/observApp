@@ -1,20 +1,12 @@
 <!doctype html>
-<html
-    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    x-data="{
-        darkMode: document.documentElement.classList.contains('dark')
-    }"
-    x-init="$watch('darkMode', value => {
-        localStorage.setItem('darkMode', value);
-        document.documentElement.classList.toggle('dark', value);
-    })"
->
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? config('app.name') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- Aplicar tema antes de pintar la página para evitar parpadeo --}}
     <script>
         (function () {
             const savedTheme = localStorage.getItem('darkMode');
@@ -30,15 +22,65 @@
         })();
     </script>
 
+    {{-- Store global de Alpine para el tema --}}
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('theme', {
+                dark: localStorage.getItem('darkMode') === 'true'
+                    ? true
+                    : localStorage.getItem('darkMode') === 'false'
+                        ? false
+                        : window.matchMedia('(prefers-color-scheme: dark)').matches,
+
+                toggle() {
+                    this.dark = !this.dark;
+                    this.apply();
+                },
+
+                apply() {
+                    document.documentElement.classList.toggle('dark', this.dark);
+                    localStorage.setItem('darkMode', this.dark ? 'true' : 'false');
+                },
+            });
+
+            Alpine.store('theme').apply();
+        });
+
+        document.addEventListener('livewire:navigated', () => {
+            if (window.Alpine && Alpine.store('theme')) {
+                Alpine.store('theme').apply();
+            }
+
+            const page = document.getElementById('page-content');
+            const loader = document.getElementById('page-loader');
+
+            requestAnimationFrame(() => {
+                page?.classList.remove('is-loading');
+                loader?.classList.remove('is-loading');
+            });
+        });
+
+        document.addEventListener('livewire:navigate', () => {
+            const page = document.getElementById('page-content');
+            const loader = document.getElementById('page-loader');
+
+            page?.classList.add('is-loading');
+            loader?.classList.add('is-loading');
+        });
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 
 <body class="ui-page">
+    {{-- Loader superior de navegación --}}
+    <div id="page-loader" class="page-loader"></div>
+
     <livewire:public-interface.header />
 
     <main class="min-h-[calc(100vh-80px)]">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div id="page-content" class="page-transition mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="pt-9">
                 <livewire:public-interface.global-filters />
             </div>

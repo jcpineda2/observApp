@@ -1,13 +1,18 @@
 <div class="ui-surface p-5 sm:p-6">
-    <div class="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-        <div class="space-y-1">
+
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+
+        <div>
             <h3 class="ui-heading text-base">Filtros</h3>
-            <p class="ui-text-muted text-sm">
+
+            <p class="ui-text-muted mt-1 text-sm">
                 Selecciona año y mes para actualizar KPIs, gráficos y mapas.
             </p>
         </div>
 
-        <div class="grid w-full gap-3 sm:grid-cols-3 xl:w-auto">
+        <div class="grid w-full gap-3 sm:grid-cols-3 lg:w-auto">
+
+            {{-- Año --}}
             <div class="sm:min-w-52">
                 <label class="block text-xs font-medium text-gray-600 dark:text-slate-300">
                     Año
@@ -15,12 +20,16 @@
 
                 <select wire:model.live="year" class="ui-select">
                     <option value="">Todos</option>
-                    @foreach ($yearOptions as $id => $label)
-                        <option value="{{ $id }}">{{ $label }}</option>
+
+                    @foreach($yearOptions as $id => $label)
+                        <option value="{{ $id }}">
+                            {{ $label }}
+                        </option>
                     @endforeach
                 </select>
             </div>
 
+            {{-- Mes --}}
             <div class="sm:min-w-52">
                 <label class="block text-xs font-medium text-gray-600 dark:text-slate-300">
                     Mes
@@ -28,12 +37,16 @@
 
                 <select wire:model.live="month" class="ui-select">
                     <option value="">Todos</option>
-                    @foreach ($monthOptions as $id => $label)
-                        <option value="{{ $id }}">{{ $label }}</option>
+
+                    @foreach($monthOptions as $id => $label)
+                        <option value="{{ $id }}">
+                            {{ $label }}
+                        </option>
                     @endforeach
                 </select>
             </div>
 
+            {{-- Limpiar --}}
             <div class="sm:min-w-40">
                 <button
                     type="button"
@@ -43,18 +56,27 @@
                     Limpiar
                 </button>
             </div>
+
         </div>
     </div>
 
-    <div class="mt-5 flex flex-wrap gap-2 text-xs">
-        <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-gray-700 ring-1 ring-gray-200 dark:bg-slate-700 dark:text-slate-100 dark:ring-[var(--color-app-dark-border)]">
+    {{-- Estado de filtros --}}
+    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+
+        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 ring-1 ring-gray-200 dark:bg-slate-700 dark:text-slate-100 dark:ring-[var(--color-app-dark-border)]">
             Año:
-            <strong class="ml-1">{{ $year ? ($yearOptions[$year] ?? '—') : 'Todos' }}</strong>
+            <strong>
+                {{ $year ? ($yearOptions[$year] ?? '—') : 'Todos' }}
+            </strong>
         </span>
 
-        <span class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-gray-700 ring-1 ring-gray-200 dark:bg-slate-700 dark:text-slate-100 dark:ring-[var(--color-app-dark-border)]">
+        <span class="rounded-full bg-gray-100 px-3 py-1 text-gray-700 ring-1 ring-gray-200 dark:bg-slate-700 dark:text-slate-100 dark:ring-[var(--color-app-dark-border)]">
             Mes:
-            <strong class="ml-1">{{ $month ? ($monthOptions[$month] ?? '—') : 'Todos' }}</strong>
+            <strong>
+                {{ $month ? ($monthOptions[$month] ?? '—') : 'Todos' }}
+            </strong>
         </span>
+
     </div>
+
 </div>

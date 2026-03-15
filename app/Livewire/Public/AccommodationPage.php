@@ -60,6 +60,23 @@ class AccommodationPage extends Component
         $this->byCategory = $payload['byCategory'];
         $this->capacityByDepartment = $payload['capacityByDepartment'];
     }
+    public function getActiveYearLabelProperty(): ?string
+    {
+        if (! $this->year) {
+            return null;
+        }
+
+        return (string) \App\Models\Year::query()->whereKey($this->year)->value('year');
+    }
+
+    public function getActiveMonthLabelProperty(): ?string
+    {
+        if (! $this->month) {
+            return null;
+        }
+
+        return \App\Models\Month::query()->whereKey($this->month)->value('month');
+    }
 
     public function render()
     {

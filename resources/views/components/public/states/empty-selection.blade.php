@@ -1,6 +1,6 @@
 @props([
-    'title' => 'Sin datos disponibles',
-    'message' => 'No existen registros para los filtros seleccionados.',
+    'title' => 'Sin selección activa',
+    'message' => 'Selecciona un elemento para ver el detalle.',
 ])
 
 <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-8 text-center dark:border-slate-700 dark:bg-slate-900">

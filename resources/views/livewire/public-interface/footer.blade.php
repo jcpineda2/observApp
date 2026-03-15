@@ -93,7 +93,7 @@
     {{-- Barra inferior --}}
     <div class="border-t border-white/10">
         <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 text-xs text-slate-500 sm:px-6 lg:px-8">
-            <span>Hecho con Laravel + Livewire</span>
+            <span>Desarrollado por la DTICs</span>
             <a href="#top" class="hover:text-white">Volver arriba ↑</a>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\public;
+namespace App\Livewire\Public;
 
 use App\Models\AccommodationCapacity;
 use App\Models\AccommodationPerformance;

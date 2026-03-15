@@ -6,6 +6,7 @@
         </p>
     </div>
 
+
     {{-- KPIs --}}
     <div class="public-four-column-grid">
         <livewire:public-interface.kpi-card

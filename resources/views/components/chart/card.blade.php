@@ -59,7 +59,7 @@
     <div @class(['chart-card-body', $bodyClass])>
         @if (empty($labels) || empty($datasets))
             <div class="public-empty-state">
-                No hay datos disponibles para mostrar este gráfico.
+                Debe aplicar un filtro para visualizar los gráficos.
             </div>
         @else
             <div

@@ -77,6 +77,15 @@
     {{-- Loader superior de navegación --}}
     <div id="page-loader" class="page-loader"></div>
 
+    {{-- Indicador flotante de actualización de filtros --}}
+    <div
+        wire:loading.delay
+        wire:target="year,month,resetFilters"
+        class="fixed right-4 top-24 z-[9999] rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg dark:bg-slate-700"
+    >
+        Actualizando datos...
+    </div>
+
     <livewire:public-interface.header />
 
     <main class="min-h-[calc(100vh-80px)]">

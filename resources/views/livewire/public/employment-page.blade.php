@@ -1,14 +1,16 @@
 <div class="public-section public-section-spacing">
-    <div class="public-section-header">
-        <h2 class="public-section-title">Empleo turístico</h2>
-        <p class="public-section-description">
-            Indicadores, segmentación y composición del empleo turístico.
-        </p>
-    </div>
+
+
+    <x-public.ui.section-heading
+        title="Empleo turístico"
+        description="Indicadores, segmentación y composición del empleo turístico."
+    />
+
+    <livewire:public.global-filters />
 
     {{-- KPIs --}}
     <div class="public-four-column-grid">
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'employment-direct-' . $year"
             title="Empleo directo"
             :value="number_format($kpis['direct_employment'] ?? 0, 0, ',', '.')"
@@ -16,7 +18,7 @@
             helpText="Total de empleo turístico directo"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'employment-national-participation-' . $year"
             title="Participación nacional"
             :value="number_format($kpis['national_participation'] ?? 0, 2, ',', '.')"
@@ -25,7 +27,7 @@
             helpText="Participación del turismo en el empleo nacional"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'employment-yoy-' . $year"
             title="Variación interanual"
             :value="number_format($kpis['interannual_variation'] ?? 0, 2, ',', '.')"
@@ -34,7 +36,7 @@
             helpText="Variación respecto al año anterior"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'employment-segments-' . $year"
             title="Segmentos activos"
             :value="number_format($kpis['active_segments'] ?? 0, 0, ',', '.')"

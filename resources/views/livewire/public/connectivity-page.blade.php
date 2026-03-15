@@ -1,26 +1,26 @@
 <div class="public-section public-section-spacing">
-    <div class="public-section-header">
-        <h2 class="public-section-title">Conectividad aérea</h2>
-        <p class="public-section-description">
-            Indicadores, rutas y destinos de la conectividad aérea.
-        </p>
-    </div>
+
+    <x-public.ui.section-heading
+        title="Conectividad aérea"
+        description="Indicadores, rutas y destinos de la conectividad aérea."
+    />
+    <livewire:public.global-filters />
 
     {{-- KPIs --}}
     <div class="public-kpi-grid">
-        <livewire:public-interface.kpi-card :key="'connectivity-operational-airports-' . $year . '-' . $month" title="Aeropuertos operativos" :value="number_format($kpis['operational_airports'] ?? 0, 0, ',', '.')"
+        <x-public.ui.kpi-card :key="'connectivity-operational-airports-' . $year . '-' . $month" title="Aeropuertos operativos" :value="number_format($kpis['operational_airports'] ?? 0, 0, ',', '.')"
             badge="Observado" helpText="Cantidad total operativa" />
 
-        <livewire:public-interface.kpi-card :key="'connectivity-national-airports-' . $year . '-' . $month" title="Aeropuertos nacionales" :value="number_format($kpis['national_airports'] ?? 0, 0, ',', '.')"
+        <x-public.ui.kpi-card :key="'connectivity-national-airports-' . $year . '-' . $month" title="Aeropuertos nacionales" :value="number_format($kpis['national_airports'] ?? 0, 0, ',', '.')"
             badge="Observado" helpText="Ámbito nacional" />
 
-        <livewire:public-interface.kpi-card :key="'connectivity-international-airports-' . $year . '-' . $month" title="Aeropuertos internacionales" :value="number_format($kpis['international_airports'] ?? 0, 0, ',', '.')"
+        <x-public.ui.kpi-card :key="'connectivity-international-airports-' . $year . '-' . $month" title="Aeropuertos internacionales" :value="number_format($kpis['international_airports'] ?? 0, 0, ',', '.')"
             badge="Observado" helpText="Ámbito internacional" />
 
-        <livewire:public-interface.kpi-card :key="'connectivity-active-routes-' . $year . '-' . $month" title="Rutas activas" :value="number_format($kpis['active_routes'] ?? 0, 0, ',', '.')" badge="Observado"
+        <x-public.ui.kpi-card :key="'connectivity-active-routes-' . $year . '-' . $month" title="Rutas activas" :value="number_format($kpis['active_routes'] ?? 0, 0, ',', '.')" badge="Observado"
             helpText="Según filtros aplicados" />
 
-        <livewire:public-interface.kpi-card :key="'connectivity-destinations-' . $year . '-' . $month" title="Destinos conectados" :value="number_format($kpis['connected_destinations'] ?? 0, 0, ',', '.')"
+        <x-public.ui.kpi-card :key="'connectivity-destinations-' . $year . '-' . $month" title="Destinos conectados" :value="number_format($kpis['connected_destinations'] ?? 0, 0, ',', '.')"
             badge="Observado" helpText="Aeropuertos destino únicos" />
     </div>
 

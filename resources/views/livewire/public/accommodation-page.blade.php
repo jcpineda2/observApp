@@ -1,15 +1,14 @@
 <div class="public-section public-section-spacing">
-    <div class="public-section-header">
-        <h2 class="public-section-title">Alojamientos turísticos</h2>
-        <p class="public-section-description">
-            Indicadores, capacidad instalada y desempeño del sector de alojamientos.
-        </p>
-    </div>
 
 
+    <x-public.ui.section-heading
+        title="Alojamientos turísticos"
+        description="Indicadores, capacidad instalada y desempeño del sector de alojamientos."
+    />
+    <livewire:public.global-filters />
     {{-- KPIs --}}
     <div class="public-four-column-grid">
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'accommodation-establishments-' . $year . '-' . $month"
             title="Establecimientos"
             :value="number_format($kpis['establishments'] ?? 0, 0, ',', '.')"
@@ -17,7 +16,7 @@
             helpText="Cantidad total registrada"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'accommodation-rooms-' . $year . '-' . $month"
             title="Habitaciones"
             :value="number_format($kpis['rooms'] ?? 0, 0, ',', '.')"
@@ -25,7 +24,7 @@
             helpText="Capacidad instalada total"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'accommodation-beds-' . $year . '-' . $month"
             title="Camas"
             :value="number_format($kpis['beds'] ?? 0, 0, ',', '.')"
@@ -33,7 +32,7 @@
             helpText="Capacidad instalada total"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'accommodation-occupancy-average-' . $year . '-' . $month"
             title="Ocupación promedio"
             :value="number_format($kpis['occupancy_average'] ?? 0, 2, ',', '.')"

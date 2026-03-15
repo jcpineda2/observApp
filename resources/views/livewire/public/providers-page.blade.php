@@ -1,13 +1,14 @@
 <div class="public-section public-section-spacing">
-    <div class="public-section-header">
-        <h2 class="public-section-title">Prestadores de servicios turísticos</h2>
-        <p class="public-section-description">
-            Indicadores, evolución y segmentaciones de los prestadores registrados.
-        </p>
-    </div>
+
+
+    <x-public.ui.section-heading
+        title="Prestadores de servicios turísticos"
+        description=" Indicadores, evolución y segmentaciones de los prestadores registrados."
+    />
+    <livewire:public.global-filters />
 
     <div class="public-four-column-grid">
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'providers-total-' . $year . '-' . $month"
             title="PST registrados"
             :value="number_format($kpis['total_registered'] ?? 0, 0, ',', '.')"
@@ -15,7 +16,7 @@
             helpText="Total nacional según filtros aplicados"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'providers-registrations-' . $year . '-' . $month"
             title="Altas del período"
             :value="number_format($kpis['registrations'] ?? 0, 0, ',', '.')"
@@ -23,7 +24,7 @@
             helpText="Nuevos registros en el período"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'providers-cancellations-' . $year . '-' . $month"
             title="Bajas del período"
             :value="number_format($kpis['cancellations'] ?? 0, 0, ',', '.')"
@@ -31,7 +32,7 @@
             helpText="Cancelaciones o bajas en el período"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'providers-formalization-rate-' . $year . '-' . $month"
             title="% de formalización"
             :value="number_format($kpis['formalization_rate'] ?? 0, 2, ',', '.')"

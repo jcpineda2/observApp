@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +9,7 @@
 
     {{-- Aplicar tema antes de pintar la página para evitar parpadeo --}}
     <script>
-        (function () {
+        (function() {
             const savedTheme = localStorage.getItem('darkMode');
 
             if (savedTheme === 'true') {
@@ -26,11 +27,9 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('theme', {
-                dark: localStorage.getItem('darkMode') === 'true'
-                    ? true
-                    : localStorage.getItem('darkMode') === 'false'
-                        ? false
-                        : window.matchMedia('(prefers-color-scheme: dark)').matches,
+                dark: localStorage.getItem('darkMode') === 'true' ?
+                    true : localStorage.getItem('darkMode') === 'false' ?
+                    false : window.matchMedia('(prefers-color-scheme: dark)').matches,
 
                 toggle() {
                     this.dark = !this.dark;
@@ -78,28 +77,24 @@
     <div id="page-loader" class="page-loader"></div>
 
     {{-- Indicador flotante de actualización de filtros --}}
-    <div
-        wire:loading.delay
-        wire:target="year,month,resetFilters"
-        class="fixed right-4 top-24 z-[9999] rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg dark:bg-slate-700"
-    >
+    <div wire:loading.delay wire:target="year,month,resetFilters"
+        class="fixed right-4 top-24 z-[9999] rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-lg dark:bg-slate-700">
         Actualizando datos...
     </div>
 
-    <livewire:public-interface.header />
-
+    <x-public.layout.header />
     <main class="min-h-[calc(100vh-80px)]">
         <div id="page-content" class="page-transition mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="pt-9">
+            {{-- <div class="pt-9">
                 <livewire:public-interface.global-filters />
-            </div>
+            </div> --}}
 
             {{ $slot }}
         </div>
     </main>
 
-    <livewire:public-interface.footer />
-
+    <x-public.layout.footer />
     @livewireScripts
 </body>
+
 </html>

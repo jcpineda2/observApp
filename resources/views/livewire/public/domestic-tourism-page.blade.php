@@ -1,27 +1,27 @@
 <div class="public-section public-section-spacing">
-    <div class="public-section-header">
-        <h2 class="public-section-title">Turismo interno</h2>
-        <p class="public-section-description">
-            Indicadores, aperturas y composición del turismo interno.
-        </p>
-    </div>
+
+    <x-public.ui.section-heading
+        title="Turismo interno"
+        description="Indicadores, aperturas y composición del turismo interno."
+    />
+    <livewire:public.global-filters />
 
     {{-- KPIs principales del PDF --}}
     <div class="public-four-column-grid">
-        <livewire:public-interface.kpi-card :key="'domestic-tourists-' . $year . '-' . $month" title="Turistas internos" :value="number_format($kpis['tourists'] ?? 0, 0, ',', '.')"
+        <x-public.ui.kpi-card :key="'domestic-tourists-' . $year . '-' . $month" title="Turistas internos" :value="number_format($kpis['tourists'] ?? 0, 0, ',', '.')"
             badge="Observado" helpText="Cantidad total según filtros aplicados" />
 
-        <livewire:public-interface.kpi-card :key="'domestic-fixed-avg-spend-' . $year" title="Gasto turístico interno" :value="isset($kpis['fixed_avg_spend']) && $kpis['fixed_avg_spend'] !== null
+        <x-public.ui.kpi-card :key="'domestic-fixed-avg-spend-' . $year" title="Gasto turístico interno" :value="isset($kpis['fixed_avg_spend']) && $kpis['fixed_avg_spend'] !== null
             ? number_format($kpis['fixed_avg_spend'], 2, ',', '.')
             : '-'"
             :unit="$kpis['fixed_avg_spend_unit'] ?? null" badge="Dato fijo" :source="$kpis['fixed_avg_spend_source'] ?? null" helpText="Valor fijo de referencia" />
 
-        <livewire:public-interface.kpi-card :key="'domestic-fixed-avg-stay-' . $year" title="Estadía promedio" :value="isset($kpis['fixed_avg_stay']) && $kpis['fixed_avg_stay'] !== null
+        <x-public.ui.kpi-card :key="'domestic-fixed-avg-stay-' . $year" title="Estadía promedio" :value="isset($kpis['fixed_avg_stay']) && $kpis['fixed_avg_stay'] !== null
             ? number_format($kpis['fixed_avg_stay'], 2, ',', '.')
             : '-'"
             :unit="$kpis['fixed_avg_stay_unit'] ?? null" badge="Dato fijo" :source="$kpis['fixed_avg_stay_source'] ?? null" helpText="Valor fijo de referencia" />
 
-        <livewire:public-interface.kpi-card :key="'domestic-composition-count-' . $year" title="Componentes del gasto" :value="number_format(count($fixedComposition['items'] ?? []), 0, ',', '.')"
+        <x-public.ui.kpi-card :key="'domestic-composition-count-' . $year" title="Componentes del gasto" :value="number_format(count($fixedComposition['items'] ?? []), 0, ',', '.')"
             badge="Dato fijo" helpText="Categorías de composición disponibles" />
     </div>
 

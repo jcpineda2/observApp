@@ -3,16 +3,17 @@
     x-data
     x-on:paraguay-map:department-selected.window="$wire.selectDepartment($event.detail.department)"
 >
-    <div class="public-section-header">
-        <h2 class="public-section-title">Turismo receptivo</h2>
-        <p class="public-section-description">
-            Indicadores, aperturas y visualizaciones del turismo receptivo.
-        </p>
-    </div>
+
+    <x-public.ui.section-heading
+        title="Turismo receptivo"
+        description="Indicadores, aperturas y visualizaciones del turismo receptivo."
+    />
+
+    <livewire:public.global-filters />
 
     {{-- KPIs --}}
     <div class="public-kpi-grid">
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'inbound-tourists-' . $year . '-' . $month"
             title="Llegadas de turistas"
             :value="number_format($kpis['tourists'] ?? 0, 0, ',', '.')"
@@ -20,7 +21,7 @@
             helpText="Total según filtros aplicados"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'inbound-excursionists-' . $year . '-' . $month"
             title="Llegadas de excursionistas"
             :value="number_format($kpis['excursionists'] ?? 0, 0, ',', '.')"
@@ -28,7 +29,7 @@
             helpText="Visitantes sin pernocte"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'inbound-foreign-exchange-' . $year . '-' . $month"
             title="Ingresos de divisas"
             :value="number_format($kpis['foreign_exchange_revenue'] ?? 0, 2, ',', '.')"
@@ -37,7 +38,7 @@
             helpText="Suma según registros cargados"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'inbound-fixed-average-spend-' . $year"
             title="Gasto promedio"
             :value="isset($kpis['fixed_average_spend']) && $kpis['fixed_average_spend'] !== null
@@ -49,7 +50,7 @@
             helpText="Valor oficial de referencia"
         />
 
-        <livewire:public-interface.kpi-card
+        <x-public.ui.kpi-card
             :key="'inbound-fixed-average-stay-' . $year"
             title="Estadía promedio"
             :value="isset($kpis['fixed_average_stay']) && $kpis['fixed_average_stay'] !== null
@@ -220,7 +221,7 @@
             </div>
 
             <div class="public-three-column-grid">
-                <livewire:public-interface.kpi-card
+                <x-public.ui.kpi-card
                     :key="'selected-department-tourists-' . $selectedDepartment . '-' . $year . '-' . $month"
                     title="Turistas del departamento"
                     :value="number_format($selectedDepartmentSummary['tourists'] ?? 0, 0, ',', '.')"
@@ -228,7 +229,7 @@
                     helpText="Llegadas de turistas en el departamento seleccionado"
                 />
 
-                <livewire:public-interface.kpi-card
+                <x-public.ui.kpi-card
                     :key="'selected-department-excursionists-' . $selectedDepartment . '-' . $year . '-' . $month"
                     title="Excursionistas del departamento"
                     :value="number_format($selectedDepartmentSummary['excursionists'] ?? 0, 0, ',', '.')"
@@ -236,7 +237,7 @@
                     helpText="Llegadas de excursionistas en el departamento seleccionado"
                 />
 
-                <livewire:public-interface.kpi-card
+                <x-public.ui.kpi-card
                     :key="'selected-department-revenue-' . $selectedDepartment . '-' . $year . '-' . $month"
                     title="Divisas del departamento"
                     :value="number_format($selectedDepartmentSummary['foreign_exchange_revenue'] ?? 0, 2, ',', '.')"

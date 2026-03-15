@@ -1,5 +1,4 @@
-<footer class="mt-10 bg-slate-900 text-slate-200">
-    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+<footer class="border-t border-gray-200 bg-white dark:border-slate-800 dark:bg-slate-950">    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div class="grid gap-10 md:grid-cols-3">
 
             {{-- Marca --}}

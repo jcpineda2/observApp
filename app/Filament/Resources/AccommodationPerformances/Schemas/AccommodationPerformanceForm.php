@@ -61,7 +61,7 @@ class AccommodationPerformanceForm
                     ->label('Departamento')
                     ->relationship(
                         name: 'state',
-                        titleAttribute: 'name',
+                        titleAttribute:'name',
                         modifyQueryUsing: fn(Builder $query) => $query
                             ->whereHas('country', function ($q) {
                                 $q->where('name', 'Paraguay');

@@ -3,7 +3,7 @@
 @endphp
 
 <header x-data="{ mobileOpen: false }"
-    class="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
+    class="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <a wire:navigate href="{{ route('public.home') }}" class="flex min-w-0 items-center gap-3 shrink-0">
             <div
@@ -94,9 +94,7 @@
             </a>
         </nav>
 
-        {{-- Right actions --}}
         <div class="flex items-center gap-2">
-            {{-- Theme toggle placeholder: lo conectaremos en el siguiente bloque --}}
             <button type="button"
                 class="hidden h-10 items-center justify-center gap-2 rounded-xl border border-gray-200 px-3 text-sm font-medium text-gray-600 transition hover:bg-gray-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 lg:inline-flex"
                 aria-label="Cambiar tema" data-theme-toggle>
@@ -115,7 +113,7 @@
                 <span data-theme-label>Tema claro</span>
             </button>
 
-            {{-- Mobile menu button --}}
+            {{-- Mobile menu  --}}
             <button type="button" x-on:click="mobileOpen = !mobileOpen"
                 class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-gray-700 transition hover:bg-gray-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 lg:hidden"
                 :aria-expanded="mobileOpen ? 'true' : 'false'" aria-controls="public-mobile-menu"

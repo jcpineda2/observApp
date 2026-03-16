@@ -1,3 +1,5 @@
+
+
 import Chart from 'chart.js/auto';
 
 window.observatorioChart = function ({ id, config }) {
@@ -24,40 +26,12 @@ window.observatorioChart = function ({ id, config }) {
             });
         },
 
-        update(newConfig) {
-            if (!this.canvas) return;
-
-            const normalized = this.normalizedConfig(newConfig);
-            const ctx = this.canvas.getContext('2d');
-
-            if (!ctx) return;
-
-            if (!this.chart) {
-                this.chart = new Chart(ctx, normalized);
-                return;
-            }
-
-            // Si cambia el tipo de gráfico, sí debemos reconstruir
-            if (this.chart.config.type !== normalized.type) {
-                this.chart.destroy();
-                this.chart = new Chart(ctx, normalized);
-                return;
-            }
-
-            // Actualización en caliente sin destruir
-            this.chart.data.labels = normalized.data.labels ?? [];
-            this.chart.data.datasets = normalized.data.datasets ?? [];
-            this.chart.options = normalized.options ?? {};
-
-            this.chart.update('none');
-        },
-
         normalizedConfig(config) {
             return {
                 type: config?.type ?? 'bar',
                 data: {
-                    labels: config?.data?.labels ?? [],
-                    datasets: config?.data?.datasets ?? [],
+                    labels: [...(config?.data?.labels ?? [])],
+                    datasets: (config?.data?.datasets ?? []).map(dataset => ({ ...dataset })),
                 },
                 options: {
                     responsive: true,

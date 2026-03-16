@@ -70,7 +70,6 @@
                     config: @js($config),
                 })"
                 x-init="init($refs.canvas)"
-                x-effect="update(@js($config))"
                 wire:ignore
             >
                 <canvas x-ref="canvas" id="{{ $chartId }}"></canvas>

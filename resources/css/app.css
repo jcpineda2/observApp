@@ -676,6 +676,10 @@ body {
 
 }
 
+.leaflet-container {
+    z-index: 0 ;
+}
+
 .paraguay-map-loading {
     position: absolute;
     inset: 0;

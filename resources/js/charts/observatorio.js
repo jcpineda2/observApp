@@ -1,80 +1,81 @@
 import Chart from 'chart.js/auto';
 
-export function observatorioChart(config, chartId) {
-  return {
-    chart: null,
-    cfg: config,
-    id: chartId,
-    _handler: null,
+window.observatorioChart = function ({ id, config }) {
+    return {
+        chart: null,
+        canvas: null,
+        chartId: id,
+        initialConfig: config,
 
-    resolveCanvas(canvasEl) {
-      if (canvasEl && canvasEl.tagName?.toLowerCase() === 'canvas') return canvasEl;
+        init(canvas) {
+            if (!canvas) return;
 
-      const byId = document.getElementById(this.id);
-      if (byId && byId.tagName?.toLowerCase() === 'canvas') return byId;
+            this.canvas = canvas;
 
-      if (canvasEl && canvasEl.querySelector) {
-        const inside = canvasEl.querySelector('canvas');
-        if (inside) return inside;
-      }
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
 
-      return null;
-    },
+            if (this.chart) return;
 
-    destroy() {
-      if (this.chart) {
-        this.chart.destroy();
-        this.chart = null;
-      }
-      if (this._handler) {
-        window.removeEventListener('observatorio:chart:update', this._handler);
-        this._handler = null;
-      }
-    },
+            this.chart = new Chart(ctx, this.normalizedConfig(this.initialConfig));
 
-    init(canvasMaybe) {
-      const canvas = this.resolveCanvas(canvasMaybe);
+            this.$el.addEventListener('alpine:destroy', () => {
+                this.destroy();
+            });
+        },
 
-      // Si no existe aún, reintenta (esto arregla el tab receptivo)
-      if (!canvas) {
-        requestAnimationFrame(() => this.init(canvasMaybe));
-        return;
-      }
+        update(newConfig) {
+            if (!this.canvas) return;
 
-      // reinicialización segura
-      this.destroy();
+            const normalized = this.normalizedConfig(newConfig);
+            const ctx = this.canvas.getContext('2d');
 
-      this.chart = new Chart(canvas, this.cfg);
+            if (!ctx) return;
 
-      // cleanup si Livewire lo desmonta
-      const observer = new MutationObserver(() => {
-        if (!document.body.contains(canvas)) {
-          this.destroy();
-          observer.disconnect();
-        }
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
+            if (!this.chart) {
+                this.chart = new Chart(ctx, normalized);
+                return;
+            }
 
-      // listener único por instancia
-      this._handler = (e) => {
-        const { chartId: targetId, config: nextCfg } = e.detail || {};
-        if (!nextCfg) return;
-        if (targetId && targetId !== this.id) return;
+            // Si cambia el tipo de gráfico, sí debemos reconstruir
+            if (this.chart.config.type !== normalized.type) {
+                this.chart.destroy();
+                this.chart = new Chart(ctx, normalized);
+                return;
+            }
 
-        const c = this.resolveCanvas(canvas);
-        if (!c) return;
+            // Actualización en caliente sin destruir
+            this.chart.data.labels = normalized.data.labels ?? [];
+            this.chart.data.datasets = normalized.data.datasets ?? [];
+            this.chart.options = normalized.options ?? {};
 
-        // recrear seguro
-        if (this.chart) this.chart.destroy();
-        this.chart = new Chart(c, nextCfg);
-      };
+            this.chart.update('none');
+        },
 
-      window.addEventListener('observatorio:chart:update', this._handler);
-    },
-  };
-}
+        normalizedConfig(config) {
+            return {
+                type: config?.type ?? 'bar',
+                data: {
+                    labels: config?.data?.labels ?? [],
+                    datasets: config?.data?.datasets ?? [],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    ...(config?.options ?? {}),
+                },
+            };
+        },
 
-window.observatorioChart = observatorioChart;
+        destroy() {
+            if (this.chart) {
+                this.chart.destroy();
+                this.chart = null;
+            }
+        },
+    };
+};
 
 
 window.observatorioDepartmentMap = function ({ mapId, geojsonUrl }) {
@@ -284,4 +285,6 @@ window.observatorioDeptRanking = function (mapId) {
             });
         },
     };
+
+
 };

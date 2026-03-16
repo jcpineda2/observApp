@@ -59,14 +59,18 @@
     <div @class(['chart-card-body', $bodyClass])>
         @if (empty($labels) || empty($datasets))
             <div class="public-empty-state">
-                Debe aplicar un filtro para visualizar los gráficos.
+                No hay datos disponibles para el período seleccionado.
             </div>
         @else
             <div
                 class="relative w-full"
                 style="height: {{ $height }}px;"
-                x-data="observatorioChart(@js($config), '{{ $chartId }}')"
+                x-data="observatorioChart({
+                    id: @js($chartId),
+                    config: @js($config),
+                })"
                 x-init="init($refs.canvas)"
+                x-effect="update(@js($config))"
                 wire:ignore
             >
                 <canvas x-ref="canvas" id="{{ $chartId }}"></canvas>

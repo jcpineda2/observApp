@@ -62,6 +62,22 @@ class EmploymentPage extends Component
         $this->genderByServiceSector = $payload['genderByServiceSector'];
     }
 
+    public function getActiveYearLabelProperty(): ?string
+    {
+        if (! $this->year) {
+            return null;
+        }
+
+        return (string) Year::query()
+            ->whereKey($this->year)
+            ->value('year');
+    }
+
+    public function getActiveMonthLabelProperty(): ?string
+    {
+        return null;
+    }
+
     public function render()
     {
         return view('livewire.public.employment-page');

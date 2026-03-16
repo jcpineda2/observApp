@@ -143,6 +143,24 @@ class InboundTourismPage extends Component
         $this->selectedDepartmentByCountry = $payload['selectedDepartmentByCountry'];
     }
 
+    public function getActiveYearLabelProperty(): ?string
+    {
+        if (! $this->year) {
+            return null;
+        }
+
+        return (string) \App\Models\Year::query()->whereKey($this->year)->value('year');
+    }
+
+    public function getActiveMonthLabelProperty(): ?string
+    {
+        if (! $this->month) {
+            return null;
+        }
+
+        return \App\Models\Month::query()->whereKey($this->month)->value('month');
+    }
+
     public function render()
     {
         return view('livewire.public.inbound-tourism-page');

@@ -53,7 +53,7 @@ class TourismEmploymentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            DemographicsRelationManager::class,
+            // DemographicsRelationManager::class,
         ];
     }
 

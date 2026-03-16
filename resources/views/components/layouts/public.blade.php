@@ -7,49 +7,37 @@
     <title>{{ $title ?? config('app.name') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Aplicar tema antes de pintar la página para evitar parpadeo --}}
+    {{-- Aplicar tema antes de pintar la página para evitar flash --}}
     <script>
-        (function() {
-            const savedTheme = localStorage.getItem('darkMode');
+        (function () {
+            const storageKey = 'observatorio-theme';
+            const root = document.documentElement;
 
-            if (savedTheme === 'true') {
-                document.documentElement.classList.add('dark');
-            } else if (savedTheme === 'false') {
-                document.documentElement.classList.remove('dark');
-            } else {
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.classList.toggle('dark', prefersDark);
+            function getSystemTheme() {
+                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
+
+            function getSavedTheme() {
+                try {
+                    return localStorage.getItem(storageKey);
+                } catch (_) {
+                    return null;
+                }
+            }
+
+            const savedTheme = getSavedTheme();
+            const theme = savedTheme === 'dark' || savedTheme === 'light'
+                ? savedTheme
+                : getSystemTheme();
+
+            root.classList.toggle('dark', theme === 'dark');
+            root.setAttribute('data-theme', theme);
         })();
     </script>
 
-    {{-- Store global de Alpine para el tema --}}
+    {{-- Navegación visual con wire:navigate --}}
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('theme', {
-                dark: localStorage.getItem('darkMode') === 'true' ?
-                    true : localStorage.getItem('darkMode') === 'false' ?
-                    false : window.matchMedia('(prefers-color-scheme: dark)').matches,
-
-                toggle() {
-                    this.dark = !this.dark;
-                    this.apply();
-                },
-
-                apply() {
-                    document.documentElement.classList.toggle('dark', this.dark);
-                    localStorage.setItem('darkMode', this.dark ? 'true' : 'false');
-                },
-            });
-
-            Alpine.store('theme').apply();
-        });
-
         document.addEventListener('livewire:navigated', () => {
-            if (window.Alpine && Alpine.store('theme')) {
-                Alpine.store('theme').apply();
-            }
-
             const page = document.getElementById('page-content');
             const loader = document.getElementById('page-loader');
 
@@ -83,18 +71,15 @@
     </div>
 
     <x-public.layout.header />
+
     <main class="min-h-[calc(100vh-80px)]">
         <div id="page-content" class="page-transition mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            {{-- <div class="pt-9">
-                <livewire:public-interface.global-filters />
-            </div> --}}
-
             {{ $slot }}
         </div>
     </main>
 
     <x-public.layout.footer />
+
     @livewireScripts
 </body>
-
 </html>

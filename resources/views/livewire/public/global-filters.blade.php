@@ -8,7 +8,7 @@
             <select
                 id="year"
                 wire:model.live="year"
-                class="w-full rounded-xl border-gray-300 text-sm shadow-sm focus:border-[var(--color-senatur-blue)] focus:ring-[var(--color-senatur-blue)] dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+                class="ui-select"
             >
                 @foreach ($years as $item)
                     <option value="{{ $item->id }}">{{ $item->year }}</option>
@@ -24,8 +24,7 @@
             <select
                 id="month"
                 wire:model.live="month"
-                class="w-full rounded-xl border-gray-300 text-sm shadow-sm focus:border-[var(--color-senatur-blue)] focus:ring-[var(--color-senatur-blue)] dark:border-slate-700 dark:bg-slate-950 dark:text-white"
-            >
+                class="ui-select">
                 <option value="">Todos</option>
 
                 @foreach ($months as $item)

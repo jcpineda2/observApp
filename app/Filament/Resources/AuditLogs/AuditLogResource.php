@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AuditLogs;
 
+use App\Filament\Concerns\HasResourcePermissions;
 use App\Filament\Resources\AuditLogs\Pages\CreateAuditLog;
 use App\Filament\Resources\AuditLogs\Pages\EditAuditLog;
 use App\Filament\Resources\AuditLogs\Pages\ListAuditLogs;
@@ -18,6 +19,11 @@ use UnitEnum;
 
 class AuditLogResource extends Resource
 {
+
+    use HasResourcePermissions;
+
+    protected static ?string $permissionSubject = 'auditlogs';
+
     protected static ?string $model = AuditLog::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboard;

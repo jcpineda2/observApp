@@ -22,7 +22,7 @@ class InboundTourismResource extends Resource
 {
     use HasResourcePermissions;
 
-    protected static ?string $permissionSubject = 'inbound-tourism';
+    protected static ?string $permissionSubject = 'inbound-tourisms';
 
     protected static ?string $model = InboundTourism::class;
 

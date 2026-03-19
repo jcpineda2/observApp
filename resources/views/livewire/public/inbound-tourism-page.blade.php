@@ -103,7 +103,7 @@
                 <div wire:key="inbound-by-country-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
                     @if (count($byCountry['labels'] ?? []))
                         <x-chart.card
-                            title="País de residencia"
+                            title="Nacionalidad"
                             subtitle="Distribución por país"
                             :chart-id="'inbound-by-country-' . ($year ?? 'null') . '-' . ($month ?? 'all')"
                             type="bar"
@@ -297,7 +297,7 @@
                     <div wire:key="selected-department-by-country-{{ $selectedDepartment }}-{{ $year ?? 'null' }}-{{ $month ?? 'all' }}">
                         @if (count($selectedDepartmentByCountry['labels'] ?? []))
                             <x-chart.card
-                                title="País de residencia del departamento seleccionado"
+                                title="Nacionalidad del departamento seleccionado"
                                 subtitle="Top 10 países asociados al departamento elegido en el mapa"
                                 :chart-id="'selected-department-by-country-' .
                                     ($selectedDepartment ?? 'none') .

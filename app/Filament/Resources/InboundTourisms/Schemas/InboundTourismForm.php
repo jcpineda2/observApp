@@ -39,14 +39,7 @@ class InboundTourismForm
                     ->relationship('country', 'name')
                     ->searchable()
                     ->preload()
-                    ->label('País de Residencia')
-                    ->required(),
-
-                Select::make('destination_department_id')
-                    ->label('Departamento destino')
-                    ->relationship('destinationDepartment', 'name')
-                    ->searchable()
-                    ->preload()
+                    ->label('Nacionalidad')
                     ->required(),
 
                 Select::make('destination_department_id')
@@ -97,7 +90,7 @@ class InboundTourismForm
                         return [$rule];
                     })
                     ->validationMessages([
-                        'unique' => 'Ya existe un registro para el Año, Mes, País de residencia, Departamento destino, Vía de ingreso y Motivo seleccionados.',
+                        'unique' => 'Ya existe un registro para el Año, Mes, Nacionalidad, Departamento destino, Vía de ingreso y Motivo seleccionados.',
                     ]),
 
                 TextInput::make('tourist_arrivals')

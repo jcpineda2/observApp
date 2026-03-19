@@ -25,7 +25,7 @@ class InboundTourismsTable
                     ->label('Més')
                     ->searchable(),
                 TextColumn::make('country.name')
-                    ->label('País de Residencia')
+                    ->label('Nacionalidad')
                     ->sortable(),
                 TextColumn::make('destinationDepartment.name')
                     ->label('Departamento destino')

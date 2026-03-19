@@ -16,7 +16,7 @@ class InboundTourismInfolist
                 TextEntry::make('month.month')
                     ->label('Més'),
                 TextEntry::make('country.name')
-                    ->label('País de Residencia'),
+                    ->label('Nacionalidad'),
                 TextEntry::make('entryMode.description')
                     ->label('Vía de Ingreso'),
                 TextEntry::make('travelReason.description')

@@ -25,8 +25,5 @@ class EntryModeSeeder extends Seeder
             'description' => "Fluvial",
         ]);
 
-        EntryMode::create([
-            'description' => "Marítimo",
-        ]);
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('continents', function (Blueprint $table) {
             $table->id();
+            $table->string('continent')->unique();
             $table->timestamps();
         });
     }

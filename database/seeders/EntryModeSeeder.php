@@ -14,15 +14,15 @@ class EntryModeSeeder extends Seeder
     public function run(): void
     {
         EntryMode::create([
-            'description' => "Aérea",
+            'description' => "Vía Aérea",
         ]);
 
         EntryMode::create([
-            'description' => "Terrestre",
+            'description' => "Vía Fluvial",
         ]);
 
         EntryMode::create([
-            'description' => "Fluvial",
+            'description' => "Vía Terrestre",
         ]);
 
     }

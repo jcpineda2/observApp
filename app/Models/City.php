@@ -22,4 +22,9 @@ class City extends Model
     {
         return $this->hasMany(Airport::class);
     }
+
+    public function entriesMode(): HasMany
+    {
+        return $this->hasMany(EntryMode::class);
+    }
 }

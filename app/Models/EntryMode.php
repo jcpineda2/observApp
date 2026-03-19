@@ -30,4 +30,9 @@ class EntryMode extends Model
     {
         return $this->hasMany(InboundTourism::class);
     }
+
+    public function entriesPoint(): HasMany
+    {
+        return $this->hasMany(EntryPoint::class);
+    }
 }

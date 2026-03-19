@@ -17,6 +17,10 @@ class Continent extends Model
         'continent',
     ];
 
+    protected $casts = [
+        'continent' => 'string',
+    ];
+
     protected function continent(): Attribute
     {
         return Attribute::make(

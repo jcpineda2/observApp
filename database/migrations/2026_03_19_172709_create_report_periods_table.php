@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('year_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('start_month_id')->nullable()->constrained('months')->nullOnDelete();
             $table->foreignId('end_month_id')->nullable()->constrained('months')->nullOnDelete();
-            $table->string('string');
+            $table->string('label');
             $table->boolean('is_full_year')->default(false);
             $table->timestamps();
 
-            $table->unique(['year_id', 'start_month_id', 'end_month_id'], 'uidx_report_period_combination');
+            $table->unique(['year_id', 'start_month_id', 'end_month_id'], 'report_periods_unique');
         });
     }
 

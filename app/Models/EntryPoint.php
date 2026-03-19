@@ -14,8 +14,8 @@ class EntryPoint extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'entry_mode_id',
+        'name',
         'city_id',
         'is_active'
     ];

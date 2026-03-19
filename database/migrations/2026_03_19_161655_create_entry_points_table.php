@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('entry_points', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
             $table->foreignId('entry_mode_id')
-                ->constrained()
-                ->cascadeOnDelete();
+            ->constrained()
+            ->cascadeOnDelete();
+            $table->string('name')->unique();
             $table->foreignId('city_id')
                 ->constrained()
                 ->cascadeOnDelete();

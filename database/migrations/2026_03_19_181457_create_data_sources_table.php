@@ -6,20 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('data_sources', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->string('type', 50);
+            $table->text('description')->nullable();
+            $table->string('owner')->nullable();
+            $table->boolean('is_active')->default(true);
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('data_sources');

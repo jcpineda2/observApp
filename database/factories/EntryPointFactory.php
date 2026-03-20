@@ -2,22 +2,25 @@
 
 namespace Database\Factories;
 
+use App\Models\Country;
+use App\Models\EntryMode;
+use App\Models\EntryPoint;
+use App\Models\State;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EntryPoint>
- */
 class EntryPointFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected $model = EntryPoint::class;
+
     public function definition(): array
     {
         return [
-            //
+            'entry_mode_id' => EntryMode::query()->inRandomOrder()->value('id') ?? EntryMode::factory(),
+            'name' => fake()->unique()->company() . ' - Punto de Entrada',
+            'state_id' => State::query()->inRandomOrder()->value('id'),
+            'country_id' => Country::query()->inRandomOrder()->value('id'),
+            'is_active' => true,
+            'sort_order' => fake()->numberBetween(1, 100),
         ];
     }
 }

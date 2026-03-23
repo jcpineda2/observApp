@@ -1,23 +1,36 @@
 <?php
 
-namespace App\Filament\Resources\Continents\Tables;
+namespace App\Filament\Resources\DataSources\Tables;
 
-use App\Filament\Resources\Continents\ContinentResource;
+use App\Filament\Resources\DataSources\DataSourceResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ContinentsTable
+class DataSourcesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('continent')
+                TextColumn::make('name')
                     ->label('Nombre')
                     ->searchable(),
+                TextColumn::make('code')
+                    ->label('Código')
+                    ->searchable(),
+                TextColumn::make('type')
+                    ->label('Tipo')
+                    ->searchable(),
+                TextColumn::make('owner')
+                    ->label('Dueño')
+                    ->searchable(),
+                IconColumn::make('is_active')
+                    ->label('Activo')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -35,7 +48,8 @@ class ContinentsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make()->visible(fn(): bool => ContinentResource::canDeleteAny()),
+                    DeleteBulkAction::make()->visible(fn(): bool => DataSourceResource::canDeleteAny()),
+
                 ]),
             ]);
     }

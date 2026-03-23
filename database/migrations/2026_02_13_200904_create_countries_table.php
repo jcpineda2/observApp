@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->foreignId('continent_id')->constrained()->nullOnDelete();
+            $table->foreignId('continent_id')->constrained()->cascadeOnDelete();
             $table->string('iso2', 2)->unique()->index();
             $table->string('iso3', 3)->unique()->index();
             $table->string('numeric_code', 3)->nullable();

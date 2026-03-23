@@ -34,6 +34,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'age-ranges',
             'air-lines',
             'airports',
+            'continents',
+            'data-sources',
 
             // Observatorio
             'domestic-tourisms',

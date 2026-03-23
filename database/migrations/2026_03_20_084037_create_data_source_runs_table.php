@@ -12,40 +12,42 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('data_source_id')
-                ->constrained()
-                ->cascadeOnDelete();
+                ->constrained('data_sources')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
+
+            $table->foreignId('triggered_by_user_id')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->nullOnDelete();
 
             $table->foreignId('report_period_id')
                 ->nullable()
-                ->constrained()
+                ->constrained('report_periods')
+                ->cascadeOnUpdate()
                 ->nullOnDelete();
 
-            $table->string('name');
-            $table->string('source_file_name')->nullable();
-            $table->string('source_file_path')->nullable();
-            $table->string('source_sheet_name')->nullable();
-            $table->string('external_reference')->nullable();
-            $table->string('source_url')->nullable();
-            $table->string('checksum')->nullable();
+            $table->string('run_type', 30);
+            $table->string('status', 20)->default('pending');
 
-            $table->timestamp('extracted_at')->nullable();
-            $table->timestamp('imported_at')->nullable();
-            $table->timestamp('validated_at')->nullable();
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('finished_at')->nullable();
 
-            $table->foreignId('imported_by')
-                ->nullable()
-                ->constrained('users')
-                ->nullOnDelete();
+            $table->unsignedInteger('records_read')->default(0);
+            $table->unsignedInteger('records_inserted')->default(0);
+            $table->unsignedInteger('records_updated')->default(0);
+            $table->unsignedInteger('records_failed')->default(0);
 
-            $table->foreignId('validated_by')
-                ->nullable()
-                ->constrained('users')
-                ->nullOnDelete();
-
-            $table->string('status', 30)->default('draft');
+            $table->text('error_summary')->nullable();
             $table->text('notes')->nullable();
+            $table->json('meta')->nullable();
 
             $table->timestamps();
+
+            $table->index('run_type');
+            $table->index('status');
+            $table->index(['data_source_id', 'status']);
         });
     }
 

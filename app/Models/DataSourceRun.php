@@ -12,32 +12,28 @@ class DataSourceRun extends Model
 
     protected $fillable = [
         'data_source_id',
+        'triggered_by_user_id',
         'report_period_id',
-        'name',
-        'source_file_name',
-        'source_file_path',
-        'source_sheet_name',
-        'external_reference',
-        'source_url',
-        'checksum',
-        'extracted_at',
-        'imported_at',
-        'validated_at',
-        'imported_by',
-        'validated_by',
+        'run_type',
         'status',
-        'notes',
+        'started_at',
+        'finished_at',
+        'records_read',
+        'records_inserted',
+        'records_updated',
+        'records_failed',
+        'error_summary',
+        'meta',
     ];
 
     protected $casts = [
         'data_source_id' => 'integer',
+        'triggered_by_user_id' => 'integer',
         'report_period_id' => 'integer',
-        'imported_by' => 'integer',
-        'validated_by' => 'integer',
-        'extracted_at' => 'datetime',
-        'imported_at' => 'datetime',
-        'validated_at' => 'datetime',
     ];
+
+
+    //Relaciones con otros modelos
 
     public function dataSource(): BelongsTo
     {

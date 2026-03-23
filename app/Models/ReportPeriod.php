@@ -15,8 +15,13 @@ class ReportPeriod extends Model
         'year_id',
         'start_month_id',
         'end_month_id',
+        'period_type',
+        'period_key',
         'label',
-        'is_full_year'
+        'is_full_year',
+        'starts_at',
+        'ends_at',
+        'is_active'
     ];
 
     protected $casts = [
@@ -24,7 +29,8 @@ class ReportPeriod extends Model
         'start_month_id' => 'integer',
         'end_month_id' => 'integer',
         'label' => 'string',
-        'is_full_year' => 'boolean'
+        'is_full_year' => 'boolean',
+        'is_active'
     ];
 
     //Relaciones con otros modelos

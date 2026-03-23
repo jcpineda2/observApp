@@ -14,22 +14,29 @@ class Year extends Model
 
     protected $fillable = [
         'year',
+        'is_active',
     ];
 
-    public function inboundTourisms(): HasMany {
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function inboundTourisms(): HasMany
+    {
         return $this->hasMany(InboundTourism::class);
     }
 
-    public function domesticTourisms(): HasMany {
+    public function domesticTourisms(): HasMany
+    {
         return $this->hasMany(DomesticTourism::class);
     }
 
-    public function tourismEmployments(): HasMany {
+    public function tourismEmployments(): HasMany
+    {
         return $this->hasMany(TourismEmployment::class);
     }
     public function accommodationPerformances(): HasMany
     {
         return $this->hasMany(AccommodationPerformance::class);
     }
-
 }

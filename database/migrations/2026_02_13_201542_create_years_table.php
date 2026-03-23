@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('years', function (Blueprint $table) {
             $table->id();
-            $table->integer('year')->unique();
+            $table->unsignedSmallInteger('year')->unique();
+            $table->boolean('is_active')->default(True);
             $table->timestamps();
         });
     }

@@ -15,15 +15,19 @@ class YearSeeder extends Seeder
     {
         DB::table('years')->insert([
             'year' => "2021",
+            'is_active' => True,
         ]);
         DB::table('years')->insert([
             'year' => "2022",
+            'is_active' => True,
         ]);
         DB::table('years')->insert([
             'year' => "2023",
+            'is_active' => True,
         ]);
         DB::table('years')->insert([
             'year' => "2024",
+            'is_active' => True,
         ]);
     }
 }

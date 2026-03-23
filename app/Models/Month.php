@@ -15,18 +15,26 @@ class Month extends Model
     protected $fillable = [
         'month',
         'month_number',
+        'is_active'
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    //Relaciones con otros modelos
     public function accommodationPerformances(): HasMany
     {
         return $this->hasMany(AccommodationPerformance::class);
     }
 
-    public function inboundTourisms(): HasMany {
+    public function inboundTourisms(): HasMany
+    {
         return $this->hasMany(InboundTourism::class);
     }
 
-    public function domesticTourisms(): HasMany {
+    public function domesticTourisms(): HasMany
+    {
         return $this->hasMany(DomesticTourism::class);
     }
 }

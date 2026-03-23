@@ -18,6 +18,6 @@ class YearFactory extends Factory
     {
         return [
             'year' => $this->faker->unique()->numberBetween(2018, 2026),
-        ];
+            ];
     }
 }

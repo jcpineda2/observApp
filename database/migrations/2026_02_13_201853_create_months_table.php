@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('months', function (Blueprint $table) {
             $table->id();
-            $table->string('month');
-            $table->integer('month_number');
+            $table->string('month', 20);
+            $table->unsignedTinyInteger('month_number');
+            $table->boolean('is_active')->default(true);
 
             $table->unique('month', 'months_month_unique');
             $table->unique('month_number', 'months_month_number_unique');

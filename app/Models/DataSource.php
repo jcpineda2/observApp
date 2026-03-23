@@ -12,17 +12,21 @@ class DataSource extends Model
 
     protected $fillable = [
         'name',
-        'code',
-        'type',
+        'slug',
+        'source_type',
+        'provider_name',
+        'system_name',
+        'base_url',
         'description',
-        'owner',
-        'is_active',
+        'settings',
+        'is_active'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
 
+    //Relaciones con otros modelos
     public function runs(): HasMany
     {
         return $this->hasMany(DataSourceRun::class);

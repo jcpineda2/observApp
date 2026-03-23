@@ -10,15 +10,20 @@ return new class extends Migration
     {
         Schema::create('data_sources', function (Blueprint $table) {
             $table->id();
-
             $table->string('name');
-            $table->string('code')->unique();
-            $table->string('type', 50);
+            $table->string('slug')->unique();
+            $table->string('source_type', 30); // excel, api, manual, etc
+            $table->string('provider_name')->nullable();
+            $table->string('system_name')->nullable();
+            $table->string('base_url')->nullable();
             $table->text('description')->nullable();
-            $table->string('owner')->nullable();
+            $table->json('settings')->nullable();
             $table->boolean('is_active')->default(true);
-
             $table->timestamps();
+
+            $table->index('source_type');
+            $table->index('is_active');
+
         });
     }
 
